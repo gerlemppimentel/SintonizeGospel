@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
+    <!-- Garantia de codificação UTF-8 para acentos perfeitos -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Top 10 Gospel Radios</title>
@@ -16,8 +17,9 @@
         
         :root {
             --bg-base: #0f172a;       
-            --surface: #1e293b;       
-            --surface-hover: #334155; 
+            --bg-sidebar: #020617;
+            --bg-player: #1e293b;
+            --surface: #334155;       
             --accent: #10b981;        
             --accent-glow: rgba(16, 185, 129, 0.4);
             --text-main: #f8fafc;
@@ -30,138 +32,166 @@
             color: var(--text-main); 
             font-family: 'Inter', sans-serif;
             height: 100vh; 
-            display: flex; 
-            justify-content: center; 
-            align-items: center;
+            width: 100vw;
             overflow: hidden; 
-            padding: 24px;
-        }
-        
-        /* Contêiner expandido para até 900px de largura */
-        #app-container { 
-            width: 100%; 
-            max-width: 900px; 
-            height: 95vh;
-            max-height: 1000px;
-            display: flex; 
-            flex-direction: column; 
-            background: linear-gradient(180deg, #1e293b 0%, #0f172a 100%);
-            border: 1px solid var(--border-color);
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
-            border-radius: 40px;
-            overflow: hidden;
-            position: relative;
+            /* CSS GRID: A magia da responsividade */
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            grid-template-rows: 1fr 90px;
+            grid-template-areas: 
+                "sidebar main"
+                "player player";
         }
 
-        .app-header {
-            padding: 32px 40px 24px;
+        /* --- BARRA LATERAL (DESKTOP) --- */
+        .sidebar {
+            grid-area: sidebar;
+            background-color: var(--bg-sidebar);
+            border-right: 1px solid var(--border-color);
             display: flex;
-            align-items: center;
-            justify-content: space-between;
-            border-bottom: 1px solid var(--border-color);
+            flex-direction: column;
+            padding: 24px 16px;
+            overflow-y: auto;
         }
 
-        /* Título aumentado */
-        .app-header h1 {
-            font-size: 28px;
-            font-weight: 700;
-            letter-spacing: -0.5px;
+        .sidebar-header {
             display: flex;
             align-items: center;
             gap: 12px;
+            margin-bottom: 32px;
+            padding: 0 8px;
         }
 
-        .admin-gear {
-            background: transparent;
-            border: none;
-            color: var(--text-muted);
-            font-size: 28px;
+        .sidebar-logo {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid var(--accent);
+        }
+
+        .sidebar-title {
+            font-size: 18px;
+            font-weight: 700;
+            line-height: 1.2;
+        }
+
+        .stations-container {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .station-list-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px;
+            border-radius: 8px;
             cursor: pointer;
-            transition: color 0.2s, transform 0.2s;
+            transition: background 0.2s;
+            color: var(--text-muted);
+            font-weight: 600;
+            font-size: 14px;
         }
 
-        .admin-gear:hover {
+        .station-list-item:hover {
+            background-color: rgba(255,255,255,0.05);
             color: var(--text-main);
-            transform: rotate(45deg);
         }
 
-        .station-display {
-            flex: 1;
+        .station-list-item.selected {
+            background-color: rgba(16, 185, 129, 0.1);
+            color: var(--accent);
+        }
+
+        /* --- CONTEÚDO PRINCIPAL (CENTRO) --- */
+        .main-content {
+            grid-area: main;
+            background: linear-gradient(180deg, #1e293b 0%, #0f172a 100%);
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            padding: 32px;
-            text-align: center;
+            position: relative;
+            padding: 20px;
         }
 
-        /* Círculo central expandido para 280px */
-        .station-icon {
-            width: 280px;
-            height: 280px;
-            background: linear-gradient(135deg, #334155, #1e293b);
+        .version-badge {
+            position: absolute;
+            top: 20px;
+            right: 24px;
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--text-muted);
+            opacity: 0.7;
+            background: rgba(0,0,0,0.3);
+            padding: 4px 10px;
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+        }
+
+        .cover-container {
+            width: 100%;
+            max-width: 32vh; /* Escala com a altura da janela */
+            aspect-ratio: 1/1;
+            margin-bottom: 24px;
             border-radius: 50%;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.6);
+            border: 4px solid var(--surface);
+            transition: box-shadow 0.3s ease, border-color 0.3s;
+            overflow: hidden;
             display: flex;
             align-items: center;
             justify-content: center;
-            margin-bottom: 40px;
-            box-shadow: 0 15px 40px rgba(0,0,0,0.6);
-            border: 6px solid var(--surface);
-            transition: box-shadow 0.3s ease;
-            overflow: hidden; /* Garante que a imagem não vaze do círculo */
+            background-color: var(--bg-sidebar);
         }
 
-        .station-icon.playing {
-            box-shadow: 0 0 60px var(--accent-glow);
-            border-color: #243c33;
+        .cover-container.playing {
+            box-shadow: 0 0 50px var(--accent-glow);
+            border-color: var(--accent);
         }
 
-        /* Estilo da imagem centralizada no player */
         .app-logo-center {
             width: 100%;
             height: 100%;
             object-fit: cover;
-            border-radius: 50%;
         }
 
         .track-info {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
+            text-align: center;
+            margin-bottom: 20px;
         }
 
-        /* Nome da rádio ampliado */
         #stationName {
-            font-size: 36px;
+            font-size: clamp(24px, 4vw, 36px);
             font-weight: 700;
-            color: var(--text-main);
+            margin-bottom: 12px;
         }
 
         .status-badge {
-            font-size: 16px;
+            font-size: 12px;
             font-weight: 600;
             text-transform: uppercase;
-            letter-spacing: 1px;
-            padding: 8px 20px;
-            border-radius: 24px;
-            background: var(--surface);
+            padding: 6px 16px;
+            border-radius: 20px;
+            background: rgba(0,0,0,0.3);
             color: var(--text-muted);
             display: inline-flex;
             align-items: center;
-            gap: 8px;
-            margin: 0 auto;
+            gap: 6px;
         }
 
         .status-dot {
-            width: 12px;
-            height: 12px;
+            width: 8px;
+            height: 8px;
             border-radius: 50%;
             background: #ef4444;
         }
 
         .status-badge.active .status-dot {
             background: var(--accent);
-            box-shadow: 0 0 12px var(--accent);
+            box-shadow: 0 0 8px var(--accent);
         }
 
         .status-badge.active {
@@ -169,97 +199,49 @@
             background: rgba(16, 185, 129, 0.1);
         }
 
-        /* Equalizador redimensionado */
         .eq-container {
             display: flex;
             justify-content: center;
             align-items: flex-end;
-            gap: 6px;
-            height: 100px;
-            margin: 32px 0;
-            padding: 0 40px;
+            gap: 4px;
+            height: 60px;
+            width: 100%;
+            max-width: 300px;
         }
 
         .eq-bar {
             flex: 1;
-            background: var(--surface-hover);
-            border-radius: 6px;
+            background: var(--surface);
+            border-radius: 4px;
             height: 100%;
             transform-origin: bottom;
             transform: scaleY(0.05); 
             transition: transform 0.05s ease;
         }
 
-        .eq-bar.active {
-            background: var(--accent);
-        }
+        .eq-bar.active { background: var(--accent); }
 
-        #statusMessage {
-            text-align: center;
-            font-size: 16px;
-            color: var(--text-muted);
-            margin-top: -16px;
-            margin-bottom: 16px;
-            min-height: 24px;
-        }
-
-        /* Barra de volume aumentada */
-        .volume-container {
-            padding: 0 48px 32px;
-            display: flex;
-            align-items: center;
-            gap: 24px;
-        }
-
-        .volume-icon {
-            color: var(--text-muted);
-            width: 24px;
-            height: 24px;
-        }
-
-        .volume-slider {
-            flex: 1;
-            height: 10px;
-            background: var(--surface);
-            border-radius: 5px;
-            position: relative;
-            cursor: pointer;
-        }
-
-        .volume-fill {
-            position: absolute;
-            top: 0;
-            left: 0;
-            height: 100%;
-            background: var(--text-main);
-            border-radius: 5px;
-            pointer-events: none;
-            transition: width 0.1s;
-        }
-
-        .volume-knob {
-            position: absolute;
-            top: 50%;
-            transform: translate(-50%, -50%);
-            width: 24px;
-            height: 24px;
-            background: #fff;
-            border-radius: 50%;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.4);
-            pointer-events: none;
-            transition: left 0.1s;
-        }
-
-        /* Botões de controle redimensionados */
-        .controls-container {
-            padding: 32px 48px 48px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 40px;
-            background: var(--bg-base);
+        /* --- LEITOR (RODAPÉ) --- */
+        .bottom-player {
+            grid-area: player;
+            background-color: var(--bg-player);
             border-top: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 24px;
+            z-index: 10;
         }
+
+        .player-section {
+            display: flex;
+            align-items: center;
+            flex: 1;
+        }
+
+        .player-section.left { justify-content: flex-start; gap: 16px; }
+        .player-section.center { justify-content: center; gap: 24px; }
+        .player-section.right { justify-content: flex-end; gap: 16px; }
 
         .control-btn {
             background: transparent;
@@ -272,307 +254,248 @@
             transition: transform 0.2s, color 0.2s;
         }
 
-        .control-btn svg {
-            width: 32px;
-            height: 32px;
-            fill: currentColor;
-        }
+        .control-btn svg { width: 24px; height: 24px; fill: currentColor; }
+        .control-btn:hover { color: var(--accent); transform: scale(1.1); }
 
-        .control-btn:hover {
-            color: var(--accent);
-            transform: scale(1.1);
-        }
-
-        .control-btn.play-btn {
-            width: 96px;
-            height: 96px;
+        .play-btn {
+            width: 56px;
+            height: 56px;
             background: var(--accent);
             color: #fff;
             border-radius: 50%;
-            box-shadow: 0 15px 30px var(--accent-glow);
+            box-shadow: 0 4px 15px var(--accent-glow);
+        }
+        .play-btn:hover { background: #059669; transform: scale(1.05); }
+        .play-btn svg { width: 28px; height: 28px; margin-left: 4px; }
+        .play-btn.is-playing svg { margin-left: 0; }
+
+        .volume-container {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            width: 100%;
+            max-width: 150px;
         }
 
-        .control-btn.play-btn:hover {
-            transform: scale(1.05);
-            background: #0ea5e9; 
-            color: #fff;
+        .volume-slider {
+            flex: 1;
+            height: 6px;
+            background: var(--bg-sidebar);
+            border-radius: 3px;
+            position: relative;
+            cursor: pointer;
         }
 
-        .control-btn.play-btn svg {
-            width: 48px;
-            height: 48px;
-            margin-left: 6px; 
+        .volume-fill {
+            position: absolute;
+            top: 0; left: 0; height: 100%;
+            background: var(--text-main);
+            border-radius: 3px;
+            pointer-events: none;
+            transition: width 0.1s;
         }
 
-        .control-btn.play-btn.is-playing svg {
-            margin-left: 0; 
+        .volume-knob {
+            position: absolute;
+            top: 50%; transform: translate(-50%, -50%);
+            width: 14px; height: 14px;
+            background: #fff;
+            border-radius: 50%;
+            pointer-events: none;
         }
 
-        /* Modais */
+        #mobileMenuBtn { display: none; } /* Oculto no desktop */
+
+        /* --- RESPONSIVIDADE (MOBILE GALAXY A32) --- */
+        @media (max-width: 768px) {
+            body {
+                grid-template-columns: 1fr;
+                grid-template-rows: 1fr 100px; /* Rodapé um pouco maior para toque */
+                grid-template-areas: 
+                    "main"
+                    "player";
+            }
+            .sidebar { display: none; } /* Esconde barra lateral */
+            #mobileMenuBtn { display: flex; } /* Mostra botão de menu no rodapé */
+            
+            .player-section.left { display: none; } /* Esconde volume no rodapé mobile para poupar espaço */
+            .player-section.right { flex: 0.5; justify-content: flex-end; }
+            .player-section.center { flex: 2; }
+            
+            .cover-container {
+                max-width: 250px;
+                width: 60vw;
+            }
+        }
+
+        /* --- MODAIS (Inalterados estruturalmente, apenas ajustes estéticos) --- */
         .modal-overlay {
             display: none;
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(15, 23, 42, 0.8);
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(15, 23, 42, 0.9);
             backdrop-filter: blur(8px);
             z-index: 1000;
             justify-content: center;
             align-items: center;
             padding: 20px;
-            opacity: 0;
-            animation: fadeIn 0.2s forwards;
-        }
-
-        @keyframes fadeIn {
-            to { opacity: 1; }
         }
 
         .modal-content {
-            background: var(--surface);
+            background: var(--bg-player);
             border: 1px solid var(--border-color);
-            border-radius: 32px;
+            border-radius: 24px;
             width: 100%;
-            max-width: 500px;
-            padding: 32px;
-            box-shadow: 0 35px 60px -15px rgba(0,0,0,0.6);
+            max-width: 400px;
+            padding: 24px;
             max-height: 85vh;
             overflow-y: auto;
         }
 
         .modal-header {
-            font-size: 24px;
+            font-size: 20px;
             font-weight: 700;
-            margin-bottom: 24px;
+            margin-bottom: 20px;
             text-align: center;
-            color: var(--text-main);
-        }
-
-        .stations-list {
-            display: flex;
-            flex-direction: column;
-            gap: 16px;
-            margin-bottom: 32px;
-        }
-
-        .station-item {
-            background: var(--bg-base);
-            border: 1px solid var(--border-color);
-            padding: 20px;
-            border-radius: 20px;
-            cursor: pointer;
-            transition: all 0.2s;
-            display: flex;
-            align-items: center;
-            gap: 16px;
-        }
-
-        .station-item:hover {
-            border-color: var(--accent);
-            background: rgba(16, 185, 129, 0.05);
-        }
-
-        .station-item.selected {
-            border-color: var(--accent);
-            background: rgba(16, 185, 129, 0.1);
-        }
-
-        .station-item-icon {
-            width: 40px;
-            height: 40px;
-            background: var(--surface);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--accent);
-        }
-
-        .station-item-name {
-            font-weight: 600;
-            font-size: 18px;
-        }
-
-        .btn-modern {
-            width: 100%;
-            padding: 16px;
-            border-radius: 16px;
-            font-family: 'Inter', sans-serif;
-            font-weight: 600;
-            font-size: 16px;
-            cursor: pointer;
-            transition: all 0.2s;
-            border: none;
-            text-align: center;
-        }
-
-        .btn-primary {
-            background: var(--accent);
-            color: #fff;
-        }
-
-        .btn-primary:hover {
-            background: #059669;
-        }
-
-        .btn-secondary {
-            background: var(--surface-hover);
-            color: var(--text-main);
-            margin-top: 12px;
-        }
-
-        .btn-secondary:hover {
-            background: var(--border-color);
-        }
-        
-        .btn-danger {
-            background: rgba(239, 68, 68, 0.1);
-            color: #ef4444;
-            border: 1px solid rgba(239, 68, 68, 0.2);
-            margin-top: 12px;
         }
 
         .input-modern {
-            width: 100%;
-            padding: 16px;
-            background: var(--bg-base);
-            border: 1px solid var(--border-color);
-            border-radius: 16px;
-            color: var(--text-main);
-            font-family: 'Inter', sans-serif;
-            font-size: 16px;
-            margin-bottom: 16px;
-            outline: none;
-            transition: border-color 0.2s;
+            width: 100%; padding: 14px;
+            background: var(--bg-sidebar); border: 1px solid var(--border-color);
+            border-radius: 12px; color: var(--text-main); font-family: 'Inter', sans-serif;
+            margin-bottom: 12px; outline: none;
         }
+        .input-modern:focus { border-color: var(--accent); }
 
-        .input-modern:focus {
-            border-color: var(--accent);
+        .btn-modern {
+            width: 100%; padding: 14px; border-radius: 12px;
+            font-family: 'Inter', sans-serif; font-weight: 600;
+            cursor: pointer; border: none; margin-bottom: 8px;
         }
+        .btn-primary { background: var(--accent); color: #fff; }
+        .btn-secondary { background: var(--surface); color: var(--text-main); }
+        .btn-danger { background: rgba(239, 68, 68, 0.1); color: #ef4444; border: 1px solid rgba(239, 68, 68, 0.2); }
 
         .admin-tape-item {
-            background: var(--bg-base);
-            padding: 24px;
-            border-radius: 20px;
-            margin-bottom: 24px;
+            background: var(--bg-sidebar); padding: 16px;
+            border-radius: 16px; margin-bottom: 16px;
             border: 1px solid var(--border-color);
         }
         .admin-tape-item label {
-            display: block;
-            font-size: 14px;
-            color: var(--text-muted);
-            margin-bottom: 8px;
-            font-weight: 600;
+            display: block; font-size: 12px; color: var(--text-muted); margin-bottom: 6px;
         }
 
         #loadingIndicator {
-            position: absolute;
-            top: 32px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: var(--accent);
-            color: #fff;
-            padding: 8px 24px;
-            border-radius: 24px;
-            font-size: 14px;
-            font-weight: 600;
-            display: none;
-            z-index: 50;
-            box-shadow: 0 6px 16px var(--accent-glow);
+            position: absolute; top: 20px; left: 50%; transform: translateX(-50%);
+            background: var(--accent); color: #fff; padding: 6px 16px;
+            border-radius: 20px; font-size: 12px; font-weight: 600; display: none; z-index: 50;
+        }
+        #statusMessage {
+            position: absolute; bottom: 20px; text-align: center; font-size: 12px; color: var(--text-muted);
         }
     </style>
 </head>
 <body>
 
-    <div id="app-container">
-        <div id="loadingIndicator">Conectando...</div>
+    <!-- BARRA LATERAL (Desktop) -->
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <img src="Sint.jpg" alt="Logo" class="sidebar-logo">
+            <h1 class="sidebar-title">Top 10 Gospel Radios</h1>
+        </div>
+        <div class="stations-container" id="sidebarStationsList">
+            <!-- Rádios injetadas via JS -->
+        </div>
+    </aside>
 
-        <!-- Cabeçalho (Logo removido daqui e título alinhado) -->
-        <div class="app-header">
-            <h1>Top 10 Gospel Radios</h1>
-            <button class="admin-gear" id="adminBtn" title="Configurações">
-                <svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor"><path d="M19.14,12.94c0.04-0.3,0.06-0.61,0.06-0.94c0-0.32-0.02-0.64-0.06-0.94l2.03-1.58c0.18-0.14,0.23-0.41,0.12-0.61 l-1.92-3.32c-0.12-0.22-0.37-0.29-0.59-0.22l-2.39,0.96c-0.5-0.38-1.03-0.7-1.62-0.94L14.4,2.81c-0.04-0.24-0.24-0.41-0.48-0.41 h-3.84c-0.24,0-0.43,0.17-0.47,0.41L9.25,5.35C8.66,5.59,8.12,5.92,7.63,6.29L5.24,5.33c-0.22-0.08-0.47,0-0.59,0.22L2.73,8.87 C2.62,9.08,2.66,9.34,2.86,9.48l2.03,1.58C4.84,11.36,4.8,11.69,4.8,12s0.02,0.64,0.06,0.94l-2.03,1.58 c-0.18,0.14-0.23,0.41-0.12,0.61l1.92,3.32c0.12,0.22,0.37,0.29,0.59,0.22l2.39-0.96c0.5,0.38,1.03,0.7,1.62,0.94l0.36,2.54 c0.05,0.24,0.24,0.41,0.48,0.41h3.84c0.24,0,0.43-0.17,0.47-0.41l0.36-2.54c0.59-0.24,1.13-0.56,1.62-0.94l2.39,0.96 c0.22,0.08,0.47,0,0.59-0.22l1.92-3.32c0.12-0.22,0.07-0.49-0.12-0.61L19.14,12.94z M12,15.6c-1.98,0-3.6-1.62-3.6-3.6 s1.62-3.6,3.6-3.6s3.6,1.62,3.6,3.6S13.98,15.6,12,15.6z"/></svg>
-            </button>
+    <!-- ÁREA PRINCIPAL -->
+    <main class="main-content">
+        <div class="version-badge">v0.3</div>
+        <div id="loadingIndicator">Conectando...</div>
+        
+        <div class="cover-container" id="mainIcon">
+            <img src="Sint.jpg" alt="Capa da Rádio" class="app-logo-center">
+        </div>
+        
+        <div class="track-info">
+            <div id="stationName">Rádio Aleluia</div>
+            <div class="status-badge" id="statusBadge">
+                <div class="status-dot" id="statusDot"></div>
+                <span id="statusText">STANDBY</span>
+            </div>
         </div>
 
-        <!-- Palco Central com o Logotipo Substituindo a Nota Musical -->
-        <div class="station-display">
-            <div class="station-icon" id="mainIcon">
-                <img src="Sint.jpg" alt="Logo Sintonize Gospel" class="app-logo-center">
-            </div>
-            
-            <div class="track-info">
-                <div id="stationName">Rádio Aleluia</div>
-                <div class="status-badge" id="statusBadge">
-                    <div class="status-dot" id="statusDot"></div>
-                    <span id="statusText">STANDBY</span>
+        <div class="eq-container" id="eqContainer">
+            <!-- Barras EQ injetadas via JS -->
+        </div>
+
+        <div id="statusMessage">Pronto para tocar.</div>
+    </main>
+
+    <!-- RODAPÉ (Controlos) -->
+    <footer class="bottom-player">
+        <!-- Esquerda: Volume (Oculto no mobile) -->
+        <div class="player-section left">
+            <div class="volume-container">
+                <svg viewBox="0 0 24 24" fill="currentColor" style="width:20px; height:20px; color:var(--text-muted)"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg>
+                <div class="volume-slider" id="volumeSlider">
+                    <div class="volume-fill" id="volumeFill" style="width: 50%;"></div>
+                    <div class="volume-knob" id="volumeKnob" style="left: 50%;"></div>
                 </div>
             </div>
         </div>
 
-        <!-- Equalizador -->
-        <div class="eq-container" id="eqContainer">
-            <!-- As barras serão geradas via JS -->
-        </div>
-
-        <div id="statusMessage">Pronto para tocar.</div>
-
-        <!-- Volume -->
-        <div class="volume-container">
-            <svg class="volume-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg>
-            <div class="volume-slider" id="volumeSlider">
-                <div class="volume-fill" id="volumeFill" style="width: 50%;"></div>
-                <div class="volume-knob" id="volumeKnob" style="left: 50%;"></div>
-            </div>
-        </div>
-
-        <!-- Controles -->
-        <div class="controls-container">
-            <button class="control-btn" id="listBtn" title="Estações">
-                <svg viewBox="0 0 24 24"><path d="M3 13h2v-2H3v2zm0 4h2v-2H3v2zm0-8h2V7H3v2zm4 4h14v-2H7v2zm0 4h14v-2H7v2zM7 7v2h14V7H7z"/></svg>
+        <!-- Centro: Controlos de Playback -->
+        <div class="player-section center">
+            <button class="control-btn" id="stopBtn" title="Parar">
+                <svg viewBox="0 0 24 24"><path d="M6 6h12v12H6z"/></svg>
             </button>
             
             <button class="control-btn play-btn" id="mainPlayBtn" title="Play/Pause">
                 <svg id="playIconSVG" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
             </button>
-            
-            <button class="control-btn" id="stopBtn" title="Parar">
-                <svg viewBox="0 0 24 24"><path d="M6 6h12v12H6z"/></svg>
+
+            <!-- Botão de Lista (Aparece apenas no Mobile) -->
+            <button class="control-btn" id="mobileMenuBtn" title="Estações">
+                <svg viewBox="0 0 24 24"><path d="M3 13h2v-2H3v2zm0 4h2v-2H3v2zm0-8h2V7H3v2zm4 4h14v-2H7v2zm0 4h14v-2H7v2zM7 7v2h14V7H7z"/></svg>
             </button>
         </div>
-    </div>
 
-    <!-- Modal de Estações -->
+        <!-- Direita: Admin -->
+        <div class="player-section right">
+            <button class="control-btn" id="adminBtn" title="Configurações">
+                <svg viewBox="0 0 24 24"><path d="M19.14,12.94c0.04-0.3,0.06-0.61,0.06-0.94c0-0.32-0.02-0.64-0.06-0.94l2.03-1.58c0.18-0.14,0.23-0.41,0.12-0.61 l-1.92-3.32c-0.12-0.22-0.37-0.29-0.59-0.22l-2.39,0.96c-0.5-0.38-1.03-0.7-1.62-0.94L14.4,2.81c-0.04-0.24-0.24-0.41-0.48-0.41 h-3.84c-0.24,0-0.43,0.17-0.47,0.41L9.25,5.35C8.66,5.59,8.12,5.92,7.63,6.29L5.24,5.33c-0.22-0.08-0.47,0-0.59,0.22L2.73,8.87 C2.62,9.08,2.66,9.34,2.86,9.48l2.03,1.58C4.84,11.36,4.8,11.69,4.8,12s0.02,0.64,0.06,0.94l-2.03,1.58 c-0.18,0.14-0.23,0.41-0.12,0.61l1.92,3.32c0.12,0.22,0.37,0.29,0.59,0.22l2.39-0.96c0.5,0.38,1.03,0.7,1.62,0.94l0.36,2.54 c0.05,0.24,0.24,0.41,0.48,0.41h3.84c0.24,0,0.43-0.17,0.47-0.41l0.36-2.54c0.59-0.24,1.13-0.56,1.62-0.94l2.39,0.96 c0.22,0.08,0.47,0,0.59-0.22l1.92-3.32c0.12-0.22,0.07-0.49-0.12-0.61L19.14,12.94z M12,15.6c-1.98,0-3.6-1.62-3.6-3.6 s1.62-3.6,3.6-3.6s3.6,1.62,3.6,3.6S13.98,15.6,12,15.6z"/></svg>
+            </button>
+        </div>
+    </footer>
+
+    <!-- MODAL DE ESTAÇÕES (Aparece no Mobile quando clica no botão Lista) -->
     <div class="modal-overlay" id="stationModal">
         <div class="modal-content">
             <div class="modal-header">Selecione uma Estação</div>
-            <div class="stations-list" id="stationsList"></div>
-            <button class="btn-modern btn-secondary" id="closeStationModal">FECHAR</button>
+            <div class="stations-container" id="modalStationsList"></div>
+            <button class="btn-modern btn-secondary" id="closeStationModal" style="margin-top: 20px;">FECHAR</button>
         </div>
     </div>
 
-    <!-- Modal de Senha -->
+    <!-- MODAL DE SENHA -->
     <div class="modal-overlay" id="passwordModal">
         <div class="modal-content">
             <div class="modal-header">Área Restrita</div>
-            <p style="text-align:center; font-size: 16px; color: var(--text-muted); margin-bottom: 24px;">Digite a senha de administrador</p>
+            <p style="text-align:center; font-size: 14px; color: var(--text-muted); margin-bottom: 24px;">Digite a palavra-passe de administrador</p>
             <input type="password" id="adminPassword" class="input-modern" placeholder="••••••" maxlength="20">
-            <div id="passwordError" style="color: #ef4444; font-size: 14px; text-align: center; display: none; margin-bottom: 16px;">Senha incorreta!</div>
-            
+            <div id="passwordError" style="color: #ef4444; font-size: 14px; text-align: center; display: none; margin-bottom: 16px;">Palavra-passe incorreta!</div>
             <button class="btn-modern btn-primary" id="enterAdminBtn">ENTRAR</button>
             <button class="btn-modern btn-secondary" id="cancelPasswordBtn">CANCELAR</button>
         </div>
     </div>
 
-    <!-- Modal Admin -->
+    <!-- MODAL ADMIN -->
     <div class="modal-overlay" id="adminModal">
         <div class="modal-content">
-            <div class="modal-header">Gerenciar Estações</div>
+            <div class="modal-header">Gerir Estações</div>
             <div id="adminStationsList"></div>
-            
-            <button class="btn-modern btn-primary" id="saveAdminBtn" style="margin-bottom: 12px;">💾 SALVAR ALTERAÇÕES</button>
+            <button class="btn-modern btn-primary" id="saveAdminBtn">💾 SALVAR ALTERAÇÕES</button>
             <button class="btn-modern btn-secondary" id="downloadHTMLBtn" style="color: var(--accent); border: 1px solid var(--accent);">📥 GERAR NOVO HTML</button>
             <button class="btn-modern btn-danger" id="cancelAdminBtn">CANCELAR</button>
         </div>
@@ -590,16 +513,18 @@
             const statusBadge = document.getElementById('statusBadge');
             const statusText = document.getElementById('statusText');
             const mainIcon = document.getElementById('mainIcon');
-            
             const eqContainer = document.getElementById('eqContainer');
             
             const volumeSlider = document.getElementById('volumeSlider');
             const volumeFill = document.getElementById('volumeFill');
             const volumeKnob = document.getElementById('volumeKnob');
             
+            // Listas Duplas (Sidebar para Desktop, Modal para Mobile)
+            const sidebarStationsList = document.getElementById('sidebarStationsList');
+            const modalStationsList = document.getElementById('modalStationsList');
             const stationModal = document.getElementById('stationModal');
-            const stationsList = document.getElementById('stationsList');
             const closeStationModal = document.getElementById('closeStationModal');
+            const mobileMenuBtn = document.getElementById('mobileMenuBtn');
             
             const adminBtn = document.getElementById('adminBtn');
             const passwordModal = document.getElementById('passwordModal');
@@ -617,7 +542,6 @@
             const mainPlayBtn = document.getElementById('mainPlayBtn');
             const playIconSVG = document.getElementById('playIconSVG');
             const stopBtn = document.getElementById('stopBtn');
-            const listBtn = document.getElementById('listBtn');
             
             const iconPlay = '<path d="M8 5v14l11-7z"/>';
             const iconPause = '<path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>';
@@ -653,35 +577,51 @@
             }
             createEQBars();
             
-            function createStationsList() {
-                stationsList.innerHTML = '';
+            // Função refatorada para preencher a lista de rádios na Sidebar E no Modal
+            function renderStations() {
+                sidebarStationsList.innerHTML = '';
+                modalStationsList.innerHTML = '';
+                
                 tapes.forEach((tape, index) => {
-                    const item = document.createElement('div');
-                    item.className = `station-item ${index === selectedTapeIndex ? 'selected' : ''}`;
-                    item.innerHTML = `
-                        <div class="station-item-icon">
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/></svg>
-                        </div>
-                        <div class="station-item-name">${tape.name}</div>
+                    // HTML base para cada item da lista
+                    const itemHTML = `
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/></svg>
+                        <span>${tape.name}</span>
                     `;
-                    item.addEventListener('click', () => {
-                        document.querySelectorAll('.station-item').forEach(el => el.classList.remove('selected'));
-                        item.classList.add('selected');
-                        selectedTapeIndex = index;
-                        currentStreamUrl = tape.url;
-                        stationName.textContent = tape.name;
-                        stationModal.style.display = 'none';
-                        
-                        if (isPlaying && !isPaused) {
-                            playStream(currentStreamUrl);
-                        } else {
-                            stopAll();
-                        }
+                    
+                    // Criar para a Sidebar (Desktop)
+                    const sidebarItem = document.createElement('div');
+                    sidebarItem.className = `station-list-item ${index === selectedTapeIndex ? 'selected' : ''}`;
+                    sidebarItem.innerHTML = itemHTML;
+                    sidebarItem.addEventListener('click', () => selectStation(index));
+                    sidebarStationsList.appendChild(sidebarItem);
+                    
+                    // Criar para o Modal (Mobile)
+                    const modalItem = document.createElement('div');
+                    modalItem.className = `station-list-item ${index === selectedTapeIndex ? 'selected' : ''}`;
+                    modalItem.innerHTML = itemHTML;
+                    modalItem.addEventListener('click', () => {
+                        selectStation(index);
+                        stationModal.style.display = 'none'; // Fecha o modal no mobile ao selecionar
                     });
-                    stationsList.appendChild(item);
+                    modalStationsList.appendChild(modalItem);
                 });
             }
-            createStationsList();
+            
+            function selectStation(index) {
+                selectedTapeIndex = index;
+                currentStreamUrl = tapes[index].url;
+                stationName.textContent = tapes[index].name;
+                renderStations(); // Atualiza a seleção visual
+                
+                if (isPlaying && !isPaused) {
+                    playStream(currentStreamUrl);
+                } else {
+                    stopAll();
+                }
+            }
+            
+            renderStations();
             
             function createAdminTapes() {
                 adminStationsList.innerHTML = '';
@@ -702,7 +642,6 @@
                 const newTapes = [];
                 const nameInputs = document.querySelectorAll('.tape-name-input');
                 const urlInputs = document.querySelectorAll('.tape-url-input');
-                
                 for (let i = 0; i < 6; i++) {
                     newTapes.push({
                         name: nameInputs[i].value,
@@ -717,7 +656,7 @@
                 tapes = newTapes;
                 currentStreamUrl = tapes[selectedTapeIndex].url;
                 stationName.textContent = tapes[selectedTapeIndex].name;
-                createStationsList();
+                renderStations();
             }
             
             function generateNewHTML() {
@@ -736,13 +675,13 @@
                 const url = URL.createObjectURL(blob);
                 const a = document.createElement('a');
                 a.href = url;
-                a.download = `sintonizegospel-${new Date().toISOString().slice(0,10)}.html`;
+                a.download = `sintonizegospel-v0.3.html`;
                 document.body.appendChild(a);
                 a.click();
                 document.body.removeChild(a);
                 URL.revokeObjectURL(url);
                 
-                statusMessage.textContent = 'Novo HTML gerado! Verifique downloads.';
+                statusMessage.textContent = 'Novo HTML gerado!';
                 setTimeout(() => { statusMessage.textContent = ''; }, 3000);
             }
             
@@ -760,36 +699,14 @@
                     setVolume((x / rect.width) * 100);
                 };
                 updateVolume(e);
-                
                 const onMouseMove = (ev) => updateVolume(ev);
                 const onMouseUp = () => {
                     document.removeEventListener('mousemove', onMouseMove);
                     document.removeEventListener('mouseup', onMouseUp);
                 };
-                
                 document.addEventListener('mousemove', onMouseMove);
                 document.addEventListener('mouseup', onMouseUp);
             });
-            
-            volumeSlider.addEventListener('touchstart', (e) => {
-                e.preventDefault();
-                const updateVolume = (ev) => {
-                    const rect = volumeSlider.getBoundingClientRect();
-                    const touch = ev.touches[0];
-                    const x = touch.clientX - rect.left;
-                    setVolume((x / rect.width) * 100);
-                };
-                updateVolume(e);
-                
-                const onTouchMove = (ev) => updateVolume(ev);
-                const onTouchEnd = () => {
-                    document.removeEventListener('touchmove', onTouchMove);
-                    document.removeEventListener('touchend', onTouchEnd);
-                };
-                
-                document.addEventListener('touchmove', onTouchMove, {passive: false});
-                document.addEventListener('touchend', onTouchEnd);
-            }, {passive: false});
             
             function updateStatusUI(state) {
                 if (state === 'playing') {
@@ -824,9 +741,7 @@
                 isPlaying = false;
                 isPaused = false;
                 updateStatusUI('standby');
-                if (window.audioCtx) {
-                    window.audioCtx.suspend();
-                }
+                if (window.audioCtx) window.audioCtx.suspend();
             }
             
             async function playStream(url) {
@@ -867,34 +782,22 @@
                             animationFrame = requestAnimationFrame(renderRealEQ);
                             return;
                         }
-                        
                         try {
                             window.analyser.getByteFrequencyData(window.dataArray);
-                            
                             for (let i = 0; i < BAR_COUNT; i++) {
                                 let val = window.dataArray[i + 2] / 255; 
                                 let scaleY = Math.max(0.05, val * 1.5); 
-                                
                                 eqBars[i].style.transform = `scaleY(${Math.min(1, scaleY)})`;
-                                
-                                if (val > 0.1) {
-                                    eqBars[i].classList.add('active');
-                                } else {
-                                    eqBars[i].classList.remove('active');
-                                }
+                                if (val > 0.1) eqBars[i].classList.add('active');
+                                else eqBars[i].classList.remove('active');
                             }
-                        } catch (error) {
-                            console.error('EQ error:', error);
-                        }
-                        
+                        } catch (error) {}
                         animationFrame = requestAnimationFrame(renderRealEQ);
                     }
-                    
                     if (animationFrame) cancelAnimationFrame(animationFrame);
                     animationFrame = requestAnimationFrame(renderRealEQ);
                     
                 } catch (error) {
-                    console.error('Stream error:', error);
                     loadingIndicator.style.display = 'none';
                     statusMessage.textContent = 'Erro ao conectar à estação.';
                     updateStatusUI('standby');
@@ -913,24 +816,16 @@
                     audio.play().then(() => {
                         isPaused = false;
                         updateStatusUI('playing');
-                        if (window.audioCtx && window.audioCtx.state === 'suspended') {
-                            window.audioCtx.resume();
-                        }
-                    }).catch(err => {
-                        playStream(currentStreamUrl);
-                    });
+                        if (window.audioCtx && window.audioCtx.state === 'suspended') window.audioCtx.resume();
+                    }).catch(err => playStream(currentStreamUrl));
                 }
             });
             
             stopBtn.addEventListener('click', stopAll);
             
-            listBtn.addEventListener('click', () => {
-                stationModal.style.display = 'flex';
-            });
-            
-            closeStationModal.addEventListener('click', () => {
-                stationModal.style.display = 'none';
-            });
+            // Lógica do Modal Mobile
+            mobileMenuBtn.addEventListener('click', () => stationModal.style.display = 'flex');
+            closeStationModal.addEventListener('click', () => stationModal.style.display = 'none');
             
             adminBtn.addEventListener('click', () => {
                 adminPassword.value = '';
@@ -951,11 +846,7 @@
             });
             
             cancelPasswordBtn.addEventListener('click', () => passwordModal.style.display = 'none');
-            
-            adminPassword.addEventListener('keypress', (e) => {
-                if (e.key === 'Enter') enterAdminBtn.click();
-            });
-            
+            adminPassword.addEventListener('keypress', (e) => { if (e.key === 'Enter') enterAdminBtn.click(); });
             cancelAdminBtn.addEventListener('click', () => adminModal.style.display = 'none');
             
             saveAdminBtn.addEventListener('click', () => {
@@ -980,12 +871,10 @@
             audio.addEventListener('error', () => {
                 if (isPlaying) statusMessage.textContent = 'Sinal perdido. Tente outra estação.';
             });
-            
             audio.addEventListener('waiting', () => {
                 loadingIndicator.style.display = 'block';
                 loadingIndicator.textContent = 'Buffering...';
             });
-            
             audio.addEventListener('canplay', () => loadingIndicator.style.display = 'none');
             audio.addEventListener('playing', () => {
                 loadingIndicator.style.display = 'none';
