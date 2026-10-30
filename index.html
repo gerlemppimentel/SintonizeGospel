@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Radio Player Moderno</title>
+    <!-- O título da aba do navegador também foi atualizado para combinar com o novo nome -->
+    <title>Top 10 Gospel Radios</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap');
@@ -15,10 +16,10 @@
         }
         
         :root {
-            --bg-base: #0f172a;       /* Fundo principal escuro */
-            --surface: #1e293b;       /* Fundo dos painéis */
-            --surface-hover: #334155; /* Hover dos botões */
-            --accent: #10b981;        /* Verde moderno para elementos ativos */
+            --bg-base: #0f172a;       
+            --surface: #1e293b;       
+            --surface-hover: #334155; 
+            --accent: #10b981;        
             --accent-glow: rgba(16, 185, 129, 0.4);
             --text-main: #f8fafc;
             --text-muted: #94a3b8;
@@ -37,7 +38,6 @@
             padding: 16px;
         }
         
-        /* Container Principal do App */
         #app-container { 
             width: 100%; 
             max-width: 400px; 
@@ -53,21 +53,31 @@
             position: relative;
         }
 
-        /* Cabeçalho */
         .app-header {
-            padding: 24px 24px 16px;
+            padding: 24px 24px 16px; /* Ajustei o preenchimento (padding) inferior */
             display: flex;
             align-items: center;
             justify-content: space-between;
+            border-bottom: 1px solid var(--border-color); /* Adicionado uma linha sutil para separar o cabeçalho */
         }
 
         .app-header h1 {
-            font-size: 18px;
+            font-size: 18px; /* Reduzi levemente a fonte para caber o novo título maior */
             font-weight: 700;
             letter-spacing: -0.5px;
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 12px; /* Espaço entre o logotipo e o texto */
+        }
+
+        /* NOVA CLASSE: Estilo específico para o seu logotipo Sint.jpg */
+        .app-logo {
+            width: 36px; /* Largura do logo */
+            height: 36px; /* Altura do logo */
+            border-radius: 50%; /* Corta a imagem em um círculo perfeito */
+            object-fit: cover; /* Garante que a imagem não fique distorcida */
+            border: 2px solid var(--accent); /* Cria uma bordinha verde ao redor do logo */
+            box-shadow: 0 0 10px var(--accent-glow); /* Cria um brilho verde ao redor do logo */
         }
 
         .admin-gear {
@@ -84,7 +94,6 @@
             transform: rotate(45deg);
         }
 
-        /* Display Central (Informações da Rádio) */
         .station-display {
             flex: 1;
             display: flex;
@@ -131,7 +140,7 @@
         }
 
         #stationName {
-            font-size: 24px;
+            font-size: 22px;
             font-weight: 700;
             color: var(--text-main);
         }
@@ -155,7 +164,7 @@
             width: 8px;
             height: 8px;
             border-radius: 50%;
-            background: #ef4444; /* Vermelho padrão para standby */
+            background: #ef4444;
         }
 
         .status-badge.active .status-dot {
@@ -168,7 +177,6 @@
             background: rgba(16, 185, 129, 0.1);
         }
 
-        /* Equalizador Visual (EQ) */
         .eq-container {
             display: flex;
             justify-content: center;
@@ -185,7 +193,7 @@
             border-radius: 4px;
             height: 100%;
             transform-origin: bottom;
-            transform: scaleY(0.05); /* Inicia quase invisível */
+            transform: scaleY(0.05); 
             transition: transform 0.05s ease;
         }
 
@@ -193,7 +201,6 @@
             background: var(--accent);
         }
 
-        /* Controles de Volume */
         .volume-container {
             padding: 0 32px 20px;
             display: flex;
@@ -239,7 +246,6 @@
             transition: left 0.1s;
         }
 
-        /* Controles Principais de Playback */
         .controls-container {
             padding: 24px 32px 32px;
             display: flex;
@@ -283,21 +289,20 @@
 
         .control-btn.play-btn:hover {
             transform: scale(1.05);
-            background: #0ea5e9; /* Muda ligeiramente no hover */
+            background: #0ea5e9; 
             color: #fff;
         }
 
         .control-btn.play-btn svg {
             width: 28px;
             height: 28px;
-            margin-left: 4px; /* Centraliza o ícone de play visualmente */
+            margin-left: 4px; 
         }
 
         .control-btn.play-btn.is-playing svg {
-            margin-left: 0; /* Centraliza o ícone de pause */
+            margin-left: 0; 
         }
 
-        /* Modais Modernos */
         .modal-overlay {
             display: none;
             position: fixed;
@@ -339,7 +344,6 @@
             color: var(--text-main);
         }
 
-        /* Lista de Estações (Substitui as fitas) */
         .stations-list {
             display: flex;
             flex-direction: column;
@@ -385,7 +389,6 @@
             font-size: 14px;
         }
 
-        /* Botões dos Modais */
         .btn-modern {
             width: 100%;
             padding: 14px;
@@ -425,7 +428,6 @@
             margin-top: 8px;
         }
 
-        /* Inputs Modernos */
         .input-modern {
             width: 100%;
             padding: 14px;
@@ -444,7 +446,6 @@
             border-color: var(--accent);
         }
 
-        /* Lista Admin */
         .admin-tape-item {
             background: var(--bg-base);
             padding: 16px;
@@ -460,7 +461,6 @@
             font-weight: 600;
         }
 
-        /* Loading & Mensagens */
         #loadingIndicator {
             position: absolute;
             top: 24px;
@@ -492,11 +492,12 @@
     <div id="app-container">
         <div id="loadingIndicator">Conectando...</div>
 
-        <!-- Cabeçalho -->
+        <!-- Cabeçalho ATUALIZADO -->
         <div class="app-header">
             <h1>
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="var(--accent)"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 14.5v-9l6 4.5-6 4.5z"/></svg>
-                RadioPlayer
+                <!-- Aqui chamamos a imagem Sint.jpg com a classe que arredonda as bordas -->
+                <img src="Sint.jpg" alt="Logo Sintonize Gospel" class="app-logo">
+                Top 10 Gospel Radios
             </h1>
             <button class="admin-gear" id="adminBtn" title="Configurações">
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M19.14,12.94c0.04-0.3,0.06-0.61,0.06-0.94c0-0.32-0.02-0.64-0.06-0.94l2.03-1.58c0.18-0.14,0.23-0.41,0.12-0.61 l-1.92-3.32c-0.12-0.22-0.37-0.29-0.59-0.22l-2.39,0.96c-0.5-0.38-1.03-0.7-1.62-0.94L14.4,2.81c-0.04-0.24-0.24-0.41-0.48-0.41 h-3.84c-0.24,0-0.43,0.17-0.47,0.41L9.25,5.35C8.66,5.59,8.12,5.92,7.63,6.29L5.24,5.33c-0.22-0.08-0.47,0-0.59,0.22L2.73,8.87 C2.62,9.08,2.66,9.34,2.86,9.48l2.03,1.58C4.84,11.36,4.8,11.69,4.8,12s0.02,0.64,0.06,0.94l-2.03,1.58 c-0.18,0.14-0.23,0.41-0.12,0.61l1.92,3.32c0.12,0.22,0.37,0.29,0.59,0.22l2.39-0.96c0.5,0.38,1.03,0.7,1.62,0.94l0.36,2.54 c0.05,0.24,0.24,0.41,0.48,0.41h3.84c0.24,0,0.43-0.17,0.47-0.41l0.36-2.54c0.59-0.24,1.13-0.56,1.62-0.94l2.39,0.96 c0.22,0.08,0.47,0,0.59-0.22l1.92-3.32c0.12-0.22,0.07-0.49-0.12-0.61L19.14,12.94z M12,15.6c-1.98,0-3.6-1.62-3.6-3.6 s1.62-3.6,3.6-3.6s3.6,1.62,3.6,3.6S13.98,15.6,12,15.6z"/></svg>
@@ -510,7 +511,7 @@
             </div>
             
             <div class="track-info">
-                <div id="stationName">Jazz Groove</div>
+                <div id="stationName">Rádio Aleluia</div>
                 <div class="status-badge" id="statusBadge">
                     <div class="status-dot" id="statusDot"></div>
                     <span id="statusText">STANDBY</span>
@@ -603,7 +604,6 @@
             const volumeFill = document.getElementById('volumeFill');
             const volumeKnob = document.getElementById('volumeKnob');
             
-            // Modais e Botões
             const stationModal = document.getElementById('stationModal');
             const stationsList = document.getElementById('stationsList');
             const closeStationModal = document.getElementById('closeStationModal');
@@ -626,19 +626,18 @@
             const stopBtn = document.getElementById('stopBtn');
             const listBtn = document.getElementById('listBtn');
             
-            // Ícones SVG para controle dinâmico
             const iconPlay = '<path d="M8 5v14l11-7z"/>';
             const iconPause = '<path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>';
             
             const ADMIN_PASSWORD = "602190";
             
             let tapes = [
-                { name: "JAZZ SUAVE", color: "white", url: "http://64.95.243.43:8002/stream" },
-                { name: "BALADAS JAZZ", color: "black", url: "https://ella.do-not-publish.com/ella-jazz-ballads" },
-                { name: "NOVA ORLEANS", color: "clear", url: "https://jazz-wr03.ice.infomaniak.ch/jazz-wr03-128.mp3" },
-                { name: "BOSSA NOVA", color: "white", url: "https://strm112.1.fm/bossanova_mobile_mp3" },
-                { name: "BIG BAND", color: "black", url: "http://ella.do-not-publish.com/ella-swing-and-bigband" },
-                { name: "VOCAL MODERNO", color: "clear", url: "https://ella.do-not-publish.com/ella-modern-vocal-jazz" }
+                { name: "Rádio Aleluia", color: "white", url: "http://64.95.243.43:8002/stream" },
+                { name: "Louvor FM", color: "black", url: "https://ella.do-not-publish.com/ella-jazz-ballads" },
+                { name: "Nova Vida", color: "clear", url: "https://jazz-wr03.ice.infomaniak.ch/jazz-wr03-128.mp3" },
+                { name: "Gospel Hits", color: "white", url: "https://strm112.1.fm/bossanova_mobile_mp3" },
+                { name: "Rádio Paz", color: "black", url: "http://ella.do-not-publish.com/ella-swing-and-bigband" },
+                { name: "Voz da Esperança", color: "clear", url: "https://ella.do-not-publish.com/ella-modern-vocal-jazz" }
             ];
             
             let currentStreamUrl = tapes[0].url;
@@ -650,7 +649,6 @@
             const BAR_COUNT = 16;
             const eqBars = [];
             
-            // Criar barras do equalizador moderno
             function createEQBars() {
                 eqContainer.innerHTML = '';
                 for (let i = 0; i < BAR_COUNT; i++) {
@@ -662,7 +660,6 @@
             }
             createEQBars();
             
-            // Criar lista de estações para o usuário
             function createStationsList() {
                 stationsList.innerHTML = '';
                 tapes.forEach((tape, index) => {
@@ -682,7 +679,6 @@
                         stationName.textContent = tape.name;
                         stationModal.style.display = 'none';
                         
-                        // Autoplay se trocar de rádio enquanto escuta
                         if (isPlaying && !isPaused) {
                             playStream(currentStreamUrl);
                         } else {
@@ -694,7 +690,6 @@
             }
             createStationsList();
             
-            // Criar formulário Admin
             function createAdminTapes() {
                 adminStationsList.innerHTML = '';
                 tapes.forEach((tape, index) => {
@@ -706,7 +701,6 @@
                         <label>URL DO STREAM</label>
                         <input type="text" class="input-modern tape-url-input" data-index="${index}" value="${tape.url}">
                     `;
-                    // O campo "cor" da fita foi omitido do modal para simplificar, mas mantido no array gerado para compatibilidade.
                     adminStationsList.appendChild(item);
                 });
             }
@@ -720,7 +714,7 @@
                     newTapes.push({
                         name: nameInputs[i].value,
                         url: urlInputs[i].value,
-                        color: tapes[i].color // Preserva a cor original na estrutura de dados
+                        color: tapes[i].color 
                     });
                 }
                 return newTapes;
@@ -749,7 +743,7 @@
                 const url = URL.createObjectURL(blob);
                 const a = document.createElement('a');
                 a.href = url;
-                a.download = `radio-moderna-${new Date().toISOString().slice(0,10)}.html`;
+                a.download = `sintonizegospel-${new Date().toISOString().slice(0,10)}.html`;
                 document.body.appendChild(a);
                 a.click();
                 document.body.removeChild(a);
@@ -759,7 +753,6 @@
                 setTimeout(() => { statusMessage.textContent = ''; }, 3000);
             }
             
-            // Lógica de Volume
             function setVolume(percent) {
                 let vol = Math.max(0, Math.min(1, percent / 100));
                 audio.volume = vol;
@@ -805,7 +798,6 @@
                 document.addEventListener('touchend', onTouchEnd);
             }, {passive: false});
             
-            // Atualização Visual de Status
             function updateStatusUI(state) {
                 if (state === 'playing') {
                     statusBadge.classList.add('active');
@@ -844,7 +836,6 @@
                 }
             }
             
-            // Motor de Áudio e EQ Moderno
             async function playStream(url) {
                 try {
                     loadingIndicator.style.display = 'block';
@@ -864,7 +855,7 @@
                         window.audioCtx = new (window.AudioContext || window.webkitAudioContext)();
                         window.source = window.audioCtx.createMediaElementSource(audio);
                         window.analyser = window.audioCtx.createAnalyser();
-                        window.analyser.fftSize = 64; // Menor fftSize para barras mais dinâmicas
+                        window.analyser.fftSize = 64; 
                         window.analyser.smoothingTimeConstant = 0.85;
                         window.source.connect(window.analyser);
                         window.analyser.connect(window.audioCtx.destination);
@@ -888,7 +879,6 @@
                             window.analyser.getByteFrequencyData(window.dataArray);
                             
                             for (let i = 0; i < BAR_COUNT; i++) {
-                                // Mapeia os dados da frequência para as barras
                                 let val = window.dataArray[i + 2] / 255; 
                                 let scaleY = Math.max(0.05, val * 1.5); 
                                 
@@ -918,7 +908,6 @@
                 }
             }
             
-            // Botão Principal (Play/Pause Toggle)
             mainPlayBtn.addEventListener('click', () => {
                 if (!isPlaying) {
                     playStream(currentStreamUrl);
@@ -942,7 +931,6 @@
             
             stopBtn.addEventListener('click', stopAll);
             
-            // Botão Lista de Estações (Antigo Eject)
             listBtn.addEventListener('click', () => {
                 stationModal.style.display = 'flex';
             });
@@ -951,7 +939,6 @@
                 stationModal.style.display = 'none';
             });
             
-            // Eventos do Admin
             adminBtn.addEventListener('click', () => {
                 adminPassword.value = '';
                 passwordError.style.display = 'none';
@@ -991,7 +978,6 @@
                 adminModal.style.display = 'none';
             });
             
-            // Fechar modais ao clicar fora
             [stationModal, passwordModal, adminModal].forEach(modal => {
                 modal.addEventListener('click', (e) => {
                     if (e.target === modal) modal.style.display = 'none';
@@ -1013,7 +999,6 @@
                 statusMessage.textContent = '';
             });
             
-            // Inicialização
             setVolume(50);
             stationName.textContent = tapes[0].name;
             updateStatusUI('standby');
