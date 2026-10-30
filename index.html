@@ -1,0 +1,1023 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Radio Player Moderno</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap');
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        :root {
+            --bg-base: #0f172a;       /* Fundo principal escuro */
+            --surface: #1e293b;       /* Fundo dos painéis */
+            --surface-hover: #334155; /* Hover dos botões */
+            --accent: #10b981;        /* Verde moderno para elementos ativos */
+            --accent-glow: rgba(16, 185, 129, 0.4);
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --border-color: #334155;
+        }
+        
+        body { 
+            background-color: var(--bg-base); 
+            color: var(--text-main); 
+            font-family: 'Inter', sans-serif;
+            height: 100vh; 
+            display: flex; 
+            justify-content: center; 
+            align-items: center;
+            overflow: hidden; 
+            padding: 16px;
+        }
+        
+        /* Container Principal do App */
+        #app-container { 
+            width: 100%; 
+            max-width: 400px; 
+            height: 95%;
+            max-height: 800px;
+            display: flex; 
+            flex-direction: column; 
+            background: linear-gradient(180deg, #1e293b 0%, #0f172a 100%);
+            border: 1px solid var(--border-color);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
+            border-radius: 32px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* Cabeçalho */
+        .app-header {
+            padding: 24px 24px 16px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .app-header h1 {
+            font-size: 18px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .admin-gear {
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
+            font-size: 20px;
+            cursor: pointer;
+            transition: color 0.2s, transform 0.2s;
+        }
+
+        .admin-gear:hover {
+            color: var(--text-main);
+            transform: rotate(45deg);
+        }
+
+        /* Display Central (Informações da Rádio) */
+        .station-display {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .station-icon {
+            width: 120px;
+            height: 120px;
+            background: linear-gradient(135deg, #334155, #1e293b);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 24px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            border: 4px solid var(--surface);
+            transition: box-shadow 0.3s ease;
+        }
+
+        .station-icon.playing {
+            box-shadow: 0 0 40px var(--accent-glow);
+            border-color: #243c33;
+        }
+
+        .station-icon svg {
+            width: 48px;
+            height: 48px;
+            fill: var(--text-muted);
+        }
+
+        .station-icon.playing svg {
+            fill: var(--accent);
+        }
+
+        .track-info {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        #stationName {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--text-main);
+        }
+
+        .status-badge {
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            padding: 4px 12px;
+            border-radius: 20px;
+            background: var(--surface);
+            color: var(--text-muted);
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            margin: 0 auto;
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #ef4444; /* Vermelho padrão para standby */
+        }
+
+        .status-badge.active .status-dot {
+            background: var(--accent);
+            box-shadow: 0 0 8px var(--accent);
+        }
+
+        .status-badge.active {
+            color: var(--accent);
+            background: rgba(16, 185, 129, 0.1);
+        }
+
+        /* Equalizador Visual (EQ) */
+        .eq-container {
+            display: flex;
+            justify-content: center;
+            align-items: flex-end;
+            gap: 4px;
+            height: 60px;
+            margin: 20px 0;
+            padding: 0 24px;
+        }
+
+        .eq-bar {
+            flex: 1;
+            background: var(--surface-hover);
+            border-radius: 4px;
+            height: 100%;
+            transform-origin: bottom;
+            transform: scaleY(0.05); /* Inicia quase invisível */
+            transition: transform 0.05s ease;
+        }
+
+        .eq-bar.active {
+            background: var(--accent);
+        }
+
+        /* Controles de Volume */
+        .volume-container {
+            padding: 0 32px 20px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .volume-icon {
+            color: var(--text-muted);
+            font-size: 16px;
+        }
+
+        .volume-slider {
+            flex: 1;
+            height: 6px;
+            background: var(--surface);
+            border-radius: 3px;
+            position: relative;
+            cursor: pointer;
+        }
+
+        .volume-fill {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            background: var(--text-main);
+            border-radius: 3px;
+            pointer-events: none;
+            transition: width 0.1s;
+        }
+
+        .volume-knob {
+            position: absolute;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            width: 16px;
+            height: 16px;
+            background: #fff;
+            border-radius: 50%;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+            pointer-events: none;
+            transition: left 0.1s;
+        }
+
+        /* Controles Principais de Playback */
+        .controls-container {
+            padding: 24px 32px 32px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 24px;
+            background: var(--bg-base);
+            border-top: 1px solid var(--border-color);
+        }
+
+        .control-btn {
+            background: transparent;
+            border: none;
+            color: var(--text-main);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.2s, color 0.2s;
+        }
+
+        .control-btn svg {
+            width: 24px;
+            height: 24px;
+            fill: currentColor;
+        }
+
+        .control-btn:hover {
+            color: var(--accent);
+            transform: scale(1.1);
+        }
+
+        .control-btn.play-btn {
+            width: 64px;
+            height: 64px;
+            background: var(--accent);
+            color: #fff;
+            border-radius: 50%;
+            box-shadow: 0 10px 20px var(--accent-glow);
+        }
+
+        .control-btn.play-btn:hover {
+            transform: scale(1.05);
+            background: #0ea5e9; /* Muda ligeiramente no hover */
+            color: #fff;
+        }
+
+        .control-btn.play-btn svg {
+            width: 28px;
+            height: 28px;
+            margin-left: 4px; /* Centraliza o ícone de play visualmente */
+        }
+
+        .control-btn.play-btn.is-playing svg {
+            margin-left: 0; /* Centraliza o ícone de pause */
+        }
+
+        /* Modais Modernos */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(15, 23, 42, 0.8);
+            backdrop-filter: blur(8px);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            opacity: 0;
+            animation: fadeIn 0.2s forwards;
+        }
+
+        @keyframes fadeIn {
+            to { opacity: 1; }
+        }
+
+        .modal-content {
+            background: var(--surface);
+            border: 1px solid var(--border-color);
+            border-radius: 24px;
+            width: 100%;
+            max-width: 360px;
+            padding: 24px;
+            box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5);
+            max-height: 85vh;
+            overflow-y: auto;
+        }
+
+        .modal-header {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            text-align: center;
+            color: var(--text-main);
+        }
+
+        /* Lista de Estações (Substitui as fitas) */
+        .stations-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+
+        .station-item {
+            background: var(--bg-base);
+            border: 1px solid var(--border-color);
+            padding: 16px;
+            border-radius: 16px;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .station-item:hover {
+            border-color: var(--accent);
+            background: rgba(16, 185, 129, 0.05);
+        }
+
+        .station-item.selected {
+            border-color: var(--accent);
+            background: rgba(16, 185, 129, 0.1);
+        }
+
+        .station-item-icon {
+            width: 32px;
+            height: 32px;
+            background: var(--surface);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--accent);
+        }
+
+        .station-item-name {
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        /* Botões dos Modais */
+        .btn-modern {
+            width: 100%;
+            padding: 14px;
+            border-radius: 12px;
+            font-family: 'Inter', sans-serif;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: none;
+            text-align: center;
+        }
+
+        .btn-primary {
+            background: var(--accent);
+            color: #fff;
+        }
+
+        .btn-primary:hover {
+            background: #059669;
+        }
+
+        .btn-secondary {
+            background: var(--surface-hover);
+            color: var(--text-main);
+            margin-top: 8px;
+        }
+
+        .btn-secondary:hover {
+            background: var(--border-color);
+        }
+        
+        .btn-danger {
+            background: rgba(239, 68, 68, 0.1);
+            color: #ef4444;
+            border: 1px solid rgba(239, 68, 68, 0.2);
+            margin-top: 8px;
+        }
+
+        /* Inputs Modernos */
+        .input-modern {
+            width: 100%;
+            padding: 14px;
+            background: var(--bg-base);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            color: var(--text-main);
+            font-family: 'Inter', sans-serif;
+            font-size: 14px;
+            margin-bottom: 12px;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        .input-modern:focus {
+            border-color: var(--accent);
+        }
+
+        /* Lista Admin */
+        .admin-tape-item {
+            background: var(--bg-base);
+            padding: 16px;
+            border-radius: 16px;
+            margin-bottom: 16px;
+            border: 1px solid var(--border-color);
+        }
+        .admin-tape-item label {
+            display: block;
+            font-size: 12px;
+            color: var(--text-muted);
+            margin-bottom: 6px;
+            font-weight: 600;
+        }
+
+        /* Loading & Mensagens */
+        #loadingIndicator {
+            position: absolute;
+            top: 24px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--accent);
+            color: #fff;
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            display: none;
+            z-index: 50;
+            box-shadow: 0 4px 12px var(--accent-glow);
+        }
+
+        #statusMessage {
+            text-align: center;
+            font-size: 12px;
+            color: var(--text-muted);
+            margin-top: -10px;
+            margin-bottom: 10px;
+            min-height: 18px;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="app-container">
+        <div id="loadingIndicator">Conectando...</div>
+
+        <!-- Cabeçalho -->
+        <div class="app-header">
+            <h1>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="var(--accent)"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 14.5v-9l6 4.5-6 4.5z"/></svg>
+                RadioPlayer
+            </h1>
+            <button class="admin-gear" id="adminBtn" title="Configurações">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M19.14,12.94c0.04-0.3,0.06-0.61,0.06-0.94c0-0.32-0.02-0.64-0.06-0.94l2.03-1.58c0.18-0.14,0.23-0.41,0.12-0.61 l-1.92-3.32c-0.12-0.22-0.37-0.29-0.59-0.22l-2.39,0.96c-0.5-0.38-1.03-0.7-1.62-0.94L14.4,2.81c-0.04-0.24-0.24-0.41-0.48-0.41 h-3.84c-0.24,0-0.43,0.17-0.47,0.41L9.25,5.35C8.66,5.59,8.12,5.92,7.63,6.29L5.24,5.33c-0.22-0.08-0.47,0-0.59,0.22L2.73,8.87 C2.62,9.08,2.66,9.34,2.86,9.48l2.03,1.58C4.84,11.36,4.8,11.69,4.8,12s0.02,0.64,0.06,0.94l-2.03,1.58 c-0.18,0.14-0.23,0.41-0.12,0.61l1.92,3.32c0.12,0.22,0.37,0.29,0.59,0.22l2.39-0.96c0.5,0.38,1.03,0.7,1.62,0.94l0.36,2.54 c0.05,0.24,0.24,0.41,0.48,0.41h3.84c0.24,0,0.43-0.17,0.47-0.41l0.36-2.54c0.59-0.24,1.13-0.56,1.62-0.94l2.39,0.96 c0.22,0.08,0.47,0,0.59-0.22l1.92-3.32c0.12-0.22,0.07-0.49-0.12-0.61L19.14,12.94z M12,15.6c-1.98,0-3.6-1.62-3.6-3.6 s1.62-3.6,3.6-3.6s3.6,1.62,3.6,3.6S13.98,15.6,12,15.6z"/></svg>
+            </button>
+        </div>
+
+        <!-- Palco Central -->
+        <div class="station-display">
+            <div class="station-icon" id="mainIcon">
+                <svg viewBox="0 0 24 24"><path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/></svg>
+            </div>
+            
+            <div class="track-info">
+                <div id="stationName">Jazz Groove</div>
+                <div class="status-badge" id="statusBadge">
+                    <div class="status-dot" id="statusDot"></div>
+                    <span id="statusText">STANDBY</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Equalizador -->
+        <div class="eq-container" id="eqContainer">
+            <!-- As barras serão geradas via JS -->
+        </div>
+
+        <div id="statusMessage">Pronto para tocar.</div>
+
+        <!-- Volume -->
+        <div class="volume-container">
+            <svg class="volume-icon" width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg>
+            <div class="volume-slider" id="volumeSlider">
+                <div class="volume-fill" id="volumeFill" style="width: 50%;"></div>
+                <div class="volume-knob" id="volumeKnob" style="left: 50%;"></div>
+            </div>
+        </div>
+
+        <!-- Controles -->
+        <div class="controls-container">
+            <button class="control-btn" id="listBtn" title="Estações">
+                <svg viewBox="0 0 24 24"><path d="M3 13h2v-2H3v2zm0 4h2v-2H3v2zm0-8h2V7H3v2zm4 4h14v-2H7v2zm0 4h14v-2H7v2zM7 7v2h14V7H7z"/></svg>
+            </button>
+            
+            <button class="control-btn play-btn" id="mainPlayBtn" title="Play/Pause">
+                <svg id="playIconSVG" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+            </button>
+            
+            <button class="control-btn" id="stopBtn" title="Parar">
+                <svg viewBox="0 0 24 24"><path d="M6 6h12v12H6z"/></svg>
+            </button>
+        </div>
+    </div>
+
+    <!-- Modal de Estações -->
+    <div class="modal-overlay" id="stationModal">
+        <div class="modal-content">
+            <div class="modal-header">Selecione uma Estação</div>
+            <div class="stations-list" id="stationsList"></div>
+            <button class="btn-modern btn-secondary" id="closeStationModal">FECHAR</button>
+        </div>
+    </div>
+
+    <!-- Modal de Senha -->
+    <div class="modal-overlay" id="passwordModal">
+        <div class="modal-content">
+            <div class="modal-header">Área Restrita</div>
+            <p style="text-align:center; font-size: 14px; color: var(--text-muted); margin-bottom: 16px;">Digite a senha de administrador</p>
+            <input type="password" id="adminPassword" class="input-modern" placeholder="••••••" maxlength="20">
+            <div id="passwordError" style="color: #ef4444; font-size: 12px; text-align: center; display: none; margin-bottom: 16px;">Senha incorreta!</div>
+            
+            <button class="btn-modern btn-primary" id="enterAdminBtn">ENTRAR</button>
+            <button class="btn-modern btn-secondary" id="cancelPasswordBtn">CANCELAR</button>
+        </div>
+    </div>
+
+    <!-- Modal Admin -->
+    <div class="modal-overlay" id="adminModal">
+        <div class="modal-content">
+            <div class="modal-header">Gerenciar Estações</div>
+            <div id="adminStationsList"></div>
+            
+            <button class="btn-modern btn-primary" id="saveAdminBtn" style="margin-bottom: 8px;">💾 SALVAR ALTERAÇÕES</button>
+            <button class="btn-modern btn-secondary" id="downloadHTMLBtn" style="color: var(--accent); border: 1px solid var(--accent);">📥 GERAR NOVO HTML</button>
+            <button class="btn-modern btn-danger" id="cancelAdminBtn">CANCELAR</button>
+        </div>
+    </div>
+
+    <audio id="audioElement" crossorigin="anonymous" preload="none"></audio>
+
+    <script>
+        (function() {
+            const audio = document.getElementById('audioElement');
+            const stationName = document.getElementById('stationName');
+            const loadingIndicator = document.getElementById('loadingIndicator');
+            const statusMessage = document.getElementById('statusMessage');
+            
+            const statusBadge = document.getElementById('statusBadge');
+            const statusText = document.getElementById('statusText');
+            const mainIcon = document.getElementById('mainIcon');
+            
+            const eqContainer = document.getElementById('eqContainer');
+            
+            const volumeSlider = document.getElementById('volumeSlider');
+            const volumeFill = document.getElementById('volumeFill');
+            const volumeKnob = document.getElementById('volumeKnob');
+            
+            // Modais e Botões
+            const stationModal = document.getElementById('stationModal');
+            const stationsList = document.getElementById('stationsList');
+            const closeStationModal = document.getElementById('closeStationModal');
+            
+            const adminBtn = document.getElementById('adminBtn');
+            const passwordModal = document.getElementById('passwordModal');
+            const adminPassword = document.getElementById('adminPassword');
+            const passwordError = document.getElementById('passwordError');
+            const enterAdminBtn = document.getElementById('enterAdminBtn');
+            const cancelPasswordBtn = document.getElementById('cancelPasswordBtn');
+            
+            const adminModal = document.getElementById('adminModal');
+            const adminStationsList = document.getElementById('adminStationsList');
+            const saveAdminBtn = document.getElementById('saveAdminBtn');
+            const downloadHTMLBtn = document.getElementById('downloadHTMLBtn');
+            const cancelAdminBtn = document.getElementById('cancelAdminBtn');
+            
+            const mainPlayBtn = document.getElementById('mainPlayBtn');
+            const playIconSVG = document.getElementById('playIconSVG');
+            const stopBtn = document.getElementById('stopBtn');
+            const listBtn = document.getElementById('listBtn');
+            
+            // Ícones SVG para controle dinâmico
+            const iconPlay = '<path d="M8 5v14l11-7z"/>';
+            const iconPause = '<path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>';
+            
+            const ADMIN_PASSWORD = "602190";
+            
+            let tapes = [
+                { name: "JAZZ SUAVE", color: "white", url: "http://64.95.243.43:8002/stream" },
+                { name: "BALADAS JAZZ", color: "black", url: "https://ella.do-not-publish.com/ella-jazz-ballads" },
+                { name: "NOVA ORLEANS", color: "clear", url: "https://jazz-wr03.ice.infomaniak.ch/jazz-wr03-128.mp3" },
+                { name: "BOSSA NOVA", color: "white", url: "https://strm112.1.fm/bossanova_mobile_mp3" },
+                { name: "BIG BAND", color: "black", url: "http://ella.do-not-publish.com/ella-swing-and-bigband" },
+                { name: "VOCAL MODERNO", color: "clear", url: "https://ella.do-not-publish.com/ella-modern-vocal-jazz" }
+            ];
+            
+            let currentStreamUrl = tapes[0].url;
+            let isPlaying = false;
+            let isPaused = false;
+            let animationFrame = null;
+            let selectedTapeIndex = 0;
+            
+            const BAR_COUNT = 16;
+            const eqBars = [];
+            
+            // Criar barras do equalizador moderno
+            function createEQBars() {
+                eqContainer.innerHTML = '';
+                for (let i = 0; i < BAR_COUNT; i++) {
+                    let bar = document.createElement('div');
+                    bar.className = 'eq-bar';
+                    eqContainer.appendChild(bar);
+                    eqBars.push(bar);
+                }
+            }
+            createEQBars();
+            
+            // Criar lista de estações para o usuário
+            function createStationsList() {
+                stationsList.innerHTML = '';
+                tapes.forEach((tape, index) => {
+                    const item = document.createElement('div');
+                    item.className = `station-item ${index === selectedTapeIndex ? 'selected' : ''}`;
+                    item.innerHTML = `
+                        <div class="station-item-icon">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/></svg>
+                        </div>
+                        <div class="station-item-name">${tape.name}</div>
+                    `;
+                    item.addEventListener('click', () => {
+                        document.querySelectorAll('.station-item').forEach(el => el.classList.remove('selected'));
+                        item.classList.add('selected');
+                        selectedTapeIndex = index;
+                        currentStreamUrl = tape.url;
+                        stationName.textContent = tape.name;
+                        stationModal.style.display = 'none';
+                        
+                        // Autoplay se trocar de rádio enquanto escuta
+                        if (isPlaying && !isPaused) {
+                            playStream(currentStreamUrl);
+                        } else {
+                            stopAll();
+                        }
+                    });
+                    stationsList.appendChild(item);
+                });
+            }
+            createStationsList();
+            
+            // Criar formulário Admin
+            function createAdminTapes() {
+                adminStationsList.innerHTML = '';
+                tapes.forEach((tape, index) => {
+                    const item = document.createElement('div');
+                    item.className = 'admin-tape-item';
+                    item.innerHTML = `
+                        <label>ESTAÇÃO ${index + 1} - NOME</label>
+                        <input type="text" class="input-modern tape-name-input" data-index="${index}" value="${tape.name}">
+                        <label>URL DO STREAM</label>
+                        <input type="text" class="input-modern tape-url-input" data-index="${index}" value="${tape.url}">
+                    `;
+                    // O campo "cor" da fita foi omitido do modal para simplificar, mas mantido no array gerado para compatibilidade.
+                    adminStationsList.appendChild(item);
+                });
+            }
+            
+            function collectTapesFromAdmin() {
+                const newTapes = [];
+                const nameInputs = document.querySelectorAll('.tape-name-input');
+                const urlInputs = document.querySelectorAll('.tape-url-input');
+                
+                for (let i = 0; i < 6; i++) {
+                    newTapes.push({
+                        name: nameInputs[i].value,
+                        url: urlInputs[i].value,
+                        color: tapes[i].color // Preserva a cor original na estrutura de dados
+                    });
+                }
+                return newTapes;
+            }
+            
+            function updateTapes(newTapes) {
+                tapes = newTapes;
+                currentStreamUrl = tapes[selectedTapeIndex].url;
+                stationName.textContent = tapes[selectedTapeIndex].name;
+                createStationsList();
+            }
+            
+            function generateNewHTML() {
+                const newTapes = collectTapesFromAdmin();
+                const currentHTML = document.documentElement.outerHTML;
+                const tapesString = JSON.stringify(newTapes, null, 4)
+                    .replace(/"([^"]+)":/g, '$1:') 
+                    .replace(/"/g, "'"); 
+                
+                const newHTML = currentHTML.replace(
+                    /let tapes = \[[\s\S]*?\];/,
+                    `let tapes = ${tapesString};`
+                );
+                
+                const blob = new Blob([newHTML], { type: 'text/html;charset=utf-8' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `radio-moderna-${new Date().toISOString().slice(0,10)}.html`;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+                
+                statusMessage.textContent = 'Novo HTML gerado! Verifique downloads.';
+                setTimeout(() => { statusMessage.textContent = ''; }, 3000);
+            }
+            
+            // Lógica de Volume
+            function setVolume(percent) {
+                let vol = Math.max(0, Math.min(1, percent / 100));
+                audio.volume = vol;
+                volumeFill.style.width = (vol * 100) + '%';
+                volumeKnob.style.left = (vol * 100) + '%';
+            }
+            
+            volumeSlider.addEventListener('mousedown', (e) => {
+                const updateVolume = (ev) => {
+                    const rect = volumeSlider.getBoundingClientRect();
+                    const x = ev.clientX - rect.left;
+                    setVolume((x / rect.width) * 100);
+                };
+                updateVolume(e);
+                
+                const onMouseMove = (ev) => updateVolume(ev);
+                const onMouseUp = () => {
+                    document.removeEventListener('mousemove', onMouseMove);
+                    document.removeEventListener('mouseup', onMouseUp);
+                };
+                
+                document.addEventListener('mousemove', onMouseMove);
+                document.addEventListener('mouseup', onMouseUp);
+            });
+            
+            volumeSlider.addEventListener('touchstart', (e) => {
+                e.preventDefault();
+                const updateVolume = (ev) => {
+                    const rect = volumeSlider.getBoundingClientRect();
+                    const touch = ev.touches[0];
+                    const x = touch.clientX - rect.left;
+                    setVolume((x / rect.width) * 100);
+                };
+                updateVolume(e);
+                
+                const onTouchMove = (ev) => updateVolume(ev);
+                const onTouchEnd = () => {
+                    document.removeEventListener('touchmove', onTouchMove);
+                    document.removeEventListener('touchend', onTouchEnd);
+                };
+                
+                document.addEventListener('touchmove', onTouchMove, {passive: false});
+                document.addEventListener('touchend', onTouchEnd);
+            }, {passive: false});
+            
+            // Atualização Visual de Status
+            function updateStatusUI(state) {
+                if (state === 'playing') {
+                    statusBadge.classList.add('active');
+                    statusText.textContent = 'ON AIR';
+                    mainIcon.classList.add('playing');
+                    mainPlayBtn.classList.add('is-playing');
+                    playIconSVG.innerHTML = iconPause;
+                } else if (state === 'paused') {
+                    statusBadge.classList.remove('active');
+                    statusText.textContent = 'PAUSADO';
+                    mainIcon.classList.remove('playing');
+                    mainPlayBtn.classList.remove('is-playing');
+                    playIconSVG.innerHTML = iconPlay;
+                } else {
+                    statusBadge.classList.remove('active');
+                    statusText.textContent = 'STANDBY';
+                    mainIcon.classList.remove('playing');
+                    mainPlayBtn.classList.remove('is-playing');
+                    playIconSVG.innerHTML = iconPlay;
+                    eqBars.forEach(bar => {
+                        bar.style.transform = 'scaleY(0.05)';
+                        bar.classList.remove('active');
+                    });
+                }
+            }
+            
+            function stopAll() {
+                audio.pause();
+                audio.src = '';
+                audio.load();
+                isPlaying = false;
+                isPaused = false;
+                updateStatusUI('standby');
+                if (window.audioCtx) {
+                    window.audioCtx.suspend();
+                }
+            }
+            
+            // Motor de Áudio e EQ Moderno
+            async function playStream(url) {
+                try {
+                    loadingIndicator.style.display = 'block';
+                    statusMessage.textContent = '';
+                    
+                    audio.src = url;
+                    audio.load();
+                    
+                    const playPromise = audio.play();
+                    const timeoutPromise = new Promise((_, reject) => 
+                        setTimeout(() => reject(new Error('Timeout')), 10000)
+                    );
+                    
+                    await Promise.race([playPromise, timeoutPromise]);
+                    
+                    if (!window.audioCtx) {
+                        window.audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                        window.source = window.audioCtx.createMediaElementSource(audio);
+                        window.analyser = window.audioCtx.createAnalyser();
+                        window.analyser.fftSize = 64; // Menor fftSize para barras mais dinâmicas
+                        window.analyser.smoothingTimeConstant = 0.85;
+                        window.source.connect(window.analyser);
+                        window.analyser.connect(window.audioCtx.destination);
+                        window.dataArray = new Uint8Array(window.analyser.frequencyBinCount);
+                    } else if (window.audioCtx.state === 'suspended') {
+                        await window.audioCtx.resume();
+                    }
+                    
+                    isPlaying = true;
+                    isPaused = false;
+                    loadingIndicator.style.display = 'none';
+                    updateStatusUI('playing');
+                    
+                    function renderRealEQ() {
+                        if (!isPlaying || isPaused) {
+                            animationFrame = requestAnimationFrame(renderRealEQ);
+                            return;
+                        }
+                        
+                        try {
+                            window.analyser.getByteFrequencyData(window.dataArray);
+                            
+                            for (let i = 0; i < BAR_COUNT; i++) {
+                                // Mapeia os dados da frequência para as barras
+                                let val = window.dataArray[i + 2] / 255; 
+                                let scaleY = Math.max(0.05, val * 1.5); 
+                                
+                                eqBars[i].style.transform = `scaleY(${Math.min(1, scaleY)})`;
+                                
+                                if (val > 0.1) {
+                                    eqBars[i].classList.add('active');
+                                } else {
+                                    eqBars[i].classList.remove('active');
+                                }
+                            }
+                        } catch (error) {
+                            console.error('EQ error:', error);
+                        }
+                        
+                        animationFrame = requestAnimationFrame(renderRealEQ);
+                    }
+                    
+                    if (animationFrame) cancelAnimationFrame(animationFrame);
+                    animationFrame = requestAnimationFrame(renderRealEQ);
+                    
+                } catch (error) {
+                    console.error('Stream error:', error);
+                    loadingIndicator.style.display = 'none';
+                    statusMessage.textContent = 'Erro ao conectar à estação.';
+                    updateStatusUI('standby');
+                }
+            }
+            
+            // Botão Principal (Play/Pause Toggle)
+            mainPlayBtn.addEventListener('click', () => {
+                if (!isPlaying) {
+                    playStream(currentStreamUrl);
+                } else if (isPlaying && !isPaused) {
+                    audio.pause();
+                    isPaused = true;
+                    updateStatusUI('paused');
+                    if (window.audioCtx) window.audioCtx.suspend();
+                } else if (isPaused) {
+                    audio.play().then(() => {
+                        isPaused = false;
+                        updateStatusUI('playing');
+                        if (window.audioCtx && window.audioCtx.state === 'suspended') {
+                            window.audioCtx.resume();
+                        }
+                    }).catch(err => {
+                        playStream(currentStreamUrl);
+                    });
+                }
+            });
+            
+            stopBtn.addEventListener('click', stopAll);
+            
+            // Botão Lista de Estações (Antigo Eject)
+            listBtn.addEventListener('click', () => {
+                stationModal.style.display = 'flex';
+            });
+            
+            closeStationModal.addEventListener('click', () => {
+                stationModal.style.display = 'none';
+            });
+            
+            // Eventos do Admin
+            adminBtn.addEventListener('click', () => {
+                adminPassword.value = '';
+                passwordError.style.display = 'none';
+                passwordModal.style.display = 'flex';
+            });
+            
+            enterAdminBtn.addEventListener('click', () => {
+                if (adminPassword.value === ADMIN_PASSWORD) {
+                    passwordModal.style.display = 'none';
+                    createAdminTapes();
+                    adminModal.style.display = 'flex';
+                } else {
+                    passwordError.style.display = 'block';
+                    adminPassword.value = '';
+                    adminPassword.focus();
+                }
+            });
+            
+            cancelPasswordBtn.addEventListener('click', () => passwordModal.style.display = 'none');
+            
+            adminPassword.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') enterAdminBtn.click();
+            });
+            
+            cancelAdminBtn.addEventListener('click', () => adminModal.style.display = 'none');
+            
+            saveAdminBtn.addEventListener('click', () => {
+                const newTapes = collectTapesFromAdmin();
+                updateTapes(newTapes);
+                adminModal.style.display = 'none';
+                statusMessage.textContent = 'Estações atualizadas!';
+                setTimeout(() => { statusMessage.textContent = ''; }, 3000);
+            });
+            
+            downloadHTMLBtn.addEventListener('click', () => {
+                generateNewHTML();
+                adminModal.style.display = 'none';
+            });
+            
+            // Fechar modais ao clicar fora
+            [stationModal, passwordModal, adminModal].forEach(modal => {
+                modal.addEventListener('click', (e) => {
+                    if (e.target === modal) modal.style.display = 'none';
+                });
+            });
+            
+            audio.addEventListener('error', () => {
+                if (isPlaying) statusMessage.textContent = 'Sinal perdido. Tente outra estação.';
+            });
+            
+            audio.addEventListener('waiting', () => {
+                loadingIndicator.style.display = 'block';
+                loadingIndicator.textContent = 'Buffering...';
+            });
+            
+            audio.addEventListener('canplay', () => loadingIndicator.style.display = 'none');
+            audio.addEventListener('playing', () => {
+                loadingIndicator.style.display = 'none';
+                statusMessage.textContent = '';
+            });
+            
+            // Inicialização
+            setVolume(50);
+            stationName.textContent = tapes[0].name;
+            updateStatusUI('standby');
+        })();
+    </script>
+</body>
+</html>
