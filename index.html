@@ -147,30 +147,20 @@
         .btn-primary { background: var(--accent); color: #fff; }
         .btn-secondary { background: var(--surface-hover); color: var(--text-main); margin-top: 8px; }
         .btn-danger { background: rgba(239, 68, 68, 0.1); color: #ef4444; border: 1px solid rgba(239, 68, 68, 0.2); margin-top: 8px; }
-        .btn-export { background: #3b82f6; color: #fff; margin-top: 8px; border: 1px solid #2563eb; } /* Azul para o botão de exportar */
+        .btn-export { background: #3b82f6; color: #fff; margin-top: 8px; border: 1px solid #2563eb; } 
         
         .input-modern { width: 100%; padding: 14px; background: var(--bg-base); border: 1px solid var(--border-color); border-radius: 12px; color: var(--text-main); margin-bottom: 12px; outline: none; font-size: 14px; }
         .input-modern:focus { border-color: var(--accent); }
         
-        /* ==== CSS do Acordeão do Admin ==== */
         .admin-tape-item { background: var(--bg-base); border-radius: 16px; margin-bottom: 12px; border: 1px solid var(--border-color); overflow: hidden; }
-        
-        .tape-header {
-            display: flex; align-items: center; justify-content: space-between;
-            padding: 16px; background: var(--surface-hover); cursor: pointer;
-            transition: background 0.2s ease;
-        }
+        .tape-header { display: flex; align-items: center; justify-content: space-between; padding: 16px; background: var(--surface-hover); cursor: pointer; transition: background 0.2s ease; }
         .tape-header:hover { background: var(--surface); }
-        
         .tape-header-left { display: flex; align-items: center; gap: 12px; }
         .tape-rank { font-size: 18px; font-weight: 800; color: var(--accent); width: 24px; text-align: center;}
         .tape-title { font-weight: 600; font-size: 15px; color: var(--text-main); }
-        
         .tape-header-right { display: flex; align-items: center; gap: 8px; }
-        
         .drag-handle { cursor: grab; color: var(--text-muted); display: flex; align-items: center; justify-content: center; padding: 4px; }
         .drag-handle:active { cursor: grabbing; color: var(--accent); }
-        
         .chevron-icon { transition: transform 0.3s ease; color: var(--text-muted); }
         
         .tape-body { display: none; padding: 16px; border-top: 1px solid var(--border-color); }
@@ -185,7 +175,7 @@
 <body>
 
     <div id="app-container">
-        <div id="loadingIndicator">Conectando...</div>
+        <div id="loadingIndicator" style="display: none;">Carregando...</div>
 
         <div class="app-header">
             <h1>Top 10 Gospel Radio</h1>
@@ -199,16 +189,16 @@
         <div class="station-display">
             <div class="hub-container">
                 <a href="https://www.youtube.com/@sintonizegospel" target="_blank" class="hub-satellite sat-tl" title="Canal YouTube"><img src="Sint.jpg" alt="Sintonize Gospel Logo"></a>
-                <div class="hub-satellite sat-tr" title="Ranking da Rádio"><span>TOP</span><span id="topBadgeNumber">1</span></div>
+                <div class="hub-satellite sat-tr" title="Ranking da Rádio"><span>TOP</span><span id="topBadgeNumber">7</span></div>
                 <div class="station-icon" id="mainIcon"><img id="albumArtImage" src="Sint.jpg" alt="Arte do Álbum" onerror="this.src='Sint.jpg'"></div>
                 <button class="hub-satellite sat-bl" id="themeBtn" title="Alternar Tema Claro/Escuro"><svg viewBox="0 0 24 24"><path d="M12 21c-4.97 0-9-4.03-9-9s4.03-9 9-9 9 4.03 9 9-4.03 9-9 9zm0-16c-3.86 0-7 3.14-7 7s3.14 7 7 7 7-3.14 7-7-3.14-7-7-7zm0 13c-3.31 0-6-2.69-6-6s2.69-6 6-6v12z"></path></svg></button>
                 <button class="hub-satellite sat-br" id="shareBtn" title="Compartilhar no WhatsApp"><svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.888-.788-1.489-1.761-1.663-2.06-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"></path></svg></button>
             </div>
-            <div id="stationName">JAZZ SUAVE</div>
+            <div id="stationName">Radio 107.5</div>
             <div class="vu-meter" id="vuMeter"><div class="vu-segment green"></div><div class="vu-segment green"></div><div class="vu-segment green"></div><div class="vu-segment green"></div><div class="vu-segment green"></div><div class="vu-segment green"></div><div class="vu-segment green"></div><div class="vu-segment green"></div><div class="vu-segment green"></div><div class="vu-segment orange"></div><div class="vu-segment orange"></div><div class="vu-segment orange"></div><div class="vu-segment red"></div><div class="vu-segment red"></div><div class="vu-segment red"></div></div>
         </div>
 
-        <div class="banner-container"><div class="banner-text" id="runningBanner">Você está ouvindo Jazz Suave.</div></div>
+        <div class="banner-container"><div class="banner-text" id="runningBanner">Simplesmente Diferente - Joinville - Santa Catarina Brasil</div></div>
 
         <div class="controls-container">
             <div class="volume-wrapper">
@@ -225,8 +215,8 @@
     </div>
 
     <!-- Modais -->
-    <div class="modal-overlay" id="stationModal">
-        <div class="modal-content"><div class="modal-header">Selecione uma Rádio</div><div class="stations-list" id="stationsList"><div class="station-item selected"><div class="circle-number">1</div><div class="station-item-name">JAZZ SUAVE</div></div><div class="station-item"><div class="circle-number">2</div><div class="station-item-name">BALADAS JAZZ</div></div><div class="station-item"><div class="circle-number">3</div><div class="station-item-name">NOVA ORLEANS</div></div><div class="station-item"><div class="circle-number">4</div><div class="station-item-name">BOSSA NOVA</div></div><div class="station-item"><div class="circle-number">5</div><div class="station-item-name">BIG BAND</div></div><div class="station-item"><div class="circle-number">6</div><div class="station-item-name">VOCAL MODERNO</div></div><div class="station-item"><div class="circle-number">7</div><div class="station-item-name">SLOT VAZIO 7</div></div><div class="station-item"><div class="circle-number">8</div><div class="station-item-name">SLOT VAZIO 8</div></div><div class="station-item"><div class="circle-number">9</div><div class="station-item-name">SLOT VAZIO 9</div></div><div class="station-item"><div class="circle-number">10</div><div class="station-item-name">SLOT VAZIO 10</div></div></div><button class="btn-modern btn-secondary" id="closeStationModal">FECHAR</button></div>
+    <div class="modal-overlay" id="stationModal" style="display: none;">
+        <div class="modal-content"><div class="modal-header">Selecione uma Rádio</div><div class="stations-list" id="stationsList"><div class="station-item"><div class="circle-number">1</div><div class="station-item-name">JAZZ SUAVE</div></div><div class="station-item"><div class="circle-number">2</div><div class="station-item-name">BALADAS JAZZ</div></div><div class="station-item"><div class="circle-number">3</div><div class="station-item-name">NOVA ORLEANS</div></div><div class="station-item"><div class="circle-number">4</div><div class="station-item-name">BOSSA NOVA</div></div><div class="station-item"><div class="circle-number">5</div><div class="station-item-name">BIG BAND</div></div><div class="station-item"><div class="circle-number">6</div><div class="station-item-name">VOCAL MODERNO</div></div><div class="station-item selected"><div class="circle-number">7</div><div class="station-item-name">Radio 107.5</div></div><div class="station-item"><div class="circle-number">8</div><div class="station-item-name">SLOT VAZIO 8</div></div><div class="station-item"><div class="circle-number">9</div><div class="station-item-name">SLOT VAZIO 9</div></div><div class="station-item"><div class="circle-number">10</div><div class="station-item-name">SLOT VAZIO 10</div></div></div><button class="btn-modern btn-secondary" id="closeStationModal">FECHAR</button></div>
     </div>
 
     <div class="modal-overlay" id="passwordModal" style="display: none;">
@@ -240,10 +230,9 @@
         </div>
     </div>
 
-    <div class="modal-overlay" id="adminModal" style="display: flex;">
+    <div class="modal-overlay" id="adminModal" style="display: none;">
         <div class="modal-content">
             <div class="modal-header">Configurações e Ranking</div>
-            <!-- Divisão onde os acordeões serão gerados dinamicamente -->
             <div id="adminStationsList"><div class="admin-tape-item"><div class="tape-header">
                         <div class="tape-header-left">
                             <span class="tape-rank">1</span>
@@ -253,7 +242,7 @@
                             <div class="drag-handle" title="Arraste para reordenar">
                                 <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M3 15h18v-2H3v2zm0 4h18v-2H3v2zm0-8h18V9H3v2zm0-6v2h18V5H3z"></path></svg>
                             </div>
-                            <svg class="chevron-icon" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"></path></svg>
+                            <svg class="chevron-icon" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" style="transform: rotate(0deg);"><path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"></path></svg>
                         </div>
                     </div><div class="tape-body">
                         <label>NOME DA RÁDIO</label>
@@ -271,7 +260,7 @@
                             <div class="drag-handle" title="Arraste para reordenar">
                                 <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M3 15h18v-2H3v2zm0 4h18v-2H3v2zm0-8h18V9H3v2zm0-6v2h18V5H3z"></path></svg>
                             </div>
-                            <svg class="chevron-icon" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"></path></svg>
+                            <svg class="chevron-icon" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" style="transform: rotate(0deg);"><path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"></path></svg>
                         </div>
                     </div><div class="tape-body">
                         <label>NOME DA RÁDIO</label>
@@ -289,7 +278,7 @@
                             <div class="drag-handle" title="Arraste para reordenar">
                                 <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M3 15h18v-2H3v2zm0 4h18v-2H3v2zm0-8h18V9H3v2zm0-6v2h18V5H3z"></path></svg>
                             </div>
-                            <svg class="chevron-icon" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"></path></svg>
+                            <svg class="chevron-icon" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" style="transform: rotate(0deg);"><path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"></path></svg>
                         </div>
                     </div><div class="tape-body">
                         <label>NOME DA RÁDIO</label>
@@ -307,7 +296,7 @@
                             <div class="drag-handle" title="Arraste para reordenar">
                                 <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M3 15h18v-2H3v2zm0 4h18v-2H3v2zm0-8h18V9H3v2zm0-6v2h18V5H3z"></path></svg>
                             </div>
-                            <svg class="chevron-icon" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"></path></svg>
+                            <svg class="chevron-icon" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" style="transform: rotate(0deg);"><path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"></path></svg>
                         </div>
                     </div><div class="tape-body">
                         <label>NOME DA RÁDIO</label>
@@ -325,7 +314,7 @@
                             <div class="drag-handle" title="Arraste para reordenar">
                                 <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M3 15h18v-2H3v2zm0 4h18v-2H3v2zm0-8h18V9H3v2zm0-6v2h18V5H3z"></path></svg>
                             </div>
-                            <svg class="chevron-icon" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"></path></svg>
+                            <svg class="chevron-icon" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" style="transform: rotate(0deg);"><path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"></path></svg>
                         </div>
                     </div><div class="tape-body">
                         <label>NOME DA RÁDIO</label>
@@ -343,7 +332,7 @@
                             <div class="drag-handle" title="Arraste para reordenar">
                                 <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M3 15h18v-2H3v2zm0 4h18v-2H3v2zm0-8h18V9H3v2zm0-6v2h18V5H3z"></path></svg>
                             </div>
-                            <svg class="chevron-icon" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"></path></svg>
+                            <svg class="chevron-icon" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" style="transform: rotate(0deg);"><path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"></path></svg>
                         </div>
                     </div><div class="tape-body">
                         <label>NOME DA RÁDIO</label>
@@ -355,21 +344,21 @@
                     </div></div><div class="admin-tape-item"><div class="tape-header">
                         <div class="tape-header-left">
                             <span class="tape-rank">7</span>
-                            <span class="tape-title">SLOT VAZIO 7</span>
+                            <span class="tape-title">Radio 107.5</span>
                         </div>
                         <div class="tape-header-right">
                             <div class="drag-handle" title="Arraste para reordenar">
                                 <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M3 15h18v-2H3v2zm0 4h18v-2H3v2zm0-8h18V9H3v2zm0-6v2h18V5H3z"></path></svg>
                             </div>
-                            <svg class="chevron-icon" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"></path></svg>
+                            <svg class="chevron-icon" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" style="transform: rotate(0deg);"><path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"></path></svg>
                         </div>
                     </div><div class="tape-body">
                         <label>NOME DA RÁDIO</label>
-                        <input type="text" class="input-modern tape-name-input" placeholder="Ex: Sintonize Gospel" value="SLOT VAZIO 7">
+                        <input type="text" class="input-modern tape-name-input" placeholder="Ex: Sintonize Gospel" value="Radio 107.5">
                         <label>LINK DO STREAM (URL)</label>
-                        <input type="text" class="input-modern tape-url-input" placeholder="http://..." value="">
+                        <input type="text" class="input-modern tape-url-input" placeholder="http://..." value="https://cast2.youngtech.radio.br/radio/8290/radio">
                         <label>TEXTO DO BANNER</label>
-                        <input type="text" class="input-modern tape-banner-input" placeholder="Mensagem rolando" style="margin-bottom:0;" value="Edite esta rádio nas configurações.">
+                        <input type="text" class="input-modern tape-banner-input" placeholder="Mensagem rolando" style="margin-bottom:0;" value="Simplesmente Diferente - Joinville - Santa Catarina Brasil">
                     </div></div><div class="admin-tape-item"><div class="tape-header">
                         <div class="tape-header-left">
                             <span class="tape-rank">8</span>
@@ -379,7 +368,7 @@
                             <div class="drag-handle" title="Arraste para reordenar">
                                 <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M3 15h18v-2H3v2zm0 4h18v-2H3v2zm0-8h18V9H3v2zm0-6v2h18V5H3z"></path></svg>
                             </div>
-                            <svg class="chevron-icon" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"></path></svg>
+                            <svg class="chevron-icon" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" style="transform: rotate(0deg);"><path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"></path></svg>
                         </div>
                     </div><div class="tape-body">
                         <label>NOME DA RÁDIO</label>
@@ -397,7 +386,7 @@
                             <div class="drag-handle" title="Arraste para reordenar">
                                 <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M3 15h18v-2H3v2zm0 4h18v-2H3v2zm0-8h18V9H3v2zm0-6v2h18V5H3z"></path></svg>
                             </div>
-                            <svg class="chevron-icon" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"></path></svg>
+                            <svg class="chevron-icon" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" style="transform: rotate(0deg);"><path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"></path></svg>
                         </div>
                     </div><div class="tape-body">
                         <label>NOME DA RÁDIO</label>
@@ -415,7 +404,7 @@
                             <div class="drag-handle" title="Arraste para reordenar">
                                 <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M3 15h18v-2H3v2zm0 4h18v-2H3v2zm0-8h18V9H3v2zm0-6v2h18V5H3z"></path></svg>
                             </div>
-                            <svg class="chevron-icon" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"></path></svg>
+                            <svg class="chevron-icon" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" style="transform: rotate(0deg);"><path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"></path></svg>
                         </div>
                     </div><div class="tape-body">
                         <label>NOME DA RÁDIO</label>
@@ -425,23 +414,34 @@
                         <label>TEXTO DO BANNER</label>
                         <input type="text" class="input-modern tape-banner-input" placeholder="Mensagem rolando" style="margin-bottom:0;" value="Edite esta rádio nas configurações.">
                     </div></div></div>
+            
             <button class="btn-modern btn-primary" id="saveAdminBtn" style="margin-bottom: 8px;">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M17 3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V7l-4-4zm-5 16c-1.66 0-3-1.34-3-3s1.34-3 3-3 3 1.34 3 3-1.34 3-3 3zm3-10H5V5h10v4z"></path></svg>
                 SALVAR NA MEMÓRIA
             </button>
-            <!-- NOVO BOTÃO DE EXPORTAR -->
+            
             <button class="btn-modern btn-export" id="exportBtn" style="margin-bottom: 8px;">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"></path></svg>
                 EXPORTAR ARQUIVO (GITHUB)
             </button>
+            
             <button class="btn-modern btn-danger" id="cancelAdminBtn">FECHAR / CANCELAR</button>
         </div>
     </div>
 
-    <audio id="audioElement" crossorigin="anonymous" preload="none" src="http://64.95.243.43:8002/stream"></audio>
+    <audio id="audioElement" crossorigin="anonymous" preload="none" src="https://cast2.youngtech.radio.br/radio/8290/radio"></audio>
 
     <script>
         (function() {
+            // Sistema de Versionamento Inteligente para evitar cache antigo do Github
+            let fileVersion = 1793490735623; 
+            let localVersion = parseInt(localStorage.getItem('gospelVersion') || '0');
+            
+            if (fileVersion > localVersion) {
+                localStorage.removeItem('gospelTapes');
+                localStorage.setItem('gospelVersion', fileVersion);
+            }
+
             if (localStorage.getItem('gospelTheme') === 'light') { document.body.classList.add('light-theme'); }
 
             const audio = document.getElementById('audioElement');
@@ -483,8 +483,9 @@
             const cancelPasswordBtn = document.getElementById('cancelPasswordBtn');
             const adminModal = document.getElementById('adminModal');
             const adminStationsList = document.getElementById('adminStationsList');
+            
             const saveAdminBtn = document.getElementById('saveAdminBtn');
-            const exportBtn = document.getElementById('exportBtn'); // Referência ao botão de exportar
+            const exportBtn = document.getElementById('exportBtn'); 
             const cancelAdminBtn = document.getElementById('cancelAdminBtn');
             
             const iconPlay = '<path d="M8 5v14l11-7z"/>';
@@ -523,9 +524,9 @@
         "banner": "Vocal Moderno Jazz."
     },
     {
-        "name": "SLOT VAZIO 7",
-        "url": "",
-        "banner": "Edite esta rádio nas configurações."
+        "name": "Radio 107.5",
+        "url": "https://cast2.youngtech.radio.br/radio/8290/radio",
+        "banner": "Simplesmente Diferente - Joinville - Santa Catarina Brasil"
     },
     {
         "name": "SLOT VAZIO 8",
@@ -614,14 +615,12 @@
                 });
             }
             
-            // Função Refatorada com Menus Acordeões
             function createAdminTapes() {
                 adminStationsList.innerHTML = '';
                 tapes.forEach((tape, index) => {
                     const item = document.createElement('div');
                     item.className = 'admin-tape-item';
                     
-                    // Cabeçalho Visível
                     const header = document.createElement('div');
                     header.className = 'tape-header';
                     header.innerHTML = `
@@ -637,7 +636,6 @@
                         </div>
                     `;
 
-                    // Corpo Oculto
                     const body = document.createElement('div');
                     body.className = 'tape-body';
                     body.innerHTML = `
@@ -649,25 +647,19 @@
                         <input type="text" class="input-modern tape-banner-input" placeholder="Mensagem rolando" style="margin-bottom:0;" value="${tape.banner}">
                     `;
 
-                    // Lógica para Abrir e Fechar o Acordeão
                     header.addEventListener('click', (e) => {
-                        // Não abrir se o clique for no ícone de arrastar
-                        if(e.target.closest('.drag-handle')) return;
+                        if(e.target.closest('.drag-handle')) return; 
                         
                         const isExpanded = body.classList.contains('expanded');
-                        
-                        // Fecha todos primeiro
                         document.querySelectorAll('.tape-body').forEach(b => b.classList.remove('expanded'));
                         document.querySelectorAll('.chevron-icon').forEach(c => c.style.transform = 'rotate(0deg)');
                         
-                        // Se não estava aberto, abre o atual
                         if(!isExpanded) {
                             body.classList.add('expanded');
                             header.querySelector('.chevron-icon').style.transform = 'rotate(180deg)';
                         }
                     });
 
-                    // Sincroniza o título do cabeçalho enquanto o usuário digita
                     const nameInput = body.querySelector('.tape-name-input');
                     const titleDisplay = header.querySelector('.tape-title');
                     nameInput.addEventListener('input', (e) => {
@@ -685,11 +677,8 @@
                     animation: 150, 
                     ghostClass: 'sortable-ghost',
                     onEnd: function () {
-                        // Atualiza a numeração no canto esquerdo visualmente após arrastar
                         const allRanks = adminStationsList.querySelectorAll('.tape-rank');
-                        allRanks.forEach((rank, index) => {
-                            rank.textContent = index + 1;
-                        });
+                        allRanks.forEach((rank, idx) => { rank.textContent = idx + 1; });
                     }
                 });
             }
@@ -781,7 +770,7 @@
             adminPassword.addEventListener('keypress', (e) => { if (e.key === 'Enter') enterAdminBtn.click(); });
             cancelAdminBtn.addEventListener('click', () => adminModal.style.display = 'none');
             
-            // Gravar temporariamente no LocalStorage
+            // 1. Lógica do botão "Salvar na Memória"
             saveAdminBtn.addEventListener('click', () => {
                 const nameInputs = document.querySelectorAll('.tape-name-input');
                 const urlInputs = document.querySelectorAll('.tape-url-input');
@@ -789,28 +778,56 @@
                 const newTapes = [];
                 
                 for (let i = 0; i < 10; i++) {
-                    newTapes.push({ name: nameInputs[i].value, url: urlInputs[i].value, banner: bannerInputs[i].value });
+                    if (nameInputs[i]) {
+                        newTapes.push({ name: nameInputs[i].value, url: urlInputs[i].value, banner: bannerInputs[i].value });
+                    }
                 }
                 
                 tapes = newTapes;
                 localStorage.setItem('gospelTapes', JSON.stringify(tapes));
                 
-                changeStation(selectedTapeIndex);
-                alert("Salvo na memória local do seu navegador! Para atualizar o GitHub, use o botão Exportar Arquivo.");
+                createStationsList(); 
+                changeStation(selectedTapeIndex); 
+                
+                adminModal.style.display = 'none'; // Fechar automaticamente a janela
             });
 
-            // Lógica do NOVO botão de Exportação Definitiva
+            // 2. Lógica do botão "Exportar Arquivo (GitHub)"
             exportBtn.addEventListener('click', () => {
-                // Forçamos a tag UTF-8 na montagem da string final para evitar corrompimento
+                // Passo 1: Capturar silenciosamente os dados dos formulários (mesmo se o usuário esqueceu de clicar em Salvar antes)
+                const nameInputs = document.querySelectorAll('.tape-name-input');
+                const urlInputs = document.querySelectorAll('.tape-url-input');
+                const bannerInputs = document.querySelectorAll('.tape-banner-input');
+                const newTapes = [];
+                
+                for (let i = 0; i < 10; i++) {
+                    if (nameInputs[i]) {
+                        newTapes.push({ name: nameInputs[i].value, url: urlInputs[i].value, banner: bannerInputs[i].value });
+                    }
+                }
+                tapes = newTapes;
+
+                // Passo 2: Ocultar todas as janelas do aplicativo antes de copiar o código HTML
+                document.querySelectorAll('.modal-overlay').forEach(modal => {
+                    modal.style.display = 'none';
+                });
+
+                // Passo 3: Atualizar versão (TimeStamp) para forçar limpeza de cache dos ouvintes
+                const currentVersion = Date.now();
+                localStorage.setItem('gospelVersion', currentVersion);
+
+                // Passo 4: Fazer a cópia do HTML e injetar as novas informações
                 let htmlContent = "<!DOCTYPE html>\n" + document.documentElement.outerHTML;
                 
-                // O Expressão Regular localiza o array padrão dentro da tag script e o substitui pela sua lista recém organizada
-                const regex = /let\s+defaultTapes\s*=\s*\[[\s\S]*?\];/;
+                const tapesRegex = /let\s+defaultTapes\s*=\s*\[[\s\S]*?\];/;
                 const newTapesString = 'let defaultTapes = ' + JSON.stringify(tapes, null, 4) + ';';
+                htmlContent = htmlContent.replace(tapesRegex, newTapesString);
                 
-                htmlContent = htmlContent.replace(regex, newTapesString);
+                const versionRegex = /let\s+fileVersion\s*=\s*\d+;/;
+                const newVersionString = 'let fileVersion = ' + currentVersion + ';';
+                htmlContent = htmlContent.replace(versionRegex, newVersionString);
                 
-                // Criamos um pacote virtual formatado em UTF-8 forçando o navegador a baixar
+                // Passo 5: Gerar o download
                 const blob = new Blob([htmlContent], { type: 'text/html;charset=utf-8' });
                 const url = URL.createObjectURL(blob);
                 const a = document.createElement('a');
@@ -820,8 +837,6 @@
                 a.click();
                 document.body.removeChild(a);
                 URL.revokeObjectURL(url);
-                
-                alert('Arquivo index.html gerado com sucesso! Vá até o seu repositório no GitHub Pages e substitua o arquivo atual por este que você acabou de baixar.');
             });
             
             [stationModal, passwordModal, adminModal].forEach(modal => { modal.addEventListener('click', (e) => { if (e.target === modal) modal.style.display = 'none'; }); });
