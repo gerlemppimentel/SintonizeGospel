@@ -4,6 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Top 10 Gospel Radio</title>
+    
+    <!-- Meta Tags para Modo Web App (PWA Phase 1) -->
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="theme-color" content="#0f172a">
+
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap');
@@ -25,18 +32,19 @@
             background-color: var(--bg-base); 
             color: var(--text-main); 
             font-family: 'Inter', sans-serif;
-            height: 100vh; 
+            /* Uso do dvh resolve o problema de corte no mobile */
+            height: 100dvh; 
             display: flex; 
             justify-content: center; 
             align-items: center;
             overflow: hidden; 
-            padding: 16px;
+            padding: 8px; /* Padding reduzido para dar mais espaço */
         }
         
         #app-container { 
             width: 100%; 
             max-width: 400px; 
-            height: 95%;
+            height: 100%; /* Usa todo o espaço livre da tela ajustada */
             max-height: 800px;
             display: flex; 
             flex-direction: column; 
@@ -78,9 +86,12 @@
             font-size: 20px;
             cursor: pointer;
             transition: color 0.2s, transform 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
-        .admin-gear:hover { color: var(--text-main); transform: rotate(45deg); }
+        .admin-gear:hover { color: var(--text-main); transform: rotate(15deg); }
 
         .status-badge {
             font-size: 11px;
@@ -119,13 +130,13 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            padding: 20px;
+            padding: 16px;
             text-align: center;
         }
 
         .station-icon {
-            width: 150px;
-            height: 150px;
+            width: 140px; /* Levemente reduzido para evitar superposição em telas pequenas */
+            height: 140px;
             border-radius: 50%;
             margin-bottom: 24px;
             box-shadow: 0 10px 30px rgba(0,0,0,0.5);
@@ -150,7 +161,7 @@
         }
 
         #stationName {
-            font-size: 24px;
+            font-size: 22px;
             font-weight: 700;
             color: var(--text-main);
             margin-bottom: 10px;
@@ -162,7 +173,7 @@
             align-items: center;
             gap: 4px;
             height: 20px;
-            margin: 10px 0 20px 0;
+            margin: 10px 0 16px 0;
             padding: 0 24px;
             width: 100%;
         }
@@ -204,7 +215,7 @@
         }
 
         .controls-container {
-            padding: 24px 32px 32px;
+            padding: 24px 32px;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -398,8 +409,14 @@
                     <div class="status-dot"></div>
                     <span id="statusText">OFF</span>
                 </div>
+                
+                <!-- Novo botão para Modo Tela Cheia -->
+                <button class="admin-gear" id="fullscreenBtn" title="Tela Cheia">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M7 14H5v5h5v-2H7v-3zm-2-4h2V7h3V5H5v5zm12 7h-3v2h5v-5h-2v3zM14 5v2h3v3h2V5h-5z"/></svg>
+                </button>
+
                 <button class="admin-gear" id="adminBtn" title="Configurações">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M19.14,12.94c0.04-0.3,0.06-0.61,0.06-0.94c0-0.32-0.02-0.64-0.06-0.94l2.03-1.58c0.18-0.14,0.23-0.41,0.12-0.61 l-1.92-3.32c-0.12-0.22-0.37-0.29-0.59-0.22l-2.39,0.96c-0.5-0.38-1.03-0.7-1.62-0.94L14.4,2.81c-0.04-0.24-0.24-0.41-0.48-0.41 h-3.84c-0.24,0-0.43,0.17-0.47,0.41L9.25,5.35C8.66,5.59,8.12,5.92,7.63,6.29L5.24,5.33c-0.22-0.08-0.47,0-0.59,0.22L2.73,8.87 C2.62,9.08,2.66,9.34,2.86,9.48l2.03,1.58C4.84,11.36,4.8,11.69,4.8,12s0.02,0.64,0.06,0.94l-2.03,1.58 c-0.18,0.14-0.23,0.41-0.12,0.61l1.92,3.32c0.12,0.22,0.37,0.29,0.59,0.22l2.39-0.96c0.5,0.38,1.03,0.7,1.62,0.94l0.36,2.54 c0.05,0.24,0.24,0.41,0.48,0.41h3.84c0.24,0,0.43-0.17,0.47-0.41l0.36-2.54c0.59-0.24,1.13-0.56,1.62-0.94l2.39,0.96 c0.22,0.08,0.47,0,0.59-0.22l1.92-3.32c0.12-0.22,0.07-0.49-0.12-0.61L19.14,12.94z M12,15.6c-1.98,0-3.6-1.62-3.6-3.6 s1.62-3.6,3.6-3.6s3.6,1.62,3.6,3.6S13.98,15.6,12,15.6z"/></svg>
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M19.14,12.94c0.04-0.3,0.06-0.61,0.06-0.94c0-0.32-0.02-0.64-0.06-0.94l2.03-1.58c0.18-0.14,0.23-0.41,0.12-0.61 l-1.92-3.32c-0.12-0.22-0.37-0.29-0.59-0.22l-2.39,0.96c-0.5-0.38-1.03-0.7-1.62-0.94L14.4,2.81c-0.04-0.24-0.24-0.41-0.48-0.41 h-3.84c-0.24,0-0.43,0.17-0.47,0.41L9.25,5.35C8.66,5.59,8.12,5.92,7.63,6.29L5.24,5.33c-0.22-0.08-0.47,0-0.59,0.22L2.73,8.87 C2.62,9.08,2.66,9.34,2.86,9.48l2.03,1.58C4.84,11.36,4.8,11.69,4.8,12s0.02,0.64,0.06,0.94l-2.03,1.58 c-0.18,0.14-0.23,0.41-0.12,0.61l1.92,3.32c0.12,0.22,0.37,0.29,0.59,0.22l2.39-0.96c0.5,0.38,1.03,0.7,1.62,0.94l0.36,2.54 c0.05,0.24,0.24,0.41,0.48,0.41h3.84c0.24,0,0.43-0.17,0.47-0.41l0.36-2.54c0.59-0.24,1.13-0.56,1.62-0.94l2.39,0.96 c0.22,0.08,0.47,0,0.59-0.22l1.92-3.32c0.12-0.22,0.07-0.49-0.12-0.61L19.14,12.94z M12,15.6c-1.98,0-3.6-1.62-3.6-3.6 s1.62-3.6,3.6-3.6s3.6,1.62,3.6,3.6S13.98,15.6,12,15.6z"/></svg>
                 </button>
             </div>
         </div>
@@ -471,7 +488,7 @@
         </div>
     </div>
 
-    <!-- Atributo crossorigin restaurado para o funcionamento exato da estrutura original -->
+    <!-- Atributo crossorigin mantido para o funcionamento original -->
     <audio id="audioElement" crossorigin="anonymous" preload="none"></audio>
 
     <script>
@@ -494,6 +511,8 @@
             const volumeFill = document.getElementById('volumeFill');
             const volumeKnob = document.getElementById('volumeKnob');
             
+            const fullscreenBtn = document.getElementById('fullscreenBtn');
+            
             const stationModal = document.getElementById('stationModal');
             const stationsList = document.getElementById('stationsList');
             const closeStationModal = document.getElementById('closeStationModal');
@@ -514,7 +533,6 @@
             const iconPause = '<path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>';
             const ADMIN_PASSWORD = "602190"; 
             
-            // URLs originais restauradas com a inclusão de 4 slots vazios para completar os 10 solicitados
             let defaultTapes = [
                 { name: "JAZZ SUAVE", url: "http://64.95.243.43:8002/stream", banner: "Você está ouvindo Jazz Suave." },
                 { name: "BALADAS JAZZ", url: "https://ella.do-not-publish.com/ella-jazz-ballads", banner: "Bem-vindo à Top 10 Gospel Radio!" },
@@ -538,6 +556,18 @@
             const TOTAL_VU_SEGMENTS = 15;
             const vuSegments = [];
             
+            // Lógica de Tela Cheia
+            fullscreenBtn.addEventListener('click', () => {
+                if (!document.fullscreenElement) {
+                    document.documentElement.requestFullscreen().catch((err) => {
+                        console.error(`Erro ao ativar tela cheia: ${err.message}`);
+                        alert("O modo tela cheia não é suportado ou foi bloqueado neste navegador.");
+                    });
+                } else {
+                    document.exitFullscreen();
+                }
+            });
+
             function createVUMeter() {
                 vuMeter.innerHTML = '';
                 for (let i = 0; i < TOTAL_VU_SEGMENTS; i++) {
@@ -646,7 +676,6 @@
                 }
             }
             
-            // Lógica de leitura de frequência e reprodução idêntica ao RadioZero.html
             async function playStream(url) {
                 if (!url) {
                     alert("Este slot está vazio. Adicione um link válido nas configurações.");
@@ -697,7 +726,6 @@
                             }
                             let avg = sum / window.dataArray.length;
                             
-                            // Distribuição realista baseada no áudio lido
                             let litCount = Math.floor((avg / 255) * TOTAL_VU_SEGMENTS * 2.2);
                             
                             for (let i = 0; i < TOTAL_VU_SEGMENTS; i++) {
@@ -818,7 +846,6 @@
             audio.addEventListener('canplay', () => loadingIndicator.style.display = 'none');
             audio.addEventListener('playing', () => loadingIndicator.style.display = 'none');
             
-            // Inicialização Padrão
             setVolume(50);
             createStationsList();
             stationName.textContent = tapes[0].name;
