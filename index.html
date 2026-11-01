@@ -133,7 +133,12 @@
 
         .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(2, 6, 23, 0.8); backdrop-filter: blur(8px); z-index: 1000; justify-content: center; align-items: center; padding: 20px; }
         .modal-content { background: var(--surface); border: 1px solid var(--border-color); border-radius: 24px; width: 100%; max-width: 380px; padding: 24px; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5); max-height: 85vh; overflow-y: auto; }
-        .modal-header { font-size: 18px; font-weight: 700; margin-bottom: 20px; text-align: center; color: var(--text-main); }
+        
+        /* Modificações CSS para o Cabeçalho e Botão Voltar */
+        .modal-header { display: flex; align-items: center; justify-content: center; position: relative; font-size: 18px; font-weight: 700; margin-bottom: 20px; color: var(--text-main); }
+        .back-btn-top { position: absolute; left: 0; background: transparent; border: none; color: var(--text-muted); cursor: pointer; display: flex; align-items: center; justify-content: center; padding: 4px; transition: color 0.2s; }
+        .back-btn-top:hover { color: var(--accent); }
+        .back-btn-top svg { width: 24px; height: 24px; fill: currentColor; }
         
         .stations-list { display: flex; flex-direction: column; gap: 12px; margin-bottom: 24px; }
         .station-item { background: var(--bg-base); border: 1px solid var(--border-color); padding: 12px 16px; border-radius: 16px; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; gap: 16px; }
@@ -188,9 +193,13 @@
 
         <div class="station-display">
             <div class="hub-container">
+                <!-- Ícone do YouTube fixo com Sint.jpg -->
                 <a href="https://www.youtube.com/@sintonizegospel" target="_blank" class="hub-satellite sat-tl" title="Canal YouTube"><img src="Sint.jpg" alt="Sintonize Gospel Logo"></a>
-                <div class="hub-satellite sat-tr" title="Ranking da Rádio"><span>TOP</span><span id="topBadgeNumber">7</span></div>
-                <div class="station-icon" id="mainIcon"><img id="albumArtImage" src="Sint.jpg" alt="Arte do Álbum" onerror="this.src='Sint.jpg'"></div>
+                <div class="hub-satellite sat-tr" title="Ranking da Rádio"><span>TOP</span><span id="topBadgeNumber">2</span></div>
+                
+                <!-- Imagem central Dinâmica -->
+                <div class="station-icon" id="mainIcon"><img id="albumArtImage" src="107-5.png" alt="Arte do Álbum" onerror="this.src='Sint.jpg'"></div>
+                
                 <button class="hub-satellite sat-bl" id="themeBtn" title="Alternar Tema Claro/Escuro"><svg viewBox="0 0 24 24"><path d="M12 21c-4.97 0-9-4.03-9-9s4.03-9 9-9 9 4.03 9 9-4.03 9-9 9zm0-16c-3.86 0-7 3.14-7 7s3.14 7 7 7 7-3.14 7-7-3.14-7-7-7zm0 13c-3.31 0-6-2.69-6-6s2.69-6 6-6v12z"></path></svg></button>
                 <button class="hub-satellite sat-br" id="shareBtn" title="Compartilhar no WhatsApp"><svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.888-.788-1.489-1.761-1.663-2.06-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"></path></svg></button>
             </div>
@@ -216,7 +225,15 @@
 
     <!-- Modais -->
     <div class="modal-overlay" id="stationModal" style="display: none;">
-        <div class="modal-content"><div class="modal-header">Selecione uma Rádio</div><div class="stations-list" id="stationsList"><div class="station-item"><div class="circle-number">1</div><div class="station-item-name">JAZZ SUAVE</div></div><div class="station-item"><div class="circle-number">2</div><div class="station-item-name">BALADAS JAZZ</div></div><div class="station-item"><div class="circle-number">3</div><div class="station-item-name">NOVA ORLEANS</div></div><div class="station-item"><div class="circle-number">4</div><div class="station-item-name">BOSSA NOVA</div></div><div class="station-item"><div class="circle-number">5</div><div class="station-item-name">BIG BAND</div></div><div class="station-item"><div class="circle-number">6</div><div class="station-item-name">VOCAL MODERNO</div></div><div class="station-item selected"><div class="circle-number">7</div><div class="station-item-name">Radio 107.5</div></div><div class="station-item"><div class="circle-number">8</div><div class="station-item-name">SLOT VAZIO 8</div></div><div class="station-item"><div class="circle-number">9</div><div class="station-item-name">SLOT VAZIO 9</div></div><div class="station-item"><div class="circle-number">10</div><div class="station-item-name">SLOT VAZIO 10</div></div></div><button class="btn-modern btn-secondary" id="closeStationModal">FECHAR</button></div>
+        <div class="modal-content">
+            <!-- Novo Header com Botão Voltar -->
+            <div class="modal-header">
+                <button class="back-btn-top" id="backStationBtn" title="Voltar"><svg viewBox="0 0 24 24"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"></path></svg></button>
+                Selecione uma Rádio
+            </div>
+            <div class="stations-list" id="stationsList"><div class="station-item"><div class="circle-number">1</div><div class="station-item-name">BALADAS JAZZ</div></div><div class="station-item selected"><div class="circle-number">2</div><div class="station-item-name">Radio 107.5</div></div><div class="station-item"><div class="circle-number">3</div><div class="station-item-name">JAZZ SUAVE</div></div><div class="station-item"><div class="circle-number">4</div><div class="station-item-name">NOVA ORLEANS</div></div><div class="station-item"><div class="circle-number">5</div><div class="station-item-name">BOSSA NOVA</div></div><div class="station-item"><div class="circle-number">6</div><div class="station-item-name">BIG BAND</div></div><div class="station-item"><div class="circle-number">7</div><div class="station-item-name">VOCAL MODERNO</div></div><div class="station-item"><div class="circle-number">8</div><div class="station-item-name">SLOT VAZIO 8</div></div><div class="station-item"><div class="circle-number">9</div><div class="station-item-name">SLOT VAZIO 9</div></div><div class="station-item"><div class="circle-number">10</div><div class="station-item-name">SLOT VAZIO 10</div></div></div>
+            <button class="btn-modern btn-secondary" id="closeStationModal">FECHAR</button>
+        </div>
     </div>
 
     <div class="modal-overlay" id="passwordModal" style="display: none;">
@@ -232,133 +249,172 @@
 
     <div class="modal-overlay" id="adminModal" style="display: none;">
         <div class="modal-content">
-            <div class="modal-header">Configurações e Ranking</div>
+            <!-- Novo Header com Botão Voltar -->
+            <div class="modal-header">
+                <button class="back-btn-top" id="backAdminBtn" title="Voltar"><svg viewBox="0 0 24 24"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"></path></svg></button>
+                Configurações e Ranking
+            </div>
             <div id="adminStationsList"><div class="admin-tape-item"><div class="tape-header">
                         <div class="tape-header-left">
                             <span class="tape-rank">1</span>
-                            <span class="tape-title">JAZZ SUAVE</span>
-                        </div>
-                        <div class="tape-header-right">
-                            <div class="drag-handle" title="Arraste para reordenar">
-                                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M3 15h18v-2H3v2zm0 4h18v-2H3v2zm0-8h18V9H3v2zm0-6v2h18V5H3z"></path></svg>
-                            </div>
-                            <svg class="chevron-icon" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" style="transform: rotate(0deg);"><path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"></path></svg>
-                        </div>
-                    </div><div class="tape-body">
-                        <label>NOME DA RÁDIO</label>
-                        <input type="text" class="input-modern tape-name-input" placeholder="Ex: Sintonize Gospel" value="JAZZ SUAVE">
-                        <label>LINK DO STREAM (URL)</label>
-                        <input type="text" class="input-modern tape-url-input" placeholder="http://..." value="http://64.95.243.43:8002/stream">
-                        <label>TEXTO DO BANNER</label>
-                        <input type="text" class="input-modern tape-banner-input" placeholder="Mensagem rolando" style="margin-bottom:0;" value="Você está ouvindo Jazz Suave.">
-                    </div></div><div class="admin-tape-item"><div class="tape-header">
-                        <div class="tape-header-left">
-                            <span class="tape-rank">2</span>
                             <span class="tape-title">BALADAS JAZZ</span>
                         </div>
                         <div class="tape-header-right">
                             <div class="drag-handle" title="Arraste para reordenar">
                                 <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M3 15h18v-2H3v2zm0 4h18v-2H3v2zm0-8h18V9H3v2zm0-6v2h18V5H3z"></path></svg>
                             </div>
-                            <svg class="chevron-icon" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" style="transform: rotate(0deg);"><path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"></path></svg>
+                            <svg class="chevron-icon" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"></path></svg>
                         </div>
                     </div><div class="tape-body">
                         <label>NOME DA RÁDIO</label>
                         <input type="text" class="input-modern tape-name-input" placeholder="Ex: Sintonize Gospel" value="BALADAS JAZZ">
+                        
                         <label>LINK DO STREAM (URL)</label>
                         <input type="text" class="input-modern tape-url-input" placeholder="http://..." value="https://ella.do-not-publish.com/ella-jazz-ballads">
+                        
+                        <label>ARQUIVO DE IMAGEM DA RÁDIO</label>
+                        <input type="text" class="input-modern tape-image-input" placeholder="Ex: logo-radio.png" value="">
+                        
                         <label>TEXTO DO BANNER</label>
                         <input type="text" class="input-modern tape-banner-input" placeholder="Mensagem rolando" style="margin-bottom:0;" value="Bem-vindo à Top 10 Gospel Radio!">
                     </div></div><div class="admin-tape-item"><div class="tape-header">
                         <div class="tape-header-left">
-                            <span class="tape-rank">3</span>
-                            <span class="tape-title">NOVA ORLEANS</span>
-                        </div>
-                        <div class="tape-header-right">
-                            <div class="drag-handle" title="Arraste para reordenar">
-                                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M3 15h18v-2H3v2zm0 4h18v-2H3v2zm0-8h18V9H3v2zm0-6v2h18V5H3z"></path></svg>
-                            </div>
-                            <svg class="chevron-icon" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" style="transform: rotate(0deg);"><path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"></path></svg>
-                        </div>
-                    </div><div class="tape-body">
-                        <label>NOME DA RÁDIO</label>
-                        <input type="text" class="input-modern tape-name-input" placeholder="Ex: Sintonize Gospel" value="NOVA ORLEANS">
-                        <label>LINK DO STREAM (URL)</label>
-                        <input type="text" class="input-modern tape-url-input" placeholder="http://..." value="https://jazz-wr03.ice.infomaniak.ch/jazz-wr03-128.mp3">
-                        <label>TEXTO DO BANNER</label>
-                        <input type="text" class="input-modern tape-banner-input" placeholder="Mensagem rolando" style="margin-bottom:0;" value="Nova Orleans - Clássicos eternos.">
-                    </div></div><div class="admin-tape-item"><div class="tape-header">
-                        <div class="tape-header-left">
-                            <span class="tape-rank">4</span>
-                            <span class="tape-title">BOSSA NOVA</span>
-                        </div>
-                        <div class="tape-header-right">
-                            <div class="drag-handle" title="Arraste para reordenar">
-                                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M3 15h18v-2H3v2zm0 4h18v-2H3v2zm0-8h18V9H3v2zm0-6v2h18V5H3z"></path></svg>
-                            </div>
-                            <svg class="chevron-icon" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" style="transform: rotate(0deg);"><path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"></path></svg>
-                        </div>
-                    </div><div class="tape-body">
-                        <label>NOME DA RÁDIO</label>
-                        <input type="text" class="input-modern tape-name-input" placeholder="Ex: Sintonize Gospel" value="BOSSA NOVA">
-                        <label>LINK DO STREAM (URL)</label>
-                        <input type="text" class="input-modern tape-url-input" placeholder="http://..." value="https://strm112.1.fm/bossanova_mobile_mp3">
-                        <label>TEXTO DO BANNER</label>
-                        <input type="text" class="input-modern tape-banner-input" placeholder="Mensagem rolando" style="margin-bottom:0;" value="Bossa Nova - Ritmo e harmonia.">
-                    </div></div><div class="admin-tape-item"><div class="tape-header">
-                        <div class="tape-header-left">
-                            <span class="tape-rank">5</span>
-                            <span class="tape-title">BIG BAND</span>
-                        </div>
-                        <div class="tape-header-right">
-                            <div class="drag-handle" title="Arraste para reordenar">
-                                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M3 15h18v-2H3v2zm0 4h18v-2H3v2zm0-8h18V9H3v2zm0-6v2h18V5H3z"></path></svg>
-                            </div>
-                            <svg class="chevron-icon" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" style="transform: rotate(0deg);"><path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"></path></svg>
-                        </div>
-                    </div><div class="tape-body">
-                        <label>NOME DA RÁDIO</label>
-                        <input type="text" class="input-modern tape-name-input" placeholder="Ex: Sintonize Gospel" value="BIG BAND">
-                        <label>LINK DO STREAM (URL)</label>
-                        <input type="text" class="input-modern tape-url-input" placeholder="http://..." value="http://ella.do-not-publish.com/ella-swing-and-bigband">
-                        <label>TEXTO DO BANNER</label>
-                        <input type="text" class="input-modern tape-banner-input" placeholder="Mensagem rolando" style="margin-bottom:0;" value="Big Band Swing.">
-                    </div></div><div class="admin-tape-item"><div class="tape-header">
-                        <div class="tape-header-left">
-                            <span class="tape-rank">6</span>
-                            <span class="tape-title">VOCAL MODERNO</span>
-                        </div>
-                        <div class="tape-header-right">
-                            <div class="drag-handle" title="Arraste para reordenar">
-                                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M3 15h18v-2H3v2zm0 4h18v-2H3v2zm0-8h18V9H3v2zm0-6v2h18V5H3z"></path></svg>
-                            </div>
-                            <svg class="chevron-icon" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" style="transform: rotate(0deg);"><path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"></path></svg>
-                        </div>
-                    </div><div class="tape-body">
-                        <label>NOME DA RÁDIO</label>
-                        <input type="text" class="input-modern tape-name-input" placeholder="Ex: Sintonize Gospel" value="VOCAL MODERNO">
-                        <label>LINK DO STREAM (URL)</label>
-                        <input type="text" class="input-modern tape-url-input" placeholder="http://..." value="https://ella.do-not-publish.com/ella-modern-vocal-jazz">
-                        <label>TEXTO DO BANNER</label>
-                        <input type="text" class="input-modern tape-banner-input" placeholder="Mensagem rolando" style="margin-bottom:0;" value="Vocal Moderno Jazz.">
-                    </div></div><div class="admin-tape-item"><div class="tape-header">
-                        <div class="tape-header-left">
-                            <span class="tape-rank">7</span>
+                            <span class="tape-rank">2</span>
                             <span class="tape-title">Radio 107.5</span>
                         </div>
                         <div class="tape-header-right">
                             <div class="drag-handle" title="Arraste para reordenar">
                                 <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M3 15h18v-2H3v2zm0 4h18v-2H3v2zm0-8h18V9H3v2zm0-6v2h18V5H3z"></path></svg>
                             </div>
-                            <svg class="chevron-icon" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" style="transform: rotate(0deg);"><path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"></path></svg>
+                            <svg class="chevron-icon" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"></path></svg>
                         </div>
                     </div><div class="tape-body">
                         <label>NOME DA RÁDIO</label>
                         <input type="text" class="input-modern tape-name-input" placeholder="Ex: Sintonize Gospel" value="Radio 107.5">
+                        
                         <label>LINK DO STREAM (URL)</label>
                         <input type="text" class="input-modern tape-url-input" placeholder="http://..." value="https://cast2.youngtech.radio.br/radio/8290/radio">
+                        
+                        <label>ARQUIVO DE IMAGEM DA RÁDIO</label>
+                        <input type="text" class="input-modern tape-image-input" placeholder="Ex: logo-radio.png" value="107-5.png">
+                        
                         <label>TEXTO DO BANNER</label>
                         <input type="text" class="input-modern tape-banner-input" placeholder="Mensagem rolando" style="margin-bottom:0;" value="Simplesmente Diferente - Joinville - Santa Catarina Brasil">
+                    </div></div><div class="admin-tape-item"><div class="tape-header">
+                        <div class="tape-header-left">
+                            <span class="tape-rank">3</span>
+                            <span class="tape-title">JAZZ SUAVE</span>
+                        </div>
+                        <div class="tape-header-right">
+                            <div class="drag-handle" title="Arraste para reordenar">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M3 15h18v-2H3v2zm0 4h18v-2H3v2zm0-8h18V9H3v2zm0-6v2h18V5H3z"></path></svg>
+                            </div>
+                            <svg class="chevron-icon" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"></path></svg>
+                        </div>
+                    </div><div class="tape-body">
+                        <label>NOME DA RÁDIO</label>
+                        <input type="text" class="input-modern tape-name-input" placeholder="Ex: Sintonize Gospel" value="JAZZ SUAVE">
+                        
+                        <label>LINK DO STREAM (URL)</label>
+                        <input type="text" class="input-modern tape-url-input" placeholder="http://..." value="http://64.95.243.43:8002/stream">
+                        
+                        <label>ARQUIVO DE IMAGEM DA RÁDIO</label>
+                        <input type="text" class="input-modern tape-image-input" placeholder="Ex: logo-radio.png" value="">
+                        
+                        <label>TEXTO DO BANNER</label>
+                        <input type="text" class="input-modern tape-banner-input" placeholder="Mensagem rolando" style="margin-bottom:0;" value="Você está ouvindo Jazz Suave.">
+                    </div></div><div class="admin-tape-item"><div class="tape-header">
+                        <div class="tape-header-left">
+                            <span class="tape-rank">4</span>
+                            <span class="tape-title">NOVA ORLEANS</span>
+                        </div>
+                        <div class="tape-header-right">
+                            <div class="drag-handle" title="Arraste para reordenar">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M3 15h18v-2H3v2zm0 4h18v-2H3v2zm0-8h18V9H3v2zm0-6v2h18V5H3z"></path></svg>
+                            </div>
+                            <svg class="chevron-icon" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"></path></svg>
+                        </div>
+                    </div><div class="tape-body">
+                        <label>NOME DA RÁDIO</label>
+                        <input type="text" class="input-modern tape-name-input" placeholder="Ex: Sintonize Gospel" value="NOVA ORLEANS">
+                        
+                        <label>LINK DO STREAM (URL)</label>
+                        <input type="text" class="input-modern tape-url-input" placeholder="http://..." value="https://jazz-wr03.ice.infomaniak.ch/jazz-wr03-128.mp3">
+                        
+                        <label>ARQUIVO DE IMAGEM DA RÁDIO</label>
+                        <input type="text" class="input-modern tape-image-input" placeholder="Ex: logo-radio.png" value="">
+                        
+                        <label>TEXTO DO BANNER</label>
+                        <input type="text" class="input-modern tape-banner-input" placeholder="Mensagem rolando" style="margin-bottom:0;" value="Nova Orleans - Clássicos eternos.">
+                    </div></div><div class="admin-tape-item"><div class="tape-header">
+                        <div class="tape-header-left">
+                            <span class="tape-rank">5</span>
+                            <span class="tape-title">BOSSA NOVA</span>
+                        </div>
+                        <div class="tape-header-right">
+                            <div class="drag-handle" title="Arraste para reordenar">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M3 15h18v-2H3v2zm0 4h18v-2H3v2zm0-8h18V9H3v2zm0-6v2h18V5H3z"></path></svg>
+                            </div>
+                            <svg class="chevron-icon" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"></path></svg>
+                        </div>
+                    </div><div class="tape-body">
+                        <label>NOME DA RÁDIO</label>
+                        <input type="text" class="input-modern tape-name-input" placeholder="Ex: Sintonize Gospel" value="BOSSA NOVA">
+                        
+                        <label>LINK DO STREAM (URL)</label>
+                        <input type="text" class="input-modern tape-url-input" placeholder="http://..." value="https://strm112.1.fm/bossanova_mobile_mp3">
+                        
+                        <label>ARQUIVO DE IMAGEM DA RÁDIO</label>
+                        <input type="text" class="input-modern tape-image-input" placeholder="Ex: logo-radio.png" value="">
+                        
+                        <label>TEXTO DO BANNER</label>
+                        <input type="text" class="input-modern tape-banner-input" placeholder="Mensagem rolando" style="margin-bottom:0;" value="Bossa Nova - Ritmo e harmonia.">
+                    </div></div><div class="admin-tape-item"><div class="tape-header">
+                        <div class="tape-header-left">
+                            <span class="tape-rank">6</span>
+                            <span class="tape-title">BIG BAND</span>
+                        </div>
+                        <div class="tape-header-right">
+                            <div class="drag-handle" title="Arraste para reordenar">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M3 15h18v-2H3v2zm0 4h18v-2H3v2zm0-8h18V9H3v2zm0-6v2h18V5H3z"></path></svg>
+                            </div>
+                            <svg class="chevron-icon" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"></path></svg>
+                        </div>
+                    </div><div class="tape-body">
+                        <label>NOME DA RÁDIO</label>
+                        <input type="text" class="input-modern tape-name-input" placeholder="Ex: Sintonize Gospel" value="BIG BAND">
+                        
+                        <label>LINK DO STREAM (URL)</label>
+                        <input type="text" class="input-modern tape-url-input" placeholder="http://..." value="http://ella.do-not-publish.com/ella-swing-and-bigband">
+                        
+                        <label>ARQUIVO DE IMAGEM DA RÁDIO</label>
+                        <input type="text" class="input-modern tape-image-input" placeholder="Ex: logo-radio.png" value="">
+                        
+                        <label>TEXTO DO BANNER</label>
+                        <input type="text" class="input-modern tape-banner-input" placeholder="Mensagem rolando" style="margin-bottom:0;" value="Big Band Swing.">
+                    </div></div><div class="admin-tape-item"><div class="tape-header">
+                        <div class="tape-header-left">
+                            <span class="tape-rank">7</span>
+                            <span class="tape-title">VOCAL MODERNO</span>
+                        </div>
+                        <div class="tape-header-right">
+                            <div class="drag-handle" title="Arraste para reordenar">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M3 15h18v-2H3v2zm0 4h18v-2H3v2zm0-8h18V9H3v2zm0-6v2h18V5H3z"></path></svg>
+                            </div>
+                            <svg class="chevron-icon" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"></path></svg>
+                        </div>
+                    </div><div class="tape-body">
+                        <label>NOME DA RÁDIO</label>
+                        <input type="text" class="input-modern tape-name-input" placeholder="Ex: Sintonize Gospel" value="VOCAL MODERNO">
+                        
+                        <label>LINK DO STREAM (URL)</label>
+                        <input type="text" class="input-modern tape-url-input" placeholder="http://..." value="https://ella.do-not-publish.com/ella-modern-vocal-jazz">
+                        
+                        <label>ARQUIVO DE IMAGEM DA RÁDIO</label>
+                        <input type="text" class="input-modern tape-image-input" placeholder="Ex: logo-radio.png" value="">
+                        
+                        <label>TEXTO DO BANNER</label>
+                        <input type="text" class="input-modern tape-banner-input" placeholder="Mensagem rolando" style="margin-bottom:0;" value="Vocal Moderno Jazz.">
                     </div></div><div class="admin-tape-item"><div class="tape-header">
                         <div class="tape-header-left">
                             <span class="tape-rank">8</span>
@@ -368,13 +424,18 @@
                             <div class="drag-handle" title="Arraste para reordenar">
                                 <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M3 15h18v-2H3v2zm0 4h18v-2H3v2zm0-8h18V9H3v2zm0-6v2h18V5H3z"></path></svg>
                             </div>
-                            <svg class="chevron-icon" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" style="transform: rotate(0deg);"><path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"></path></svg>
+                            <svg class="chevron-icon" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"></path></svg>
                         </div>
                     </div><div class="tape-body">
                         <label>NOME DA RÁDIO</label>
                         <input type="text" class="input-modern tape-name-input" placeholder="Ex: Sintonize Gospel" value="SLOT VAZIO 8">
+                        
                         <label>LINK DO STREAM (URL)</label>
                         <input type="text" class="input-modern tape-url-input" placeholder="http://..." value="">
+                        
+                        <label>ARQUIVO DE IMAGEM DA RÁDIO</label>
+                        <input type="text" class="input-modern tape-image-input" placeholder="Ex: logo-radio.png" value="">
+                        
                         <label>TEXTO DO BANNER</label>
                         <input type="text" class="input-modern tape-banner-input" placeholder="Mensagem rolando" style="margin-bottom:0;" value="Edite esta rádio nas configurações.">
                     </div></div><div class="admin-tape-item"><div class="tape-header">
@@ -386,13 +447,18 @@
                             <div class="drag-handle" title="Arraste para reordenar">
                                 <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M3 15h18v-2H3v2zm0 4h18v-2H3v2zm0-8h18V9H3v2zm0-6v2h18V5H3z"></path></svg>
                             </div>
-                            <svg class="chevron-icon" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" style="transform: rotate(0deg);"><path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"></path></svg>
+                            <svg class="chevron-icon" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"></path></svg>
                         </div>
                     </div><div class="tape-body">
                         <label>NOME DA RÁDIO</label>
                         <input type="text" class="input-modern tape-name-input" placeholder="Ex: Sintonize Gospel" value="SLOT VAZIO 9">
+                        
                         <label>LINK DO STREAM (URL)</label>
                         <input type="text" class="input-modern tape-url-input" placeholder="http://..." value="">
+                        
+                        <label>ARQUIVO DE IMAGEM DA RÁDIO</label>
+                        <input type="text" class="input-modern tape-image-input" placeholder="Ex: logo-radio.png" value="">
+                        
                         <label>TEXTO DO BANNER</label>
                         <input type="text" class="input-modern tape-banner-input" placeholder="Mensagem rolando" style="margin-bottom:0;" value="Edite esta rádio nas configurações.">
                     </div></div><div class="admin-tape-item"><div class="tape-header">
@@ -404,13 +470,18 @@
                             <div class="drag-handle" title="Arraste para reordenar">
                                 <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M3 15h18v-2H3v2zm0 4h18v-2H3v2zm0-8h18V9H3v2zm0-6v2h18V5H3z"></path></svg>
                             </div>
-                            <svg class="chevron-icon" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" style="transform: rotate(0deg);"><path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"></path></svg>
+                            <svg class="chevron-icon" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"></path></svg>
                         </div>
                     </div><div class="tape-body">
                         <label>NOME DA RÁDIO</label>
                         <input type="text" class="input-modern tape-name-input" placeholder="Ex: Sintonize Gospel" value="SLOT VAZIO 10">
+                        
                         <label>LINK DO STREAM (URL)</label>
                         <input type="text" class="input-modern tape-url-input" placeholder="http://..." value="">
+                        
+                        <label>ARQUIVO DE IMAGEM DA RÁDIO</label>
+                        <input type="text" class="input-modern tape-image-input" placeholder="Ex: logo-radio.png" value="">
+                        
                         <label>TEXTO DO BANNER</label>
                         <input type="text" class="input-modern tape-banner-input" placeholder="Mensagem rolando" style="margin-bottom:0;" value="Edite esta rádio nas configurações.">
                     </div></div></div>
@@ -433,8 +504,7 @@
 
     <script>
         (function() {
-            // Sistema de Versionamento Inteligente para evitar cache antigo do Github
-            let fileVersion = 1793490735623; 
+            let fileVersion = 1793492636840; 
             let localVersion = parseInt(localStorage.getItem('gospelVersion') || '0');
             
             if (fileVersion > localVersion) {
@@ -475,14 +545,18 @@
             const stationModal = document.getElementById('stationModal');
             const stationsList = document.getElementById('stationsList');
             const closeStationModal = document.getElementById('closeStationModal');
+            const backStationBtn = document.getElementById('backStationBtn'); // Novo Botão
+            
             const adminBtn = document.getElementById('adminBtn');
             const passwordModal = document.getElementById('passwordModal');
             const adminPassword = document.getElementById('adminPassword');
             const passwordError = document.getElementById('passwordError');
             const enterAdminBtn = document.getElementById('enterAdminBtn');
             const cancelPasswordBtn = document.getElementById('cancelPasswordBtn');
+            
             const adminModal = document.getElementById('adminModal');
             const adminStationsList = document.getElementById('adminStationsList');
+            const backAdminBtn = document.getElementById('backAdminBtn'); // Novo Botão
             
             const saveAdminBtn = document.getElementById('saveAdminBtn');
             const exportBtn = document.getElementById('exportBtn'); 
@@ -492,55 +566,66 @@
             const iconPause = '<path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>';
             const ADMIN_PASSWORD = "602190"; 
             
+            // Adicionado campo 'image' em todos os blocos
             let defaultTapes = [
-    {
-        "name": "JAZZ SUAVE",
-        "url": "http://64.95.243.43:8002/stream",
-        "banner": "Você está ouvindo Jazz Suave."
-    },
     {
         "name": "BALADAS JAZZ",
         "url": "https://ella.do-not-publish.com/ella-jazz-ballads",
+        "image": "",
         "banner": "Bem-vindo à Top 10 Gospel Radio!"
+    },
+    {
+        "name": "Radio 107.5",
+        "url": "https://cast2.youngtech.radio.br/radio/8290/radio",
+        "image": "107-5.png",
+        "banner": "Simplesmente Diferente - Joinville - Santa Catarina Brasil"
+    },
+    {
+        "name": "JAZZ SUAVE",
+        "url": "http://64.95.243.43:8002/stream",
+        "image": "",
+        "banner": "Você está ouvindo Jazz Suave."
     },
     {
         "name": "NOVA ORLEANS",
         "url": "https://jazz-wr03.ice.infomaniak.ch/jazz-wr03-128.mp3",
+        "image": "",
         "banner": "Nova Orleans - Clássicos eternos."
     },
     {
         "name": "BOSSA NOVA",
         "url": "https://strm112.1.fm/bossanova_mobile_mp3",
+        "image": "",
         "banner": "Bossa Nova - Ritmo e harmonia."
     },
     {
         "name": "BIG BAND",
         "url": "http://ella.do-not-publish.com/ella-swing-and-bigband",
+        "image": "",
         "banner": "Big Band Swing."
     },
     {
         "name": "VOCAL MODERNO",
         "url": "https://ella.do-not-publish.com/ella-modern-vocal-jazz",
+        "image": "",
         "banner": "Vocal Moderno Jazz."
-    },
-    {
-        "name": "Radio 107.5",
-        "url": "https://cast2.youngtech.radio.br/radio/8290/radio",
-        "banner": "Simplesmente Diferente - Joinville - Santa Catarina Brasil"
     },
     {
         "name": "SLOT VAZIO 8",
         "url": "",
+        "image": "",
         "banner": "Edite esta rádio nas configurações."
     },
     {
         "name": "SLOT VAZIO 9",
         "url": "",
+        "image": "",
         "banner": "Edite esta rádio nas configurações."
     },
     {
         "name": "SLOT VAZIO 10",
         "url": "",
+        "image": "",
         "banner": "Edite esta rádio nas configurações."
     }
 ];
@@ -598,7 +683,8 @@
                 runningBanner.textContent = tapes[selectedTapeIndex].banner; 
                 topBadgeNumber.textContent = index + 1;
                 
-                albumArtImage.src = "Sint.jpg";
+                // Melhoria Técnica: Usa a imagem definida pelo usuário ou o Fallback (Sint.jpg)
+                albumArtImage.src = tapes[selectedTapeIndex].image ? tapes[selectedTapeIndex].image : "Sint.jpg";
 
                 if (isPlaying && !isPaused) { playStream(currentStreamUrl); } 
                 else { if(hlsPlayer) { hlsPlayer.destroy(); hlsPlayer = null; } audio.src = currentStreamUrl; }
@@ -638,11 +724,17 @@
 
                     const body = document.createElement('div');
                     body.className = 'tape-body';
+                    // Adicionado o novo campo de Imagem
                     body.innerHTML = `
                         <label>NOME DA RÁDIO</label>
                         <input type="text" class="input-modern tape-name-input" placeholder="Ex: Sintonize Gospel" value="${tape.name}">
+                        
                         <label>LINK DO STREAM (URL)</label>
                         <input type="text" class="input-modern tape-url-input" placeholder="http://..." value="${tape.url}">
+                        
+                        <label>ARQUIVO DE IMAGEM DA RÁDIO</label>
+                        <input type="text" class="input-modern tape-image-input" placeholder="Ex: logo-radio.png" value="${tape.image || ''}">
+                        
                         <label>TEXTO DO BANNER</label>
                         <input type="text" class="input-modern tape-banner-input" placeholder="Mensagem rolando" style="margin-bottom:0;" value="${tape.banner}">
                     `;
@@ -746,7 +838,12 @@
                     }
                     if (animationFrame) cancelAnimationFrame(animationFrame);
                     animationFrame = requestAnimationFrame(renderRealEQ);
-                } catch (error) { loadingIndicator.style.display = 'none'; updateStatusUI('off'); alert("Erro ao conectar à rádio."); }
+                } catch (error) { 
+                    if (error.name === 'AbortError' || error.message.includes('interrupted')) { return; }
+                    loadingIndicator.style.display = 'none'; 
+                    updateStatusUI('off'); 
+                    alert("Erro ao conectar à rádio. O link pode estar offline ou inválido."); 
+                }
             }
             
             mainPlayBtn.addEventListener('click', () => {
@@ -759,7 +856,12 @@
             nextBtn.addEventListener('click', () => changeStation((selectedTapeIndex + 1) % tapes.length));
             
             listBtn.addEventListener('click', () => stationModal.style.display = 'flex');
+            
+            // Eventos dos novos e velhos botões de fechar/voltar
             closeStationModal.addEventListener('click', () => stationModal.style.display = 'none');
+            backStationBtn.addEventListener('click', () => stationModal.style.display = 'none');
+            cancelAdminBtn.addEventListener('click', () => adminModal.style.display = 'none');
+            backAdminBtn.addEventListener('click', () => adminModal.style.display = 'none');
             
             adminBtn.addEventListener('click', () => { adminPassword.value = ''; passwordError.style.display = 'none'; passwordModal.style.display = 'flex'; });
             enterAdminBtn.addEventListener('click', () => {
@@ -768,55 +870,54 @@
             });
             cancelPasswordBtn.addEventListener('click', () => passwordModal.style.display = 'none');
             adminPassword.addEventListener('keypress', (e) => { if (e.key === 'Enter') enterAdminBtn.click(); });
-            cancelAdminBtn.addEventListener('click', () => adminModal.style.display = 'none');
             
-            // 1. Lógica do botão "Salvar na Memória"
-            saveAdminBtn.addEventListener('click', () => {
+            const memorySaveHandler = () => {
                 const nameInputs = document.querySelectorAll('.tape-name-input');
                 const urlInputs = document.querySelectorAll('.tape-url-input');
+                const imageInputs = document.querySelectorAll('.tape-image-input'); // Captura as imagens
                 const bannerInputs = document.querySelectorAll('.tape-banner-input');
                 const newTapes = [];
                 
                 for (let i = 0; i < 10; i++) {
                     if (nameInputs[i]) {
-                        newTapes.push({ name: nameInputs[i].value, url: urlInputs[i].value, banner: bannerInputs[i].value });
+                        newTapes.push({ 
+                            name: nameInputs[i].value, 
+                            url: urlInputs[i].value, 
+                            image: imageInputs[i].value, // Salva o nome da imagem
+                            banner: bannerInputs[i].value 
+                        });
                     }
                 }
+                
+                const playingUrl = tapes[selectedTapeIndex].url;
                 
                 tapes = newTapes;
                 localStorage.setItem('gospelTapes', JSON.stringify(tapes));
                 
+                let newIndex = tapes.findIndex(t => t.url === playingUrl && t.url !== "");
+                if (newIndex !== -1) {
+                    selectedTapeIndex = newIndex;
+                }
+                
                 createStationsList(); 
                 changeStation(selectedTapeIndex); 
-                
-                adminModal.style.display = 'none'; // Fechar automaticamente a janela
+            };
+
+            saveAdminBtn.addEventListener('click', () => {
+                memorySaveHandler();
+                adminModal.style.display = 'none';
             });
 
-            // 2. Lógica do botão "Exportar Arquivo (GitHub)"
             exportBtn.addEventListener('click', () => {
-                // Passo 1: Capturar silenciosamente os dados dos formulários (mesmo se o usuário esqueceu de clicar em Salvar antes)
-                const nameInputs = document.querySelectorAll('.tape-name-input');
-                const urlInputs = document.querySelectorAll('.tape-url-input');
-                const bannerInputs = document.querySelectorAll('.tape-banner-input');
-                const newTapes = [];
-                
-                for (let i = 0; i < 10; i++) {
-                    if (nameInputs[i]) {
-                        newTapes.push({ name: nameInputs[i].value, url: urlInputs[i].value, banner: bannerInputs[i].value });
-                    }
-                }
-                tapes = newTapes;
+                memorySaveHandler();
 
-                // Passo 2: Ocultar todas as janelas do aplicativo antes de copiar o código HTML
                 document.querySelectorAll('.modal-overlay').forEach(modal => {
                     modal.style.display = 'none';
                 });
 
-                // Passo 3: Atualizar versão (TimeStamp) para forçar limpeza de cache dos ouvintes
                 const currentVersion = Date.now();
                 localStorage.setItem('gospelVersion', currentVersion);
 
-                // Passo 4: Fazer a cópia do HTML e injetar as novas informações
                 let htmlContent = "<!DOCTYPE html>\n" + document.documentElement.outerHTML;
                 
                 const tapesRegex = /let\s+defaultTapes\s*=\s*\[[\s\S]*?\];/;
@@ -827,7 +928,6 @@
                 const newVersionString = 'let fileVersion = ' + currentVersion + ';';
                 htmlContent = htmlContent.replace(versionRegex, newVersionString);
                 
-                // Passo 5: Gerar o download
                 const blob = new Blob([htmlContent], { type: 'text/html;charset=utf-8' });
                 const url = URL.createObjectURL(blob);
                 const a = document.createElement('a');
@@ -847,9 +947,12 @@
             
             setVolume(50);
             createStationsList();
+            
+            // Inicialização Correta da Primeira Rádio
             stationName.textContent = tapes[0].name;
             topBadgeNumber.textContent = selectedTapeIndex + 1; 
             runningBanner.textContent = tapes[0].banner;
+            albumArtImage.src = tapes[0].image ? tapes[0].image : "Sint.jpg";
             updateStatusUI('off');
         })();
     </script>
