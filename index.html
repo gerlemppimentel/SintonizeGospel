@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="pt-br"><head>
+<html lang="pt-br">
+<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Top 10 Gospel Radio</title>
@@ -41,34 +42,8 @@
             --hub-btn-bg: #f0f9ff;
         }
         
-        body { 
-            background-color: var(--bg-base); 
-            color: var(--text-main); 
-            font-family: 'Inter', sans-serif;
-            height: 100dvh; 
-            display: flex; 
-            justify-content: center; 
-            align-items: center;
-            overflow: hidden; 
-            padding: 8px; 
-            transition: background-color 0.3s ease, color 0.3s ease;
-        }
-        
-        #app-container { 
-            width: 100%; 
-            max-width: 400px; 
-            height: 100%; 
-            max-height: 800px;
-            display: flex; 
-            flex-direction: column; 
-            background: var(--bg-base);
-            border: 1px solid var(--border-color);
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
-            border-radius: 32px;
-            overflow: hidden;
-            position: relative;
-            transition: background 0.3s ease, border-color 0.3s ease;
-        }
+        body { background-color: var(--bg-base); color: var(--text-main); font-family: 'Inter', sans-serif; height: 100dvh; display: flex; justify-content: center; align-items: center; overflow: hidden; padding: 8px; transition: background-color 0.3s ease, color 0.3s ease; }
+        #app-container { width: 100%; max-width: 400px; height: 100%; max-height: 800px; display: flex; flex-direction: column; background: var(--bg-base); border: 1px solid var(--border-color); box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5); border-radius: 32px; overflow: hidden; position: relative; transition: background 0.3s ease, border-color 0.3s ease; }
 
         .app-header { padding: 24px 24px 16px; display: flex; align-items: center; justify-content: space-between; }
         .app-header h1 { font-size: 16px; font-weight: 700; display: flex; align-items: center; gap: 8px; color: var(--accent); }
@@ -77,10 +52,11 @@
         .admin-gear { background: transparent; border: none; color: var(--text-muted); font-size: 20px; cursor: pointer; transition: color 0.2s, transform 0.2s; display: flex; align-items: center; justify-content: center; }
         .admin-gear:hover { color: var(--text-main); transform: rotate(15deg); }
 
-        .status-badge { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; padding: 4px 10px; border-radius: 20px; background: var(--surface); color: var(--text-muted); display: flex; align-items: center; gap: 6px; }
+        /* LED Live corrigido para flutuar e não empurrar a interface */
+        .status-badge { position: absolute; top: -14px; left: 50%; transform: translateX(-50%); z-index: 20; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; padding: 4px 12px; border-radius: 20px; background: var(--surface); color: var(--text-muted); display: inline-flex; align-items: center; gap: 6px; box-shadow: 0 4px 10px rgba(0,0,0,0.3);}
         .status-dot { width: 8px; height: 8px; border-radius: 50%; background: #ef4444; }
         .status-badge.active .status-dot { background: var(--accent); box-shadow: 0 0 8px var(--accent); }
-        .status-badge.active { color: var(--accent); background: rgba(16, 185, 129, 0.1); }
+        .status-badge.active { color: var(--accent); background: rgba(16, 185, 129, 0.15); border: 1px solid rgba(16, 185, 129, 0.3); }
 
         .station-display { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 10px 16px; text-align: center; }
 
@@ -124,22 +100,29 @@
         .nav-btn { width: 48px; height: 48px; background: var(--surface); border-radius: 14px; color: var(--text-main); border: 1px solid var(--border-color); }
         .playback-group { display: flex; align-items: center; gap: 16px; }
 
+        /* Barra de Volume Dobrada em Altura */
         .volume-wrapper { position: relative; }
-        .volume-popup { position: absolute; bottom: 50px; left: -10px; background: var(--surface); border: 1px solid var(--border-color); border-radius: 12px; padding: 16px 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.8); display: none; flex-direction: column; align-items: center; gap: 12px; z-index: 100; }
+        .volume-popup { position: absolute; bottom: 70px; left: -10px; background: var(--surface); border: 1px solid var(--border-color); border-radius: 16px; padding: 16px 12px; box-shadow: 0 15px 35px rgba(0,0,0,0.8); display: none; flex-direction: column; align-items: center; z-index: 100; height: 290px;}
         .volume-popup.show { display: flex; }
-        .volume-slider { width: 100px; height: 6px; background: var(--bg-base); border-radius: 3px; position: relative; cursor: pointer; }
-        .volume-fill { position: absolute; top: 0; left: 0; height: 100%; background: var(--accent); border-radius: 3px; pointer-events: none; }
-        .volume-knob { position: absolute; top: 50%; transform: translate(-50%, -50%); width: 14px; height: 14px; background: #fff; border-radius: 50%; box-shadow: 0 2px 5px rgba(0,0,0,0.3); pointer-events: none; }
+        .volume-slider { width: 24px; height: 220px; background: var(--bg-base); border-radius: 4px; position: relative; cursor: pointer; border: 1px solid var(--border-color); overflow: hidden; margin-bottom: 8px;}
+        .volume-slider::before { content: ''; position: absolute; top:0; left:0; right:0; bottom:0; background: repeating-linear-gradient(0deg, var(--surface-hover), var(--surface-hover) 2px, transparent 2px, transparent 8px); pointer-events: none;}
+        .volume-fill { position: absolute; bottom: 0; left: 0; width: 100%; background: var(--accent); border-radius: 2px; pointer-events: none; opacity: 0.8;}
+        .volume-knob { position: absolute; left: 50%; transform: translate(-50%, 50%); width: 16px; height: 16px; background: #fff; border-radius: 50%; box-shadow: 0 2px 5px rgba(0,0,0,0.5); pointer-events: none; }
 
         .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(2, 6, 23, 0.8); backdrop-filter: blur(8px); z-index: 1000; justify-content: center; align-items: center; padding: 20px; }
-        .modal-content { background: var(--surface); border: 1px solid var(--border-color); border-radius: 24px; width: 100%; max-width: 380px; padding: 24px; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5); max-height: 85vh; overflow-y: auto; }
+        .modal-content { background: var(--surface); border: 1px solid var(--border-color); border-radius: 24px; width: 100%; max-width: 380px; padding: 24px; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5); max-height: 85vh; overflow-y: auto; display: flex; flex-direction: column; }
         
-        /* Modificações CSS para o Cabeçalho e Botão Voltar */
-        .modal-header { display: flex; align-items: center; justify-content: center; position: relative; font-size: 18px; font-weight: 700; margin-bottom: 20px; color: var(--text-main); }
-        .back-btn-top { position: absolute; left: 0; background: transparent; border: none; color: var(--text-muted); cursor: pointer; display: flex; align-items: center; justify-content: center; padding: 4px; transition: color 0.2s; }
-        .back-btn-top:hover { color: var(--accent); }
-        .back-btn-top svg { width: 24px; height: 24px; fill: currentColor; }
+        .modal-header { display: flex; align-items: center; justify-content: center; position: relative; font-size: 18px; font-weight: 700; margin-bottom: 20px; color: var(--text-main); min-height: 36px;}
+        .back-btn-top { position: absolute; left: 0; background: var(--surface); border: 1px solid var(--border-color); color: var(--text-muted); cursor: pointer; display: flex; align-items: center; justify-content: center; border-radius: 10px; width: 36px; height: 36px; transition: all 0.2s; }
+        .back-btn-top:hover { color: var(--accent); border-color: var(--accent); }
+        .back-btn-top svg { width: 22px; height: 22px; fill: currentColor; }
         
+        .tabs-container { display: flex; gap: 8px; margin-bottom: 16px; background: var(--bg-base); padding: 4px; border-radius: 12px; border: 1px solid var(--border-color); }
+        .tab-btn { flex: 1; padding: 10px; border-radius: 8px; font-weight: 600; font-size: 13px; color: var(--text-muted); background: transparent; border: none; cursor: pointer; transition: 0.2s; }
+        .tab-btn.active { background: var(--surface-hover); color: var(--accent); box-shadow: 0 2px 4px rgba(0,0,0,0.2); }
+        .tab-content { display: none; flex: 1; overflow-y: auto;}
+        .tab-content.active { display: block; }
+
         .stations-list { display: flex; flex-direction: column; gap: 12px; margin-bottom: 24px; }
         .station-item { background: var(--bg-base); border: 1px solid var(--border-color); padding: 12px 16px; border-radius: 16px; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; gap: 16px; }
         .station-item:hover { border-color: var(--accent); }
@@ -156,6 +139,7 @@
         
         .input-modern { width: 100%; padding: 14px; background: var(--bg-base); border: 1px solid var(--border-color); border-radius: 12px; color: var(--text-main); margin-bottom: 12px; outline: none; font-size: 14px; }
         .input-modern:focus { border-color: var(--accent); }
+        .pwd-mask { -webkit-text-security: disc; font-family: text-security-disc; }
         
         .admin-tape-item { background: var(--bg-base); border-radius: 16px; margin-bottom: 12px; border: 1px solid var(--border-color); overflow: hidden; }
         .tape-header { display: flex; align-items: center; justify-content: space-between; padding: 16px; background: var(--surface-hover); cursor: pointer; transition: background 0.2s ease; }
@@ -170,49 +154,54 @@
         
         .tape-body { display: none; padding: 16px; border-top: 1px solid var(--border-color); }
         .tape-body.expanded { display: block; }
-        .tape-body label { display: block; font-size: 11px; margin-bottom: 6px; font-weight: 700; color: var(--accent); }
+        .tape-body label, .config-label { display: block; font-size: 11px; margin-bottom: 6px; font-weight: 700; color: var(--accent); text-transform: uppercase;}
         
         .sortable-ghost { opacity: 0.4; background: var(--surface-hover); }
-
         #loadingIndicator { position: absolute; top: 24px; left: 50%; transform: translateX(-50%); background: var(--accent); color: #fff; padding: 6px 16px; border-radius: 20px; font-size: 12px; font-weight: 600; display: none; z-index: 50; }
     </style>
-<style>*, ::before, ::after{--tw-border-spacing-x:0;--tw-border-spacing-y:0;--tw-translate-x:0;--tw-translate-y:0;--tw-rotate:0;--tw-skew-x:0;--tw-skew-y:0;--tw-scale-x:1;--tw-scale-y:1;--tw-pan-x: ;--tw-pan-y: ;--tw-pinch-zoom: ;--tw-scroll-snap-strictness:proximity;--tw-gradient-from-position: ;--tw-gradient-via-position: ;--tw-gradient-to-position: ;--tw-ordinal: ;--tw-slashed-zero: ;--tw-numeric-figure: ;--tw-numeric-spacing: ;--tw-numeric-fraction: ;--tw-ring-inset: ;--tw-ring-offset-width:0px;--tw-ring-offset-color:#fff;--tw-ring-color:rgb(59 130 246 / 0.5);--tw-ring-offset-shadow:0 0 #0000;--tw-ring-shadow:0 0 #0000;--tw-shadow:0 0 #0000;--tw-shadow-colored:0 0 #0000;--tw-blur: ;--tw-brightness: ;--tw-contrast: ;--tw-grayscale: ;--tw-hue-rotate: ;--tw-invert: ;--tw-saturate: ;--tw-sepia: ;--tw-drop-shadow: ;--tw-backdrop-blur: ;--tw-backdrop-brightness: ;--tw-backdrop-contrast: ;--tw-backdrop-grayscale: ;--tw-backdrop-hue-rotate: ;--tw-backdrop-invert: ;--tw-backdrop-opacity: ;--tw-backdrop-saturate: ;--tw-backdrop-sepia: ;--tw-contain-size: ;--tw-contain-layout: ;--tw-contain-paint: ;--tw-contain-style: }::backdrop{--tw-border-spacing-x:0;--tw-border-spacing-y:0;--tw-translate-x:0;--tw-translate-y:0;--tw-rotate:0;--tw-skew-x:0;--tw-skew-y:0;--tw-scale-x:1;--tw-scale-y:1;--tw-pan-x: ;--tw-pan-y: ;--tw-pinch-zoom: ;--tw-scroll-snap-strictness:proximity;--tw-gradient-from-position: ;--tw-gradient-via-position: ;--tw-gradient-to-position: ;--tw-ordinal: ;--tw-slashed-zero: ;--tw-numeric-figure: ;--tw-numeric-spacing: ;--tw-numeric-fraction: ;--tw-ring-inset: ;--tw-ring-offset-width:0px;--tw-ring-offset-color:#fff;--tw-ring-color:rgb(59 130 246 / 0.5);--tw-ring-offset-shadow:0 0 #0000;--tw-ring-shadow:0 0 #0000;--tw-shadow:0 0 #0000;--tw-shadow-colored:0 0 #0000;--tw-blur: ;--tw-brightness: ;--tw-contrast: ;--tw-grayscale: ;--tw-hue-rotate: ;--tw-invert: ;--tw-saturate: ;--tw-sepia: ;--tw-drop-shadow: ;--tw-backdrop-blur: ;--tw-backdrop-brightness: ;--tw-backdrop-contrast: ;--tw-backdrop-grayscale: ;--tw-backdrop-hue-rotate: ;--tw-backdrop-invert: ;--tw-backdrop-opacity: ;--tw-backdrop-saturate: ;--tw-backdrop-sepia: ;--tw-contain-size: ;--tw-contain-layout: ;--tw-contain-paint: ;--tw-contain-style: }/* ! tailwindcss v3.4.17 | MIT License | https://tailwindcss.com */*,::after,::before{box-sizing:border-box;border-width:0;border-style:solid;border-color:#e5e7eb}::after,::before{--tw-content:''}:host,html{line-height:1.5;-webkit-text-size-adjust:100%;-moz-tab-size:4;tab-size:4;font-family:ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";font-feature-settings:normal;font-variation-settings:normal;-webkit-tap-highlight-color:transparent}body{margin:0;line-height:inherit}hr{height:0;color:inherit;border-top-width:1px}abbr:where([title]){-webkit-text-decoration:underline dotted;text-decoration:underline dotted}h1,h2,h3,h4,h5,h6{font-size:inherit;font-weight:inherit}a{color:inherit;text-decoration:inherit}b,strong{font-weight:bolder}code,kbd,pre,samp{font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;font-feature-settings:normal;font-variation-settings:normal;font-size:1em}small{font-size:80%}sub,sup{font-size:75%;line-height:0;position:relative;vertical-align:baseline}sub{bottom:-.25em}sup{top:-.5em}table{text-indent:0;border-color:inherit;border-collapse:collapse}button,input,optgroup,select,textarea{font-family:inherit;font-feature-settings:inherit;font-variation-settings:inherit;font-size:100%;font-weight:inherit;line-height:inherit;letter-spacing:inherit;color:inherit;margin:0;padding:0}button,select{text-transform:none}button,input:where([type=button]),input:where([type=reset]),input:where([type=submit]){-webkit-appearance:button;background-color:transparent;background-image:none}:-moz-focusring{outline:auto}:-moz-ui-invalid{box-shadow:none}progress{vertical-align:baseline}::-webkit-inner-spin-button,::-webkit-outer-spin-button{height:auto}[type=search]{-webkit-appearance:textfield;outline-offset:-2px}::-webkit-search-decoration{-webkit-appearance:none}::-webkit-file-upload-button{-webkit-appearance:button;font:inherit}summary{display:list-item}blockquote,dd,dl,figure,h1,h2,h3,h4,h5,h6,hr,p,pre{margin:0}fieldset{margin:0;padding:0}legend{padding:0}menu,ol,ul{list-style:none;margin:0;padding:0}dialog{padding:0}textarea{resize:vertical}input::placeholder,textarea::placeholder{opacity:1;color:#9ca3af}[role=button],button{cursor:pointer}:disabled{cursor:default}audio,canvas,embed,iframe,img,object,svg,video{display:block;vertical-align:middle}img,video{max-width:100%;height:auto}[hidden]:where(:not([hidden=until-found])){display:none}</style><style>*, ::before, ::after{--tw-border-spacing-x:0;--tw-border-spacing-y:0;--tw-translate-x:0;--tw-translate-y:0;--tw-rotate:0;--tw-skew-x:0;--tw-skew-y:0;--tw-scale-x:1;--tw-scale-y:1;--tw-pan-x: ;--tw-pan-y: ;--tw-pinch-zoom: ;--tw-scroll-snap-strictness:proximity;--tw-gradient-from-position: ;--tw-gradient-via-position: ;--tw-gradient-to-position: ;--tw-ordinal: ;--tw-slashed-zero: ;--tw-numeric-figure: ;--tw-numeric-spacing: ;--tw-numeric-fraction: ;--tw-ring-inset: ;--tw-ring-offset-width:0px;--tw-ring-offset-color:#fff;--tw-ring-color:rgb(59 130 246 / 0.5);--tw-ring-offset-shadow:0 0 #0000;--tw-ring-shadow:0 0 #0000;--tw-shadow:0 0 #0000;--tw-shadow-colored:0 0 #0000;--tw-blur: ;--tw-brightness: ;--tw-contrast: ;--tw-grayscale: ;--tw-hue-rotate: ;--tw-invert: ;--tw-saturate: ;--tw-sepia: ;--tw-drop-shadow: ;--tw-backdrop-blur: ;--tw-backdrop-brightness: ;--tw-backdrop-contrast: ;--tw-backdrop-grayscale: ;--tw-backdrop-hue-rotate: ;--tw-backdrop-invert: ;--tw-backdrop-opacity: ;--tw-backdrop-saturate: ;--tw-backdrop-sepia: ;--tw-contain-size: ;--tw-contain-layout: ;--tw-contain-paint: ;--tw-contain-style: }::backdrop{--tw-border-spacing-x:0;--tw-border-spacing-y:0;--tw-translate-x:0;--tw-translate-y:0;--tw-rotate:0;--tw-skew-x:0;--tw-skew-y:0;--tw-scale-x:1;--tw-scale-y:1;--tw-pan-x: ;--tw-pan-y: ;--tw-pinch-zoom: ;--tw-scroll-snap-strictness:proximity;--tw-gradient-from-position: ;--tw-gradient-via-position: ;--tw-gradient-to-position: ;--tw-ordinal: ;--tw-slashed-zero: ;--tw-numeric-figure: ;--tw-numeric-spacing: ;--tw-numeric-fraction: ;--tw-ring-inset: ;--tw-ring-offset-width:0px;--tw-ring-offset-color:#fff;--tw-ring-color:rgb(59 130 246 / 0.5);--tw-ring-offset-shadow:0 0 #0000;--tw-ring-shadow:0 0 #0000;--tw-shadow:0 0 #0000;--tw-shadow-colored:0 0 #0000;--tw-blur: ;--tw-brightness: ;--tw-contrast: ;--tw-grayscale: ;--tw-hue-rotate: ;--tw-invert: ;--tw-saturate: ;--tw-sepia: ;--tw-drop-shadow: ;--tw-backdrop-blur: ;--tw-backdrop-brightness: ;--tw-backdrop-contrast: ;--tw-backdrop-grayscale: ;--tw-backdrop-hue-rotate: ;--tw-backdrop-invert: ;--tw-backdrop-opacity: ;--tw-backdrop-saturate: ;--tw-backdrop-sepia: ;--tw-contain-size: ;--tw-contain-layout: ;--tw-contain-paint: ;--tw-contain-style: }/* ! tailwindcss v3.4.17 | MIT License | https://tailwindcss.com */*,::after,::before{box-sizing:border-box;border-width:0;border-style:solid;border-color:#e5e7eb}::after,::before{--tw-content:''}:host,html{line-height:1.5;-webkit-text-size-adjust:100%;-moz-tab-size:4;tab-size:4;font-family:ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";font-feature-settings:normal;font-variation-settings:normal;-webkit-tap-highlight-color:transparent}body{margin:0;line-height:inherit}hr{height:0;color:inherit;border-top-width:1px}abbr:where([title]){-webkit-text-decoration:underline dotted;text-decoration:underline dotted}h1,h2,h3,h4,h5,h6{font-size:inherit;font-weight:inherit}a{color:inherit;text-decoration:inherit}b,strong{font-weight:bolder}code,kbd,pre,samp{font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;font-feature-settings:normal;font-variation-settings:normal;font-size:1em}small{font-size:80%}sub,sup{font-size:75%;line-height:0;position:relative;vertical-align:baseline}sub{bottom:-.25em}sup{top:-.5em}table{text-indent:0;border-color:inherit;border-collapse:collapse}button,input,optgroup,select,textarea{font-family:inherit;font-feature-settings:inherit;font-variation-settings:inherit;font-size:100%;font-weight:inherit;line-height:inherit;letter-spacing:inherit;color:inherit;margin:0;padding:0}button,select{text-transform:none}button,input:where([type=button]),input:where([type=reset]),input:where([type=submit]){-webkit-appearance:button;background-color:transparent;background-image:none}:-moz-focusring{outline:auto}:-moz-ui-invalid{box-shadow:none}progress{vertical-align:baseline}::-webkit-inner-spin-button,::-webkit-outer-spin-button{height:auto}[type=search]{-webkit-appearance:textfield;outline-offset:-2px}::-webkit-search-decoration{-webkit-appearance:none}::-webkit-file-upload-button{-webkit-appearance:button;font:inherit}summary{display:list-item}blockquote,dd,dl,figure,h1,h2,h3,h4,h5,h6,hr,p,pre{margin:0}fieldset{margin:0;padding:0}legend{padding:0}menu,ol,ul{list-style:none;margin:0;padding:0}dialog{padding:0}textarea{resize:vertical}input::placeholder,textarea::placeholder{opacity:1;color:#9ca3af}[role=button],button{cursor:pointer}:disabled{cursor:default}audio,canvas,embed,iframe,img,object,svg,video{display:block;vertical-align:middle}img,video{max-width:100%;height:auto}[hidden]:where(:not([hidden=until-found])){display:none}</style><style>*, ::before, ::after{--tw-border-spacing-x:0;--tw-border-spacing-y:0;--tw-translate-x:0;--tw-translate-y:0;--tw-rotate:0;--tw-skew-x:0;--tw-skew-y:0;--tw-scale-x:1;--tw-scale-y:1;--tw-pan-x: ;--tw-pan-y: ;--tw-pinch-zoom: ;--tw-scroll-snap-strictness:proximity;--tw-gradient-from-position: ;--tw-gradient-via-position: ;--tw-gradient-to-position: ;--tw-ordinal: ;--tw-slashed-zero: ;--tw-numeric-figure: ;--tw-numeric-spacing: ;--tw-numeric-fraction: ;--tw-ring-inset: ;--tw-ring-offset-width:0px;--tw-ring-offset-color:#fff;--tw-ring-color:rgb(59 130 246 / 0.5);--tw-ring-offset-shadow:0 0 #0000;--tw-ring-shadow:0 0 #0000;--tw-shadow:0 0 #0000;--tw-shadow-colored:0 0 #0000;--tw-blur: ;--tw-brightness: ;--tw-contrast: ;--tw-grayscale: ;--tw-hue-rotate: ;--tw-invert: ;--tw-saturate: ;--tw-sepia: ;--tw-drop-shadow: ;--tw-backdrop-blur: ;--tw-backdrop-brightness: ;--tw-backdrop-contrast: ;--tw-backdrop-grayscale: ;--tw-backdrop-hue-rotate: ;--tw-backdrop-invert: ;--tw-backdrop-opacity: ;--tw-backdrop-saturate: ;--tw-backdrop-sepia: ;--tw-contain-size: ;--tw-contain-layout: ;--tw-contain-paint: ;--tw-contain-style: }::backdrop{--tw-border-spacing-x:0;--tw-border-spacing-y:0;--tw-translate-x:0;--tw-translate-y:0;--tw-rotate:0;--tw-skew-x:0;--tw-skew-y:0;--tw-scale-x:1;--tw-scale-y:1;--tw-pan-x: ;--tw-pan-y: ;--tw-pinch-zoom: ;--tw-scroll-snap-strictness:proximity;--tw-gradient-from-position: ;--tw-gradient-via-position: ;--tw-gradient-to-position: ;--tw-ordinal: ;--tw-slashed-zero: ;--tw-numeric-figure: ;--tw-numeric-spacing: ;--tw-numeric-fraction: ;--tw-ring-inset: ;--tw-ring-offset-width:0px;--tw-ring-offset-color:#fff;--tw-ring-color:rgb(59 130 246 / 0.5);--tw-ring-offset-shadow:0 0 #0000;--tw-ring-shadow:0 0 #0000;--tw-shadow:0 0 #0000;--tw-shadow-colored:0 0 #0000;--tw-blur: ;--tw-brightness: ;--tw-contrast: ;--tw-grayscale: ;--tw-hue-rotate: ;--tw-invert: ;--tw-saturate: ;--tw-sepia: ;--tw-drop-shadow: ;--tw-backdrop-blur: ;--tw-backdrop-brightness: ;--tw-backdrop-contrast: ;--tw-backdrop-grayscale: ;--tw-backdrop-hue-rotate: ;--tw-backdrop-invert: ;--tw-backdrop-opacity: ;--tw-backdrop-saturate: ;--tw-backdrop-sepia: ;--tw-contain-size: ;--tw-contain-layout: ;--tw-contain-paint: ;--tw-contain-style: }/* ! tailwindcss v3.4.17 | MIT License | https://tailwindcss.com */*,::after,::before{box-sizing:border-box;border-width:0;border-style:solid;border-color:#e5e7eb}::after,::before{--tw-content:''}:host,html{line-height:1.5;-webkit-text-size-adjust:100%;-moz-tab-size:4;tab-size:4;font-family:ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";font-feature-settings:normal;font-variation-settings:normal;-webkit-tap-highlight-color:transparent}body{margin:0;line-height:inherit}hr{height:0;color:inherit;border-top-width:1px}abbr:where([title]){-webkit-text-decoration:underline dotted;text-decoration:underline dotted}h1,h2,h3,h4,h5,h6{font-size:inherit;font-weight:inherit}a{color:inherit;text-decoration:inherit}b,strong{font-weight:bolder}code,kbd,pre,samp{font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;font-feature-settings:normal;font-variation-settings:normal;font-size:1em}small{font-size:80%}sub,sup{font-size:75%;line-height:0;position:relative;vertical-align:baseline}sub{bottom:-.25em}sup{top:-.5em}table{text-indent:0;border-color:inherit;border-collapse:collapse}button,input,optgroup,select,textarea{font-family:inherit;font-feature-settings:inherit;font-variation-settings:inherit;font-size:100%;font-weight:inherit;line-height:inherit;letter-spacing:inherit;color:inherit;margin:0;padding:0}button,select{text-transform:none}button,input:where([type=button]),input:where([type=reset]),input:where([type=submit]){-webkit-appearance:button;background-color:transparent;background-image:none}:-moz-focusring{outline:auto}:-moz-ui-invalid{box-shadow:none}progress{vertical-align:baseline}::-webkit-inner-spin-button,::-webkit-outer-spin-button{height:auto}[type=search]{-webkit-appearance:textfield;outline-offset:-2px}::-webkit-search-decoration{-webkit-appearance:none}::-webkit-file-upload-button{-webkit-appearance:button;font:inherit}summary{display:list-item}blockquote,dd,dl,figure,h1,h2,h3,h4,h5,h6,hr,p,pre{margin:0}fieldset{margin:0;padding:0}legend{padding:0}menu,ol,ul{list-style:none;margin:0;padding:0}dialog{padding:0}textarea{resize:vertical}input::placeholder,textarea::placeholder{opacity:1;color:#9ca3af}[role=button],button{cursor:pointer}:disabled{cursor:default}audio,canvas,embed,iframe,img,object,svg,video{display:block;vertical-align:middle}img,video{max-width:100%;height:auto}[hidden]:where(:not([hidden=until-found])){display:none}</style><style>*, ::before, ::after{--tw-border-spacing-x:0;--tw-border-spacing-y:0;--tw-translate-x:0;--tw-translate-y:0;--tw-rotate:0;--tw-skew-x:0;--tw-skew-y:0;--tw-scale-x:1;--tw-scale-y:1;--tw-pan-x: ;--tw-pan-y: ;--tw-pinch-zoom: ;--tw-scroll-snap-strictness:proximity;--tw-gradient-from-position: ;--tw-gradient-via-position: ;--tw-gradient-to-position: ;--tw-ordinal: ;--tw-slashed-zero: ;--tw-numeric-figure: ;--tw-numeric-spacing: ;--tw-numeric-fraction: ;--tw-ring-inset: ;--tw-ring-offset-width:0px;--tw-ring-offset-color:#fff;--tw-ring-color:rgb(59 130 246 / 0.5);--tw-ring-offset-shadow:0 0 #0000;--tw-ring-shadow:0 0 #0000;--tw-shadow:0 0 #0000;--tw-shadow-colored:0 0 #0000;--tw-blur: ;--tw-brightness: ;--tw-contrast: ;--tw-grayscale: ;--tw-hue-rotate: ;--tw-invert: ;--tw-saturate: ;--tw-sepia: ;--tw-drop-shadow: ;--tw-backdrop-blur: ;--tw-backdrop-brightness: ;--tw-backdrop-contrast: ;--tw-backdrop-grayscale: ;--tw-backdrop-hue-rotate: ;--tw-backdrop-invert: ;--tw-backdrop-opacity: ;--tw-backdrop-saturate: ;--tw-backdrop-sepia: ;--tw-contain-size: ;--tw-contain-layout: ;--tw-contain-paint: ;--tw-contain-style: }::backdrop{--tw-border-spacing-x:0;--tw-border-spacing-y:0;--tw-translate-x:0;--tw-translate-y:0;--tw-rotate:0;--tw-skew-x:0;--tw-skew-y:0;--tw-scale-x:1;--tw-scale-y:1;--tw-pan-x: ;--tw-pan-y: ;--tw-pinch-zoom: ;--tw-scroll-snap-strictness:proximity;--tw-gradient-from-position: ;--tw-gradient-via-position: ;--tw-gradient-to-position: ;--tw-ordinal: ;--tw-slashed-zero: ;--tw-numeric-figure: ;--tw-numeric-spacing: ;--tw-numeric-fraction: ;--tw-ring-inset: ;--tw-ring-offset-width:0px;--tw-ring-offset-color:#fff;--tw-ring-color:rgb(59 130 246 / 0.5);--tw-ring-offset-shadow:0 0 #0000;--tw-ring-shadow:0 0 #0000;--tw-shadow:0 0 #0000;--tw-shadow-colored:0 0 #0000;--tw-blur: ;--tw-brightness: ;--tw-contrast: ;--tw-grayscale: ;--tw-hue-rotate: ;--tw-invert: ;--tw-saturate: ;--tw-sepia: ;--tw-drop-shadow: ;--tw-backdrop-blur: ;--tw-backdrop-brightness: ;--tw-backdrop-contrast: ;--tw-backdrop-grayscale: ;--tw-backdrop-hue-rotate: ;--tw-backdrop-invert: ;--tw-backdrop-opacity: ;--tw-backdrop-saturate: ;--tw-backdrop-sepia: ;--tw-contain-size: ;--tw-contain-layout: ;--tw-contain-paint: ;--tw-contain-style: }/* ! tailwindcss v3.4.17 | MIT License | https://tailwindcss.com */*,::after,::before{box-sizing:border-box;border-width:0;border-style:solid;border-color:#e5e7eb}::after,::before{--tw-content:''}:host,html{line-height:1.5;-webkit-text-size-adjust:100%;-moz-tab-size:4;tab-size:4;font-family:ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";font-feature-settings:normal;font-variation-settings:normal;-webkit-tap-highlight-color:transparent}body{margin:0;line-height:inherit}hr{height:0;color:inherit;border-top-width:1px}abbr:where([title]){-webkit-text-decoration:underline dotted;text-decoration:underline dotted}h1,h2,h3,h4,h5,h6{font-size:inherit;font-weight:inherit}a{color:inherit;text-decoration:inherit}b,strong{font-weight:bolder}code,kbd,pre,samp{font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;font-feature-settings:normal;font-variation-settings:normal;font-size:1em}small{font-size:80%}sub,sup{font-size:75%;line-height:0;position:relative;vertical-align:baseline}sub{bottom:-.25em}sup{top:-.5em}table{text-indent:0;border-color:inherit;border-collapse:collapse}button,input,optgroup,select,textarea{font-family:inherit;font-feature-settings:inherit;font-variation-settings:inherit;font-size:100%;font-weight:inherit;line-height:inherit;letter-spacing:inherit;color:inherit;margin:0;padding:0}button,select{text-transform:none}button,input:where([type=button]),input:where([type=reset]),input:where([type=submit]){-webkit-appearance:button;background-color:transparent;background-image:none}:-moz-focusring{outline:auto}:-moz-ui-invalid{box-shadow:none}progress{vertical-align:baseline}::-webkit-inner-spin-button,::-webkit-outer-spin-button{height:auto}[type=search]{-webkit-appearance:textfield;outline-offset:-2px}::-webkit-search-decoration{-webkit-appearance:none}::-webkit-file-upload-button{-webkit-appearance:button;font:inherit}summary{display:list-item}blockquote,dd,dl,figure,h1,h2,h3,h4,h5,h6,hr,p,pre{margin:0}fieldset{margin:0;padding:0}legend{padding:0}menu,ol,ul{list-style:none;margin:0;padding:0}dialog{padding:0}textarea{resize:vertical}input::placeholder,textarea::placeholder{opacity:1;color:#9ca3af}[role=button],button{cursor:pointer}:disabled{cursor:default}audio,canvas,embed,iframe,img,object,svg,video{display:block;vertical-align:middle}img,video{max-width:100%;height:auto}[hidden]:where(:not([hidden=until-found])){display:none}</style><style>*, ::before, ::after{--tw-border-spacing-x:0;--tw-border-spacing-y:0;--tw-translate-x:0;--tw-translate-y:0;--tw-rotate:0;--tw-skew-x:0;--tw-skew-y:0;--tw-scale-x:1;--tw-scale-y:1;--tw-pan-x: ;--tw-pan-y: ;--tw-pinch-zoom: ;--tw-scroll-snap-strictness:proximity;--tw-gradient-from-position: ;--tw-gradient-via-position: ;--tw-gradient-to-position: ;--tw-ordinal: ;--tw-slashed-zero: ;--tw-numeric-figure: ;--tw-numeric-spacing: ;--tw-numeric-fraction: ;--tw-ring-inset: ;--tw-ring-offset-width:0px;--tw-ring-offset-color:#fff;--tw-ring-color:rgb(59 130 246 / 0.5);--tw-ring-offset-shadow:0 0 #0000;--tw-ring-shadow:0 0 #0000;--tw-shadow:0 0 #0000;--tw-shadow-colored:0 0 #0000;--tw-blur: ;--tw-brightness: ;--tw-contrast: ;--tw-grayscale: ;--tw-hue-rotate: ;--tw-invert: ;--tw-saturate: ;--tw-sepia: ;--tw-drop-shadow: ;--tw-backdrop-blur: ;--tw-backdrop-brightness: ;--tw-backdrop-contrast: ;--tw-backdrop-grayscale: ;--tw-backdrop-hue-rotate: ;--tw-backdrop-invert: ;--tw-backdrop-opacity: ;--tw-backdrop-saturate: ;--tw-backdrop-sepia: ;--tw-contain-size: ;--tw-contain-layout: ;--tw-contain-paint: ;--tw-contain-style: }::backdrop{--tw-border-spacing-x:0;--tw-border-spacing-y:0;--tw-translate-x:0;--tw-translate-y:0;--tw-rotate:0;--tw-skew-x:0;--tw-skew-y:0;--tw-scale-x:1;--tw-scale-y:1;--tw-pan-x: ;--tw-pan-y: ;--tw-pinch-zoom: ;--tw-scroll-snap-strictness:proximity;--tw-gradient-from-position: ;--tw-gradient-via-position: ;--tw-gradient-to-position: ;--tw-ordinal: ;--tw-slashed-zero: ;--tw-numeric-figure: ;--tw-numeric-spacing: ;--tw-numeric-fraction: ;--tw-ring-inset: ;--tw-ring-offset-width:0px;--tw-ring-offset-color:#fff;--tw-ring-color:rgb(59 130 246 / 0.5);--tw-ring-offset-shadow:0 0 #0000;--tw-ring-shadow:0 0 #0000;--tw-shadow:0 0 #0000;--tw-shadow-colored:0 0 #0000;--tw-blur: ;--tw-brightness: ;--tw-contrast: ;--tw-grayscale: ;--tw-hue-rotate: ;--tw-invert: ;--tw-saturate: ;--tw-sepia: ;--tw-drop-shadow: ;--tw-backdrop-blur: ;--tw-backdrop-brightness: ;--tw-backdrop-contrast: ;--tw-backdrop-grayscale: ;--tw-backdrop-hue-rotate: ;--tw-backdrop-invert: ;--tw-backdrop-opacity: ;--tw-backdrop-saturate: ;--tw-backdrop-sepia: ;--tw-contain-size: ;--tw-contain-layout: ;--tw-contain-paint: ;--tw-contain-style: }/* ! tailwindcss v3.4.17 | MIT License | https://tailwindcss.com */*,::after,::before{box-sizing:border-box;border-width:0;border-style:solid;border-color:#e5e7eb}::after,::before{--tw-content:''}:host,html{line-height:1.5;-webkit-text-size-adjust:100%;-moz-tab-size:4;tab-size:4;font-family:ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";font-feature-settings:normal;font-variation-settings:normal;-webkit-tap-highlight-color:transparent}body{margin:0;line-height:inherit}hr{height:0;color:inherit;border-top-width:1px}abbr:where([title]){-webkit-text-decoration:underline dotted;text-decoration:underline dotted}h1,h2,h3,h4,h5,h6{font-size:inherit;font-weight:inherit}a{color:inherit;text-decoration:inherit}b,strong{font-weight:bolder}code,kbd,pre,samp{font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;font-feature-settings:normal;font-variation-settings:normal;font-size:1em}small{font-size:80%}sub,sup{font-size:75%;line-height:0;position:relative;vertical-align:baseline}sub{bottom:-.25em}sup{top:-.5em}table{text-indent:0;border-color:inherit;border-collapse:collapse}button,input,optgroup,select,textarea{font-family:inherit;font-feature-settings:inherit;font-variation-settings:inherit;font-size:100%;font-weight:inherit;line-height:inherit;letter-spacing:inherit;color:inherit;margin:0;padding:0}button,select{text-transform:none}button,input:where([type=button]),input:where([type=reset]),input:where([type=submit]){-webkit-appearance:button;background-color:transparent;background-image:none}:-moz-focusring{outline:auto}:-moz-ui-invalid{box-shadow:none}progress{vertical-align:baseline}::-webkit-inner-spin-button,::-webkit-outer-spin-button{height:auto}[type=search]{-webkit-appearance:textfield;outline-offset:-2px}::-webkit-search-decoration{-webkit-appearance:none}::-webkit-file-upload-button{-webkit-appearance:button;font:inherit}summary{display:list-item}blockquote,dd,dl,figure,h1,h2,h3,h4,h5,h6,hr,p,pre{margin:0}fieldset{margin:0;padding:0}legend{padding:0}menu,ol,ul{list-style:none;margin:0;padding:0}dialog{padding:0}textarea{resize:vertical}input::placeholder,textarea::placeholder{opacity:1;color:#9ca3af}[role=button],button{cursor:pointer}:disabled{cursor:default}audio,canvas,embed,iframe,img,object,svg,video{display:block;vertical-align:middle}img,video{max-width:100%;height:auto}[hidden]:where(:not([hidden=until-found])){display:none}</style></head>
+</head>
 <body>
-
     <div id="app-container">
-        <div id="loadingIndicator" style="display: none;">Carregando...</div>
-
+        <div id="loadingIndicator">Carregando...</div>
+        
         <div class="app-header">
             <h1>Top 10 Gospel Radio</h1>
             <div class="header-controls">
-                <div class="status-badge" id="statusBadge"><div class="status-dot"></div><span id="statusText">OFF</span></div>
                 <button class="admin-gear" id="fullscreenBtn" title="Tela Cheia"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M7 14H5v5h5v-2H7v-3zm-2-4h2V7h3V5H5v5zm12 7h-3v2h5v-5h-2v3zM14 5v2h3v3h2V5h-5z"></path></svg></button>
                 <button class="admin-gear" id="adminBtn" title="Configurações"><svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M19.14,12.94c0.04-0.3,0.06-0.61,0.06-0.94c0-0.32-0.02-0.64-0.06-0.94l2.03-1.58c0.18-0.14,0.23-0.41,0.12-0.61 l-1.92-3.32c-0.12-0.22-0.37-0.29-0.59-0.22l-2.39,0.96c-0.5-0.38-1.03-0.7-1.62-0.94L14.4,2.81c-0.04-0.24-0.24-0.41-0.48-0.41 h-3.84c-0.24,0-0.43,0.17-0.47,0.41L9.25,5.35C8.66,5.59,8.12,5.92,7.63,6.29L5.24,5.33c-0.22-0.08-0.47,0-0.59,0.22L2.73,8.87 C2.62,9.08,2.66,9.34,2.86,9.48l2.03,1.58C4.84,11.36,4.8,11.69,4.8,12s0.02,0.64,0.06,0.94l-2.03,1.58 c-0.18,0.14-0.23,0.41-0.12,0.61l1.92,3.32c0.12,0.22,0.37,0.29,0.59,0.22l2.39-0.96c0.5,0.38,1.03,0.7,1.62,0.94l0.36,2.54 c0.05,0.24,0.24,0.41,0.48,0.41h3.84c0.24,0,0.43-0.17,0.47-0.41l0.36-2.54c0.59-0.24,1.13-0.56,1.62-0.94l2.39,0.96 c0.22,0.08,0.47,0,0.59-0.22l1.92-3.32c0.12-0.22,0.07-0.49-0.12-0.61L19.14,12.94z M12,15.6c-1.98,0-3.6-1.62-3.6-3.6 s1.62-3.6,3.6-3.6s3.6,1.62,3.6,3.6S13.98,15.6,12,15.6z"></path></svg></button>
             </div>
         </div>
 
         <div class="station-display">
+            <!-- LED posicionado no interior do hub para não quebrar a altura -->
             <div class="hub-container">
-                <!-- Ícone do YouTube fixo com Sint.jpg -->
-                <a href="https://www.youtube.com/@sintonizegospel" target="_blank" class="hub-satellite sat-tl" title="Canal YouTube"><img src="Sint.jpg" alt="Sintonize Gospel Logo"></a>
-                <div class="hub-satellite sat-tr" title="Ranking da Rádio"><span>TOP</span><span id="topBadgeNumber">7</span></div>
+                <div class="status-badge" id="statusBadge"><div class="status-dot"></div><span id="statusText">OFF</span></div>
                 
-                <!-- Imagem central Dinâmica -->
-                <div class="station-icon" id="mainIcon"><img id="albumArtImage" src="88.1.png" alt="Arte do Álbum" onerror="this.src='Sint.jpg'"></div>
+                <a href="#" target="_blank" class="hub-satellite sat-tl" id="cfgBtnLeft"><img id="cfgImgLeft" src="Sint.jpg" alt="Logo"></a>
+                <div class="hub-satellite sat-tr" title="Ranking da Rádio"><span>TOP</span><span id="topBadgeNumber">1</span></div>
+                
+                <div class="station-icon" id="mainIcon"><img id="albumArtImage" src="Sint.jpg" alt="Arte do Álbum" onerror="this.src='Sint.jpg'"></div>
                 
                 <button class="hub-satellite sat-bl" id="themeBtn" title="Alternar Tema Claro/Escuro"><svg viewBox="0 0 24 24"><path d="M12 21c-4.97 0-9-4.03-9-9s4.03-9 9-9 9 4.03 9 9-4.03 9-9 9zm0-16c-3.86 0-7 3.14-7 7s3.14 7 7 7 7-3.14 7-7-3.14-7-7-7zm0 13c-3.31 0-6-2.69-6-6s2.69-6 6-6v12z"></path></svg></button>
-                <button class="hub-satellite sat-br" id="shareBtn" title="Compartilhar no WhatsApp"><svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.888-.788-1.489-1.761-1.663-2.06-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"></path></svg></button>
+                <button class="hub-satellite sat-br" id="shareBtn"><svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.888-.788-1.489-1.761-1.663-2.06-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"></path></svg></button>
             </div>
-            <div id="stationName">Rádio Novas de Paz</div>
-            <div class="vu-meter" id="vuMeter"><div class="vu-segment green"></div><div class="vu-segment green"></div><div class="vu-segment green"></div><div class="vu-segment green"></div><div class="vu-segment green"></div><div class="vu-segment green"></div><div class="vu-segment green"></div><div class="vu-segment green"></div><div class="vu-segment green"></div><div class="vu-segment orange"></div><div class="vu-segment orange"></div><div class="vu-segment orange"></div><div class="vu-segment red"></div><div class="vu-segment red"></div><div class="vu-segment red"></div></div>
+            <div id="stationName">Carregando...</div>
+            <div class="vu-meter" id="vuMeter"></div>
         </div>
 
-        <div class="banner-container"><div class="banner-text" id="runningBanner">Rádio Novas de Paz FM 88.1 - Pernambuco - Brasil</div></div>
+        <div class="banner-container"><div class="banner-text" id="runningBanner"></div></div>
 
         <div class="controls-container">
             <div class="volume-wrapper">
                 <button class="control-btn" id="volumeBtn" title="Volume"><svg viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"></path></svg></button>
-                <div class="volume-popup" id="volumePopup"><span style="font-size: 11px; font-weight: bold; color: var(--text-muted);">VOLUME</span><div class="volume-slider" id="volumeSlider"><div class="volume-fill" id="volumeFill" style="width: 98%;"></div><div class="volume-knob" id="volumeKnob" style="left: 98%;"></div></div></div>
+                <div class="volume-popup" id="volumePopup">
+                    <span style="font-size: 11px; font-weight: bold; color: var(--text-muted); margin-bottom: 2px;">VOL</span>
+                    <span id="volumeValueDisplay" style="font-size: 16px; font-weight: 800; color: var(--accent); margin-bottom: 8px;">5</span>
+                    <div class="volume-slider" id="volumeSlider">
+                        <div class="volume-fill" id="volumeFill" style="height: 50%;"></div>
+                        <div class="volume-knob" id="volumeKnob" style="bottom: 50%;"></div>
+                    </div>
+                </div>
             </div>
             <div class="playback-group">
                 <button class="control-btn nav-btn" id="prevBtn" title="Rádio Anterior"><svg width="24" height="24" viewBox="0 0 24 24"><path d="M6 6h2v12H6zm3.5 6l8.5 6V6z"></path></svg></button>
@@ -223,292 +212,86 @@
         </div>
     </div>
 
-    <!-- Modais -->
-    <div class="modal-overlay" id="stationModal" style="display: none;">
+    <div class="modal-overlay" id="stationModal">
         <div class="modal-content">
-            <!-- Novo Header com Botão Voltar -->
             <div class="modal-header">
                 <button class="back-btn-top" id="backStationBtn" title="Voltar"><svg viewBox="0 0 24 24"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"></path></svg></button>
                 Selecione uma Rádio
             </div>
-            <div class="stations-list" id="stationsList"><div class="station-item"><div class="circle-number">1</div><div class="station-item-name">Radio Canaã 93.5</div></div><div class="station-item"><div class="circle-number">2</div><div class="station-item-name">Radio Melodia</div></div><div class="station-item"><div class="circle-number">3</div><div class="station-item-name">Radio 107.5</div></div><div class="station-item"><div class="circle-number">4</div><div class="station-item-name">Boas Novas</div></div><div class="station-item"><div class="circle-number">5</div><div class="station-item-name">Radio CPAD</div></div><div class="station-item"><div class="circle-number">6</div><div class="station-item-name">Radio Feliz FM</div></div><div class="station-item selected"><div class="circle-number">7</div><div class="station-item-name">Rádio Novas de Paz</div></div><div class="station-item"><div class="circle-number">8</div><div class="station-item-name">Paz FM 89.5</div></div><div class="station-item"><div class="circle-number">9</div><div class="station-item-name">Mais FM 102.9</div></div><div class="station-item"><div class="circle-number">10</div><div class="station-item-name">Rádio Rede Aleluia</div></div></div>
+            <div class="stations-list" id="stationsList"></div>
             <button class="btn-modern btn-secondary" id="closeStationModal">FECHAR</button>
         </div>
     </div>
 
-    <div class="modal-overlay" id="passwordModal" style="display: none;">
+    <div class="modal-overlay" id="passwordModal">
         <div class="modal-content">
             <div class="modal-header">Área Restrita</div>
             <p style="text-align:center; font-size: 14px; color: var(--text-muted); margin-bottom: 16px;">Digite a senha (602190)</p>
-            <input type="password" id="adminPassword" class="input-modern" placeholder="••••••" maxlength="20">
+            <input type="tel" inputmode="numeric" id="adminPassword" class="input-modern pwd-mask" placeholder="••••••" maxlength="20">
             <div id="passwordError" style="color: #ef4444; font-size: 12px; text-align: center; display: none; margin-bottom: 16px;">Senha incorreta!</div>
             <button class="btn-modern btn-primary" id="enterAdminBtn">ENTRAR</button>
             <button class="btn-modern btn-secondary" id="cancelPasswordBtn">CANCELAR</button>
         </div>
     </div>
 
-    <div class="modal-overlay" id="adminModal" style="display: none;">
+    <div class="modal-overlay" id="adminModal">
         <div class="modal-content">
-            <!-- Novo Header com Botão Voltar -->
             <div class="modal-header">
                 <button class="back-btn-top" id="backAdminBtn" title="Voltar"><svg viewBox="0 0 24 24"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"></path></svg></button>
-                Configurações e Ranking
+                Configurações
             </div>
-            <div id="adminStationsList"><div class="admin-tape-item"><div class="tape-header">
-                        <div class="tape-header-left">
-                            <span class="tape-rank">1</span>
-                            <span class="tape-title">Radio Canaã 93.5</span>
-                        </div>
-                        <div class="tape-header-right">
-                            <div class="drag-handle" title="Arraste para reordenar">
-                                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M3 15h18v-2H3v2zm0 4h18v-2H3v2zm0-8h18V9H3v2zm0-6v2h18V5H3z"></path></svg>
-                            </div>
-                            <svg class="chevron-icon" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"></path></svg>
-                        </div>
-                    </div><div class="tape-body">
-                        <label>NOME DA RÁDIO</label>
-                        <input type="text" class="input-modern tape-name-input" placeholder="Ex: Sintonize Gospel" value="Radio Canaã 93.5">
-                        
-                        <label>LINK DO STREAM (URL)</label>
-                        <input type="text" class="input-modern tape-url-input" placeholder="http://..." value="https://stream1.svrdedicado.org/8006/stream">
-                        
-                        <label>ARQUIVO DE IMAGEM DA RÁDIO</label>
-                        <input type="text" class="input-modern tape-image-input" placeholder="Ex: logo-radio.png" value="93.5.png">
-                        
-                        <label>TEXTO DO BANNER</label>
-                        <input type="text" class="input-modern tape-banner-input" placeholder="Mensagem rolando" style="margin-bottom:0;" value="Rádio Canaã FM 93.5  - Fortaleza - Ceará - Brasil">
-                    </div></div><div class="admin-tape-item"><div class="tape-header">
-                        <div class="tape-header-left">
-                            <span class="tape-rank">2</span>
-                            <span class="tape-title">Radio Melodia</span>
-                        </div>
-                        <div class="tape-header-right">
-                            <div class="drag-handle" title="Arraste para reordenar">
-                                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M3 15h18v-2H3v2zm0 4h18v-2H3v2zm0-8h18V9H3v2zm0-6v2h18V5H3z"></path></svg>
-                            </div>
-                            <svg class="chevron-icon" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"></path></svg>
-                        </div>
-                    </div><div class="tape-body">
-                        <label>NOME DA RÁDIO</label>
-                        <input type="text" class="input-modern tape-name-input" placeholder="Ex: Sintonize Gospel" value="Radio Melodia">
-                        
-                        <label>LINK DO STREAM (URL)</label>
-                        <input type="text" class="input-modern tape-url-input" placeholder="http://..." value="https://24223.live.streamtheworld.com/MELODIAFMAAC.aac">
-                        
-                        <label>ARQUIVO DE IMAGEM DA RÁDIO</label>
-                        <input type="text" class="input-modern tape-image-input" placeholder="Ex: logo-radio.png" value="97.5.png">
-                        
-                        <label>TEXTO DO BANNER</label>
-                        <input type="text" class="input-modern tape-banner-input" placeholder="Mensagem rolando" style="margin-bottom:0;" value="Radio Melodia FM - Rio de Janeiro - Brasil">
-                    </div></div><div class="admin-tape-item"><div class="tape-header">
-                        <div class="tape-header-left">
-                            <span class="tape-rank">3</span>
-                            <span class="tape-title">Radio 107.5</span>
-                        </div>
-                        <div class="tape-header-right">
-                            <div class="drag-handle" title="Arraste para reordenar">
-                                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M3 15h18v-2H3v2zm0 4h18v-2H3v2zm0-8h18V9H3v2zm0-6v2h18V5H3z"></path></svg>
-                            </div>
-                            <svg class="chevron-icon" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"></path></svg>
-                        </div>
-                    </div><div class="tape-body">
-                        <label>NOME DA RÁDIO</label>
-                        <input type="text" class="input-modern tape-name-input" placeholder="Ex: Sintonize Gospel" value="Radio 107.5">
-                        
-                        <label>LINK DO STREAM (URL)</label>
-                        <input type="text" class="input-modern tape-url-input" placeholder="http://..." value="https://cast2.youngtech.radio.br/radio/8290/radio">
-                        
-                        <label>ARQUIVO DE IMAGEM DA RÁDIO</label>
-                        <input type="text" class="input-modern tape-image-input" placeholder="Ex: logo-radio.png" value="107-5.png">
-                        
-                        <label>TEXTO DO BANNER</label>
-                        <input type="text" class="input-modern tape-banner-input" placeholder="Mensagem rolando" style="margin-bottom:0;" value="Simplesmente Diferente - Joinville - Santa Catarina Brasil">
-                    </div></div><div class="admin-tape-item"><div class="tape-header">
-                        <div class="tape-header-left">
-                            <span class="tape-rank">4</span>
-                            <span class="tape-title">Boas Novas</span>
-                        </div>
-                        <div class="tape-header-right">
-                            <div class="drag-handle" title="Arraste para reordenar">
-                                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M3 15h18v-2H3v2zm0 4h18v-2H3v2zm0-8h18V9H3v2zm0-6v2h18V5H3z"></path></svg>
-                            </div>
-                            <svg class="chevron-icon" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"></path></svg>
-                        </div>
-                    </div><div class="tape-body">
-                        <label>NOME DA RÁDIO</label>
-                        <input type="text" class="input-modern tape-name-input" placeholder="Ex: Sintonize Gospel" value="Boas Novas">
-                        
-                        <label>LINK DO STREAM (URL)</label>
-                        <input type="text" class="input-modern tape-url-input" placeholder="http://..." value="https://boasnovasaac.jmvstream.com/stream">
-                        
-                        <label>ARQUIVO DE IMAGEM DA RÁDIO</label>
-                        <input type="text" class="input-modern tape-image-input" placeholder="Ex: logo-radio.png" value="91.9.png">
-                        
-                        <label>TEXTO DO BANNER</label>
-                        <input type="text" class="input-modern tape-banner-input" placeholder="Mensagem rolando" style="margin-bottom:0;" value="Bem-vindo à Top 10 Gospel Radio!">
-                    </div></div><div class="admin-tape-item"><div class="tape-header">
-                        <div class="tape-header-left">
-                            <span class="tape-rank">5</span>
-                            <span class="tape-title">Radio CPAD</span>
-                        </div>
-                        <div class="tape-header-right">
-                            <div class="drag-handle" title="Arraste para reordenar">
-                                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M3 15h18v-2H3v2zm0 4h18v-2H3v2zm0-8h18V9H3v2zm0-6v2h18V5H3z"></path></svg>
-                            </div>
-                            <svg class="chevron-icon" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"></path></svg>
-                        </div>
-                    </div><div class="tape-body">
-                        <label>NOME DA RÁDIO</label>
-                        <input type="text" class="input-modern tape-name-input" placeholder="Ex: Sintonize Gospel" value="Radio CPAD">
-                        
-                        <label>LINK DO STREAM (URL)</label>
-                        <input type="text" class="input-modern tape-url-input" placeholder="http://..." value="https://server3.webradios.com.br:19404/9404?1793498718881">
-                        
-                        <label>ARQUIVO DE IMAGEM DA RÁDIO</label>
-                        <input type="text" class="input-modern tape-image-input" placeholder="Ex: logo-radio.png" value="96.1.png">
-                        
-                        <label>TEXTO DO BANNER</label>
-                        <input type="text" class="input-modern tape-banner-input" placeholder="Mensagem rolando" style="margin-bottom:0;" value="Radio CPAD - João Pessoa - Paraíba - Brasil - ">
-                    </div></div><div class="admin-tape-item"><div class="tape-header">
-                        <div class="tape-header-left">
-                            <span class="tape-rank">6</span>
-                            <span class="tape-title">Radio Feliz FM</span>
-                        </div>
-                        <div class="tape-header-right">
-                            <div class="drag-handle" title="Arraste para reordenar">
-                                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M3 15h18v-2H3v2zm0 4h18v-2H3v2zm0-8h18V9H3v2zm0-6v2h18V5H3z"></path></svg>
-                            </div>
-                            <svg class="chevron-icon" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"></path></svg>
-                        </div>
-                    </div><div class="tape-body">
-                        <label>NOME DA RÁDIO</label>
-                        <input type="text" class="input-modern tape-name-input" placeholder="Ex: Sintonize Gospel" value="Radio Feliz FM">
-                        
-                        <label>LINK DO STREAM (URL)</label>
-                        <input type="text" class="input-modern tape-url-input" placeholder="http://..." value="https://cloud1.cdnseguro.com:5520/stream/">
-                        
-                        <label>ARQUIVO DE IMAGEM DA RÁDIO</label>
-                        <input type="text" class="input-modern tape-image-input" placeholder="Ex: logo-radio.png" value="92.1.png">
-                        
-                        <label>TEXTO DO BANNER</label>
-                        <input type="text" class="input-modern tape-banner-input" placeholder="Mensagem rolando" style="margin-bottom:0;" value="Rádio Feliz - São Paulo - Brasil">
-                    </div></div><div class="admin-tape-item"><div class="tape-header">
-                        <div class="tape-header-left">
-                            <span class="tape-rank">7</span>
-                            <span class="tape-title">Rádio Novas de Paz</span>
-                        </div>
-                        <div class="tape-header-right">
-                            <div class="drag-handle" title="Arraste para reordenar">
-                                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M3 15h18v-2H3v2zm0 4h18v-2H3v2zm0-8h18V9H3v2zm0-6v2h18V5H3z"></path></svg>
-                            </div>
-                            <svg class="chevron-icon" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"></path></svg>
-                        </div>
-                    </div><div class="tape-body">
-                        <label>NOME DA RÁDIO</label>
-                        <input type="text" class="input-modern tape-name-input" placeholder="Ex: Sintonize Gospel" value="Rádio Novas de Paz">
-                        
-                        <label>LINK DO STREAM (URL)</label>
-                        <input type="text" class="input-modern tape-url-input" placeholder="http://..." value="https://radio.saopaulo01.com.br/8304/stream">
-                        
-                        <label>ARQUIVO DE IMAGEM DA RÁDIO</label>
-                        <input type="text" class="input-modern tape-image-input" placeholder="Ex: logo-radio.png" value="88.1.png">
-                        
-                        <label>TEXTO DO BANNER</label>
-                        <input type="text" class="input-modern tape-banner-input" placeholder="Mensagem rolando" style="margin-bottom:0;" value="Rádio Novas de Paz FM 88.1 - Pernambuco - Brasil">
-                    </div></div><div class="admin-tape-item"><div class="tape-header">
-                        <div class="tape-header-left">
-                            <span class="tape-rank">8</span>
-                            <span class="tape-title">Paz FM 89.5</span>
-                        </div>
-                        <div class="tape-header-right">
-                            <div class="drag-handle" title="Arraste para reordenar">
-                                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M3 15h18v-2H3v2zm0 4h18v-2H3v2zm0-8h18V9H3v2zm0-6v2h18V5H3z"></path></svg>
-                            </div>
-                            <svg class="chevron-icon" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"></path></svg>
-                        </div>
-                    </div><div class="tape-body">
-                        <label>NOME DA RÁDIO</label>
-                        <input type="text" class="input-modern tape-name-input" placeholder="Ex: Sintonize Gospel" value="Paz FM 89.5">
-                        
-                        <label>LINK DO STREAM (URL)</label>
-                        <input type="text" class="input-modern tape-url-input" placeholder="http://..." value="https://digital.umhost.com.br/9978/stream">
-                        
-                        <label>ARQUIVO DE IMAGEM DA RÁDIO</label>
-                        <input type="text" class="input-modern tape-image-input" placeholder="Ex: logo-radio.png" value="89.5.png">
-                        
-                        <label>TEXTO DO BANNER</label>
-                        <input type="text" class="input-modern tape-banner-input" placeholder="Mensagem rolando" style="margin-bottom:0;" value="Rádio Paz FM 89.5 - Goiânia - Goiás - Brasil">
-                    </div></div><div class="admin-tape-item"><div class="tape-header">
-                        <div class="tape-header-left">
-                            <span class="tape-rank">9</span>
-                            <span class="tape-title">Mais FM 102.9</span>
-                        </div>
-                        <div class="tape-header-right">
-                            <div class="drag-handle" title="Arraste para reordenar">
-                                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M3 15h18v-2H3v2zm0 4h18v-2H3v2zm0-8h18V9H3v2zm0-6v2h18V5H3z"></path></svg>
-                            </div>
-                            <svg class="chevron-icon" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"></path></svg>
-                        </div>
-                    </div><div class="tape-body">
-                        <label>NOME DA RÁDIO</label>
-                        <input type="text" class="input-modern tape-name-input" placeholder="Ex: Sintonize Gospel" value="Mais FM 102.9">
-                        
-                        <label>LINK DO STREAM (URL)</label>
-                        <input type="text" class="input-modern tape-url-input" placeholder="http://..." value="https://8313.brasilstream.com.br/stream">
-                        
-                        <label>ARQUIVO DE IMAGEM DA RÁDIO</label>
-                        <input type="text" class="input-modern tape-image-input" placeholder="Ex: logo-radio.png" value="102.9.png">
-                        
-                        <label>TEXTO DO BANNER</label>
-                        <input type="text" class="input-modern tape-banner-input" placeholder="Mensagem rolando" style="margin-bottom:0;" value="Rádio 102.9 FM - Essa Rádio é d+ São Paulo -Brasil">
-                    </div></div><div class="admin-tape-item"><div class="tape-header">
-                        <div class="tape-header-left">
-                            <span class="tape-rank">10</span>
-                            <span class="tape-title">Rádio Rede Aleluia</span>
-                        </div>
-                        <div class="tape-header-right">
-                            <div class="drag-handle" title="Arraste para reordenar">
-                                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M3 15h18v-2H3v2zm0 4h18v-2H3v2zm0-8h18V9H3v2zm0-6v2h18V5H3z"></path></svg>
-                            </div>
-                            <svg class="chevron-icon" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"></path></svg>
-                        </div>
-                    </div><div class="tape-body">
-                        <label>NOME DA RÁDIO</label>
-                        <input type="text" class="input-modern tape-name-input" placeholder="Ex: Sintonize Gospel" value="Rádio Rede Aleluia">
-                        
-                        <label>LINK DO STREAM (URL)</label>
-                        <input type="text" class="input-modern tape-url-input" placeholder="http://..." value="https://station.azrmcsoftbroadcast.com.br/listen/radio_porto_alegre/rd_portoalegre">
-                        
-                        <label>ARQUIVO DE IMAGEM DA RÁDIO</label>
-                        <input type="text" class="input-modern tape-image-input" placeholder="Ex: logo-radio.png" value="rede.png">
-                        
-                        <label>TEXTO DO BANNER</label>
-                        <input type="text" class="input-modern tape-banner-input" placeholder="Mensagem rolando" style="margin-bottom:0;" value="Rádio Rede Aleluia Porto Alegre - Rio Grande do Sul - Brasil">
-                    </div></div></div>
             
-            <button class="btn-modern btn-primary" id="saveAdminBtn" style="margin-bottom: 8px;">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M17 3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V7l-4-4zm-5 16c-1.66 0-3-1.34-3-3s1.34-3 3-3 3 1.34 3 3-1.34 3-3 3zm3-10H5V5h10v4z"></path></svg>
-                SALVAR NA MEMÓRIA
-            </button>
+            <div class="tabs-container">
+                <button class="tab-btn active" id="btnTabRanking">Ranking</button>
+                <button class="tab-btn" id="btnTabConfig">Preferências</button>
+            </div>
             
-            <button class="btn-modern btn-export" id="exportBtn" style="margin-bottom: 8px;">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"></path></svg>
-                EXPORTAR ARQUIVO (GITHUB)
-            </button>
+            <div id="tabRankingContent" class="tab-content active">
+                <div id="adminStationsList"></div>
+            </div>
             
-            <button class="btn-modern btn-danger" id="cancelAdminBtn">FECHAR / CANCELAR</button>
+            <div id="tabConfigContent" class="tab-content">
+                <div class="admin-tape-item" style="padding: 16px;">
+                    <div style="font-weight: 700; color: var(--accent); margin-bottom: 12px; font-size: 14px;">Botão Superior (Logo Principal)</div>
+                    <label class="config-label">ARQUIVO DA IMAGEM</label>
+                    <input type="text" id="cfgInputLeftImage" class="input-modern" placeholder="Ex: logo2.png">
+                    <label class="config-label">TEXTO AO PASSAR O MOUSE</label>
+                    <input type="text" id="cfgInputLeftHover" class="input-modern" placeholder="Ex: Meu Site">
+                    <label class="config-label">LINK (URL)</label>
+                    <input type="text" id="cfgInputLeftUrl" class="input-modern" placeholder="https://...">
+
+                    <div style="font-weight: 700; color: var(--accent); margin-top: 24px; margin-bottom: 12px; font-size: 14px;">Botão Inferior (WhatsApp)</div>
+                    <label class="config-label">TEXTO AO PASSAR O MOUSE</label>
+                    <input type="text" id="cfgInputWaHover" class="input-modern" placeholder="Ex: Partilhar">
+                    <label class="config-label">TEXTO/LINK DE COMPARTILHAMENTO (USE [Radio] PARA O NOME)</label>
+                    <input type="text" id="cfgInputWaUrl" class="input-modern" placeholder="Mensagem a ser enviada">
+                </div>
+            </div>
+
+            <div style="margin-top: 16px;">
+                <button class="btn-modern btn-primary" id="saveAdminBtn" style="margin-bottom: 8px;">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M17 3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V7l-4-4zm-5 16c-1.66 0-3-1.34-3-3s1.34-3 3-3 3 1.34 3 3-1.34 3-3 3zm3-10H5V5h10v4z"></path></svg>
+                    SALVAR NA MEMÓRIA
+                </button>
+                <button class="btn-modern btn-export" id="exportBtn" style="margin-bottom: 8px;">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"></path></svg>
+                    EXPORTAR ARQUIVO (GITHUB)
+                </button>
+                <button class="btn-modern btn-danger" id="cancelAdminBtn">FECHAR / CANCELAR</button>
+            </div>
         </div>
     </div>
 
-    <audio id="audioElement" crossorigin="anonymous" preload="none" src="https://radio.saopaulo01.com.br/8304/stream"></audio>
+    <audio id="audioElement" crossorigin="anonymous" preload="none"></audio>
 
     <script>
         (function() {
-            let fileVersion = 1793505694736; 
+            let fileVersion = Date.now(); 
             let localVersion = parseInt(localStorage.getItem('gospelVersion') || '0');
             
             if (fileVersion > localVersion) {
                 localStorage.removeItem('gospelTapes');
+                localStorage.removeItem('gospelConfig');
                 localStorage.setItem('gospelVersion', fileVersion);
             }
 
@@ -537,6 +320,7 @@
             const volumeSlider = document.getElementById('volumeSlider');
             const volumeFill = document.getElementById('volumeFill');
             const volumeKnob = document.getElementById('volumeKnob');
+            const volumeValueDisplay = document.getElementById('volumeValueDisplay');
             
             const fullscreenBtn = document.getElementById('fullscreenBtn');
             const themeBtn = document.getElementById('themeBtn'); 
@@ -545,7 +329,7 @@
             const stationModal = document.getElementById('stationModal');
             const stationsList = document.getElementById('stationsList');
             const closeStationModal = document.getElementById('closeStationModal');
-            const backStationBtn = document.getElementById('backStationBtn'); // Novo Botão
+            const backStationBtn = document.getElementById('backStationBtn'); 
             
             const adminBtn = document.getElementById('adminBtn');
             const passwordModal = document.getElementById('passwordModal');
@@ -556,7 +340,12 @@
             
             const adminModal = document.getElementById('adminModal');
             const adminStationsList = document.getElementById('adminStationsList');
-            const backAdminBtn = document.getElementById('backAdminBtn'); // Novo Botão
+            const backAdminBtn = document.getElementById('backAdminBtn'); 
+            
+            const btnTabRanking = document.getElementById('btnTabRanking');
+            const btnTabConfig = document.getElementById('btnTabConfig');
+            const tabRankingContent = document.getElementById('tabRankingContent');
+            const tabConfigContent = document.getElementById('tabConfigContent');
             
             const saveAdminBtn = document.getElementById('saveAdminBtn');
             const exportBtn = document.getElementById('exportBtn'); 
@@ -566,71 +355,80 @@
             const iconPause = '<path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>';
             const ADMIN_PASSWORD = "602190"; 
             
-            // Adicionado campo 'image' em todos os blocos
             let defaultTapes = [
-    {
-        "name": "Radio Canaã 93.5",
-        "url": "https://stream1.svrdedicado.org/8006/stream",
-        "image": "93.5.png",
-        "banner": "Rádio Canaã FM 93.5  - Fortaleza - Ceará - Brasil"
-    },
-    {
-        "name": "Radio Melodia",
-        "url": "https://24223.live.streamtheworld.com/MELODIAFMAAC.aac",
-        "image": "97.5.png",
-        "banner": "Radio Melodia FM - Rio de Janeiro - Brasil"
-    },
-    {
-        "name": "Radio 107.5",
-        "url": "https://cast2.youngtech.radio.br/radio/8290/radio",
-        "image": "107-5.png",
-        "banner": "Simplesmente Diferente - Joinville - Santa Catarina Brasil"
-    },
-    {
-        "name": "Boas Novas",
-        "url": "https://boasnovasaac.jmvstream.com/stream",
-        "image": "91.9.png",
-        "banner": "Bem-vindo à Top 10 Gospel Radio!"
-    },
-    {
-        "name": "Radio CPAD",
-        "url": "https://server3.webradios.com.br:19404/9404?1793498718881",
-        "image": "96.1.png",
-        "banner": "Radio CPAD - João Pessoa - Paraíba - Brasil - "
-    },
-    {
-        "name": "Radio Feliz FM",
-        "url": "https://cloud1.cdnseguro.com:5520/stream/",
-        "image": "92.1.png",
-        "banner": "Rádio Feliz - São Paulo - Brasil"
-    },
-    {
-        "name": "Rádio Novas de Paz",
-        "url": "https://radio.saopaulo01.com.br/8304/stream",
-        "image": "88.1.png",
-        "banner": "Rádio Novas de Paz FM 88.1 - Pernambuco - Brasil"
-    },
-    {
-        "name": "Paz FM 89.5",
-        "url": "https://digital.umhost.com.br/9978/stream",
-        "image": "89.5.png",
-        "banner": "Rádio Paz FM 89.5 - Goiânia - Goiás - Brasil"
-    },
-    {
-        "name": "Mais FM 102.9",
-        "url": "https://8313.brasilstream.com.br/stream",
-        "image": "102.9.png",
-        "banner": "Rádio 102.9 FM - Essa Rádio é d+ São Paulo -Brasil"
-    },
-    {
-        "name": "Rádio Rede Aleluia",
-        "url": "https://station.azrmcsoftbroadcast.com.br/listen/radio_porto_alegre/rd_portoalegre",
-        "image": "rede.png",
-        "banner": "Rádio Rede Aleluia Porto Alegre - Rio Grande do Sul - Brasil"
-    }
-];
+                {
+                    "name": "Radio Canaã 93.5",
+                    "url": "https://stream1.svrdedicado.org/8006/stream",
+                    "image": "93.5.png",
+                    "banner": "Rádio Canaã FM 93.5  - Fortaleza - Ceará - Brasil"
+                },
+                {
+                    "name": "Radio Melodia",
+                    "url": "https://24223.live.streamtheworld.com/MELODIAFMAAC.aac",
+                    "image": "97.5.png",
+                    "banner": "Radio Melodia FM - Rio de Janeiro - Brasil"
+                },
+                {
+                    "name": "Radio 107.5",
+                    "url": "https://cast2.youngtech.radio.br/radio/8290/radio",
+                    "image": "107-5.png",
+                    "banner": "Simplesmente Diferente - Joinville - Santa Catarina Brasil"
+                },
+                {
+                    "name": "Boas Novas",
+                    "url": "https://boasnovasaac.jmvstream.com/stream",
+                    "image": "91.9.png",
+                    "banner": "Bem-vindo à Top 10 Gospel Radio!"
+                },
+                {
+                    "name": "Radio CPAD",
+                    "url": "https://server3.webradios.com.br:19404/9404?1793498718881",
+                    "image": "96.1.png",
+                    "banner": "Radio CPAD - João Pessoa - Paraíba - Brasil - "
+                },
+                {
+                    "name": "Radio Feliz FM",
+                    "url": "https://cloud1.cdnseguro.com:5520/stream/",
+                    "image": "92.1.png",
+                    "banner": "Rádio Feliz - São Paulo - Brasil"
+                },
+                {
+                    "name": "Rádio Novas de Paz",
+                    "url": "https://radio.saopaulo01.com.br/8304/stream",
+                    "image": "88.1.png",
+                    "banner": "Rádio Novas de Paz FM 88.1 - Pernambuco - Brasil"
+                },
+                {
+                    "name": "Paz FM 89.5",
+                    "url": "https://digital.umhost.com.br/9978/stream",
+                    "image": "89.5.png",
+                    "banner": "Rádio Paz FM 89.5 - Goiânia - Goiás - Brasil"
+                },
+                {
+                    "name": "Mais FM 102.9",
+                    "url": "https://8313.brasilstream.com.br/stream",
+                    "image": "102.9.png",
+                    "banner": "Rádio 102.9 FM - Essa Rádio é d+ São Paulo -Brasil"
+                },
+                {
+                    "name": "Rádio Rede Aleluia",
+                    "url": "https://station.azrmcsoftbroadcast.com.br/listen/radio_porto_alegre/rd_portoalegre",
+                    "image": "rede.png",
+                    "banner": "Rádio Rede Aleluia Porto Alegre - Rio Grande do Sul - Brasil"
+                }
+            ];
+
+            let defaultAppConfig = {
+                btnLeftImage: "Sint.jpg",
+                btnLeftHover: "Canal YouTube",
+                btnLeftUrl: "https://www.youtube.com/@sintonizegospel",
+                waHover: "Compartilhar no WhatsApp",
+                waUrl: "Estou ouvindo a [Radio] no Top 10 Gospel Radio! Acesse também: https://gerlemppimentel.github.io/SintonizeGospel/"
+            };
             
             let tapes = JSON.parse(localStorage.getItem('gospelTapes')) || defaultTapes;
+            let appConfig = JSON.parse(localStorage.getItem('gospelConfig')) || defaultAppConfig;
+            
             let currentStreamUrl = tapes[0].url;
             let selectedTapeIndex = 0;
             let isPlaying = false;
@@ -641,6 +439,14 @@
             
             const TOTAL_VU_SEGMENTS = 15;
             const vuSegments = [];
+
+            function applyAppConfigUI() {
+                document.getElementById('cfgBtnLeft').href = appConfig.btnLeftUrl;
+                document.getElementById('cfgBtnLeft').title = appConfig.btnLeftHover;
+                document.getElementById('cfgImgLeft').src = appConfig.btnLeftImage || "Sint.jpg";
+                document.getElementById('shareBtn').title = appConfig.waHover;
+            }
+            applyAppConfigUI();
             
             fullscreenBtn.addEventListener('click', () => {
                 if (!document.fullscreenElement) { document.documentElement.requestFullscreen().catch(() => alert("Tela cheia não suportada.")); } 
@@ -654,8 +460,9 @@
 
             shareBtn.addEventListener('click', () => {
                 const radioName = tapes[selectedTapeIndex].name;
-                const shareText = `Estou ouvindo a ${radioName} no Top 10 Gospel Radio! Acesse também: https://gerlemppimentel.github.io/SintonizeGospel/`;
-                window.open(`https://wa.me/?text=${encodeURIComponent(shareText)}`, '_blank');
+                // Substitui a tag [Radio] pelo nome exato que está tocando agora
+                let userMsg = appConfig.waUrl.replace('[Radio]', radioName);
+                window.open(`https://wa.me/?text=${encodeURIComponent(userMsg)}`, '_blank');
             });
 
             function createVUMeter() {
@@ -683,7 +490,6 @@
                 runningBanner.textContent = tapes[selectedTapeIndex].banner; 
                 topBadgeNumber.textContent = index + 1;
                 
-                // Melhoria Técnica: Usa a imagem definida pelo usuário ou o Fallback (Sint.jpg)
                 albumArtImage.src = tapes[selectedTapeIndex].image ? tapes[selectedTapeIndex].image : "Sint.jpg";
 
                 if (isPlaying && !isPaused) { playStream(currentStreamUrl); } 
@@ -724,28 +530,22 @@
 
                     const body = document.createElement('div');
                     body.className = 'tape-body';
-                    // Adicionado o novo campo de Imagem
                     body.innerHTML = `
                         <label>NOME DA RÁDIO</label>
                         <input type="text" class="input-modern tape-name-input" placeholder="Ex: Sintonize Gospel" value="${tape.name}">
-                        
                         <label>LINK DO STREAM (URL)</label>
                         <input type="text" class="input-modern tape-url-input" placeholder="http://..." value="${tape.url}">
-                        
                         <label>ARQUIVO DE IMAGEM DA RÁDIO</label>
                         <input type="text" class="input-modern tape-image-input" placeholder="Ex: logo-radio.png" value="${tape.image || ''}">
-                        
                         <label>TEXTO DO BANNER</label>
                         <input type="text" class="input-modern tape-banner-input" placeholder="Mensagem rolando" style="margin-bottom:0;" value="${tape.banner}">
                     `;
 
                     header.addEventListener('click', (e) => {
                         if(e.target.closest('.drag-handle')) return; 
-                        
                         const isExpanded = body.classList.contains('expanded');
                         document.querySelectorAll('.tape-body').forEach(b => b.classList.remove('expanded'));
                         document.querySelectorAll('.chevron-icon').forEach(c => c.style.transform = 'rotate(0deg)');
-                        
                         if(!isExpanded) {
                             body.classList.add('expanded');
                             header.querySelector('.chevron-icon').style.transform = 'rotate(180deg)';
@@ -754,9 +554,7 @@
 
                     const nameInput = body.querySelector('.tape-name-input');
                     const titleDisplay = header.querySelector('.tape-title');
-                    nameInput.addEventListener('input', (e) => {
-                        titleDisplay.textContent = e.target.value || `Rádio ${index + 1}`;
-                    });
+                    nameInput.addEventListener('input', (e) => { titleDisplay.textContent = e.target.value || `Rádio ${index + 1}`; });
 
                     item.appendChild(header);
                     item.appendChild(body);
@@ -773,7 +571,26 @@
                         allRanks.forEach((rank, idx) => { rank.textContent = idx + 1; });
                     }
                 });
+                
+                document.getElementById('cfgInputLeftImage').value = appConfig.btnLeftImage;
+                document.getElementById('cfgInputLeftHover').value = appConfig.btnLeftHover;
+                document.getElementById('cfgInputLeftUrl').value = appConfig.btnLeftUrl;
+                document.getElementById('cfgInputWaHover').value = appConfig.waHover;
+                document.getElementById('cfgInputWaUrl').value = appConfig.waUrl;
             }
+            
+            btnTabRanking.addEventListener('click', () => {
+                btnTabConfig.classList.remove('active');
+                tabConfigContent.classList.remove('active');
+                btnTabRanking.classList.add('active');
+                tabRankingContent.classList.add('active');
+            });
+            btnTabConfig.addEventListener('click', () => {
+                btnTabRanking.classList.remove('active');
+                tabRankingContent.classList.remove('active');
+                btnTabConfig.classList.add('active');
+                tabConfigContent.classList.add('active');
+            });
             
             volumeBtn.addEventListener('click', (e) => { e.stopPropagation(); volumePopup.classList.toggle('show'); });
             document.addEventListener('click', (e) => { if (!volumePopup.contains(e.target) && !volumeBtn.contains(e.target)) volumePopup.classList.remove('show'); });
@@ -781,17 +598,32 @@
             function setVolume(percent) {
                 let vol = Math.max(0, Math.min(1, percent / 100));
                 audio.volume = vol;
-                volumeFill.style.width = (vol * 100) + '%';
-                volumeKnob.style.left = (vol * 100) + '%';
+                volumeFill.style.height = (vol * 100) + '%';
+                volumeKnob.style.bottom = (vol * 100) + '%';
+                volumeValueDisplay.textContent = Math.round(vol * 10); 
             }
             
+            function handleVolumeDrag(e) {
+                e.preventDefault();
+                const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+                const rect = volumeSlider.getBoundingClientRect();
+                let percent = (1 - ((clientY - rect.top) / rect.height)) * 100;
+                setVolume(percent);
+            }
+
             volumeSlider.addEventListener('mousedown', (e) => {
-                const updateVolume = (ev) => { setVolume(((ev.clientX - volumeSlider.getBoundingClientRect().left) / volumeSlider.getBoundingClientRect().width) * 100); };
-                updateVolume(e);
-                const onMouseMove = (ev) => updateVolume(ev);
+                handleVolumeDrag(e);
+                const onMouseMove = (ev) => handleVolumeDrag(ev);
                 const onMouseUp = () => { document.removeEventListener('mousemove', onMouseMove); document.removeEventListener('mouseup', onMouseUp); };
                 document.addEventListener('mousemove', onMouseMove); document.addEventListener('mouseup', onMouseUp);
             });
+            
+            volumeSlider.addEventListener('touchstart', (e) => {
+                handleVolumeDrag(e);
+                const onTouchMove = (ev) => handleVolumeDrag(ev);
+                const onTouchEnd = () => { document.removeEventListener('touchmove', onTouchMove); document.removeEventListener('touchend', onTouchEnd); };
+                document.addEventListener('touchmove', onTouchMove, {passive: false}); document.addEventListener('touchend', onTouchEnd);
+            }, {passive: false});
             
             function updateStatusUI(state) {
                 if (state === 'playing') {
@@ -857,7 +689,6 @@
             
             listBtn.addEventListener('click', () => stationModal.style.display = 'flex');
             
-            // Eventos dos novos e velhos botões de fechar/voltar
             closeStationModal.addEventListener('click', () => stationModal.style.display = 'none');
             backStationBtn.addEventListener('click', () => stationModal.style.display = 'none');
             cancelAdminBtn.addEventListener('click', () => adminModal.style.display = 'none');
@@ -874,7 +705,7 @@
             const memorySaveHandler = () => {
                 const nameInputs = document.querySelectorAll('.tape-name-input');
                 const urlInputs = document.querySelectorAll('.tape-url-input');
-                const imageInputs = document.querySelectorAll('.tape-image-input'); // Captura as imagens
+                const imageInputs = document.querySelectorAll('.tape-image-input');
                 const bannerInputs = document.querySelectorAll('.tape-banner-input');
                 const newTapes = [];
                 
@@ -883,24 +714,32 @@
                         newTapes.push({ 
                             name: nameInputs[i].value, 
                             url: urlInputs[i].value, 
-                            image: imageInputs[i].value, // Salva o nome da imagem
+                            image: imageInputs[i].value,
                             banner: bannerInputs[i].value 
                         });
                     }
                 }
                 
-                const playingUrl = tapes[selectedTapeIndex].url;
+                appConfig = {
+                    btnLeftImage: document.getElementById('cfgInputLeftImage').value,
+                    btnLeftHover: document.getElementById('cfgInputLeftHover').value,
+                    btnLeftUrl: document.getElementById('cfgInputLeftUrl').value,
+                    waHover: document.getElementById('cfgInputWaHover').value,
+                    waUrl: document.getElementById('cfgInputWaUrl').value
+                };
                 
+                const playingUrl = tapes[selectedTapeIndex].url;
                 tapes = newTapes;
+                
                 localStorage.setItem('gospelTapes', JSON.stringify(tapes));
+                localStorage.setItem('gospelConfig', JSON.stringify(appConfig));
                 
                 let newIndex = tapes.findIndex(t => t.url === playingUrl && t.url !== "");
-                if (newIndex !== -1) {
-                    selectedTapeIndex = newIndex;
-                }
+                if (newIndex !== -1) { selectedTapeIndex = newIndex; }
                 
                 createStationsList(); 
                 changeStation(selectedTapeIndex); 
+                applyAppConfigUI();
             };
 
             saveAdminBtn.addEventListener('click', () => {
@@ -911,9 +750,7 @@
             exportBtn.addEventListener('click', () => {
                 memorySaveHandler();
 
-                document.querySelectorAll('.modal-overlay').forEach(modal => {
-                    modal.style.display = 'none';
-                });
+                document.querySelectorAll('.modal-overlay').forEach(modal => { modal.style.display = 'none'; });
 
                 const currentVersion = Date.now();
                 localStorage.setItem('gospelVersion', currentVersion);
@@ -923,6 +760,10 @@
                 const tapesRegex = /let\s+defaultTapes\s*=\s*\[[\s\S]*?\];/;
                 const newTapesString = 'let defaultTapes = ' + JSON.stringify(tapes, null, 4) + ';';
                 htmlContent = htmlContent.replace(tapesRegex, newTapesString);
+                
+                const configRegex = /let\s+defaultAppConfig\s*=\s*\{[\s\S]*?\};/;
+                const newConfigString = 'let defaultAppConfig = ' + JSON.stringify(appConfig, null, 4) + ';';
+                htmlContent = htmlContent.replace(configRegex, newConfigString);
                 
                 const versionRegex = /let\s+fileVersion\s*=\s*\d+;/;
                 const newVersionString = 'let fileVersion = ' + currentVersion + ';';
@@ -948,7 +789,6 @@
             setVolume(50);
             createStationsList();
             
-            // Inicialização Correta da Primeira Rádio
             stationName.textContent = tapes[0].name;
             topBadgeNumber.textContent = selectedTapeIndex + 1; 
             runningBanner.textContent = tapes[0].banner;
@@ -956,5 +796,5 @@
             updateStatusUI('off');
         })();
     </script>
-
-</body></html>
+</body>
+</html>
