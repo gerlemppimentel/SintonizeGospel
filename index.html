@@ -57,9 +57,34 @@
         .status-badge.active .status-dot { background: var(--accent); box-shadow: 0 0 8px var(--accent); }
         .status-badge.active { color: var(--accent); background: rgba(16, 185, 129, 0.15); border: 1px solid rgba(16, 185, 129, 0.3); }
 
-        .station-display { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 10px 16px; text-align: center; }
+        .station-display { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 10px 16px; text-align: center; position: relative; }
 
         .hub-container { position: relative; width: 250px; height: 250px; margin: 0 auto 16px auto; display: flex; align-items: center; justify-content: center; }
+        
+        /* NOVO CSS: Botão de Favorito ancorado na borda direita do hub-container (-24px o deixa metade dentro, metade fora) */
+        .fav-btn {
+            position: absolute;
+            right: -24px; 
+            top: 50%;
+            transform: translateY(-50%);
+            background: var(--surface);
+            border: 1px solid var(--border-color);
+            border-radius: 50%;
+            width: 48px;
+            height: 48px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 6px 16px rgba(0,0,0,0.3);
+            z-index: 50;
+            transition: all 0.3s ease;
+            color: var(--text-muted); 
+        }
+        .fav-btn:hover { transform: translateY(-50%) scale(1.1); color: var(--text-main); }
+        .fav-btn.active { color: #ef4444; border-color: rgba(239, 68, 68, 0.4); box-shadow: 0 0 15px rgba(239, 68, 68, 0.3); }
+        .fav-btn svg { width: 24px; height: 24px; fill: currentColor; }
+
         .station-icon { width: 175px; height: 175px; border-radius: 20px; box-shadow: 0 15px 35px rgba(0,0,0,0.4); border: 4px solid var(--surface); transition: box-shadow 0.3s ease, border-color 0.3s ease; overflow: hidden; background-color: var(--surface); display: flex; align-items: center; justify-content: center; z-index: 5; }
         .station-icon img { width: 100%; height: 100%; object-fit: cover; }
         .station-icon.playing { box-shadow: 0 0 40px var(--accent-glow); border-color: var(--accent); }
@@ -69,9 +94,10 @@
 
         .sat-tl { top: -4px; left: -4px; overflow: hidden; padding: 4px; }
         .sat-tl img { width: 100%; height: 100%; object-fit: cover; border-radius: 12px; }
-        .sat-tr { top: -4px; right: -4px; flex-direction: column; }
-        .sat-tr span:first-child { font-size: 11px; font-weight: 700; color: var(--text-muted); }
-        .sat-tr span:last-child { font-size: 20px; font-weight: 800; color: var(--accent); }
+        
+        .sat-tr { top: -4px; right: -4px; padding: 4px; overflow: hidden; }
+        .sat-tr img { width: 100%; height: 100%; object-fit: cover; border-radius: 12px; }
+        
         .sat-bl { bottom: -4px; left: -4px; }
         .sat-bl svg { width: 28px; height: 28px; fill: currentColor; }
         .sat-br { bottom: -4px; right: -4px; color: #25D366; }
@@ -85,6 +111,9 @@
         .vu-segment.green.lit { background: #10b981; box-shadow: 0 0 5px #10b981; }
         .vu-segment.orange.lit { background: #f59e0b; box-shadow: 0 0 5px #f59e0b; }
         .vu-segment.red.lit { background: #ef4444; box-shadow: 0 0 5px #ef4444; }
+        /* NOVO CSS: Estilo para o LED central branco/verde-escuro */
+        .vu-segment.center-led.lit { background: #ffffff; box-shadow: 0 0 8px #ffffff; }
+        .light-theme .vu-segment.center-led.lit { background: #064e3b; box-shadow: 0 0 8px #064e3b; }
 
         .banner-container { width: 100%; background: var(--surface); padding: 12px 0; overflow: hidden; white-space: nowrap; border-top: 1px solid var(--border-color); border-bottom: 1px solid var(--border-color); }
         .banner-text { display: inline-block; font-size: 14px; font-weight: 600; color: var(--text-muted); animation: scrollBanner 24s linear infinite; }
@@ -159,7 +188,6 @@
         
         /* =========================================
            TV & DESKTOP (Telas Horizontais / Paisagem)
-           Preserva o HTML original mas divide a tela 60/40 via CSS Grid
            ========================================= */
         @media (min-width: 768px) and (orientation: landscape) {
             #app-container {
@@ -181,7 +209,6 @@
             .vu-meter { grid-area: vu; margin-bottom: 16px; }
             .banner-container { grid-area: banner; }
 
-            /* Reorganiza a caixa de controlos numa grelha na TV */
             .controls-container {
                 grid-area: controls;
                 display: grid;
@@ -194,7 +221,6 @@
                 padding: 0 40px 0 0;
             }
 
-            /* Agrupa o Play, Anterior e Próximo no topo da coluna direita */
             .playback-group {
                 grid-column: 1 / 3;
                 grid-row: 1 / 3;
@@ -211,14 +237,13 @@
 
             #mainPlayBtn { 
                 grid-area: play; justify-self: center;
-                width: 100px; height: 100px; border-radius: 30px; margin-bottom: 12px; 
+                width: 144px; height: 144px; border-radius: 40px; margin-bottom: 12px; 
             }
-            #mainPlayBtn svg { width: 44px; height: 44px; }
+            #mainPlayBtn svg { width: 64px; height: 64px; }
             
             #prevBtn { grid-area: prev; margin: 0; }
             #nextBtn { grid-area: next; margin: 0; }
 
-            /* Alinha Volume e Lista lado a lado na base da coluna direita */
             .volume-wrapper { grid-column: 1 / 2; grid-row: 3 / 4; }
             #listBtn { grid-column: 2 / 3; grid-row: 3 / 4; }
 
@@ -232,7 +257,6 @@
             #stationName { font-size: 26px; margin-top: 24px; }
             .volume-popup { bottom: 80px; left: 50%; transform: translateX(-50%); }
 
-            /* Foco Visual essencial para Navegação com Controle Remoto na TV */
             button:focus, a:focus, input:focus, .station-item:focus, .admin-tape-item:focus {
                 outline: 3px solid var(--accent);
                 outline-offset: 4px;
@@ -256,10 +280,18 @@
 
         <div class="station-display">
             <div class="hub-container">
+                <!-- Botão de Favorito ancorado no container central -->
+                <button id="favoriteBtn" class="fav-btn" title="Marcar como Favorita">
+                    <svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+                </button>
+
                 <div class="status-badge" id="statusBadge"><div class="status-dot"></div><span id="statusText">OFF</span></div>
                 
                 <a href="#" target="_blank" class="hub-satellite sat-tl" id="cfgBtnLeft"><img id="cfgImgLeft" src="Sint.jpg" alt="Logo"></a>
-                <div class="hub-satellite sat-tr" title="Ranking da Rádio"><span>TOP</span><span id="topBadgeNumber">1</span></div>
+                
+                <div class="hub-satellite sat-tr" title="Ranking da Rádio">
+                    <img id="topBadgeImg" src="Top1.png" alt="Top Ranking">
+                </div>
                 
                 <div class="station-icon" id="mainIcon"><img id="albumArtImage" src="Sint.jpg" alt="Arte do Álbum" onerror="this.src='Sint.jpg'"></div>
                 
@@ -269,7 +301,6 @@
             <div id="stationName">Carregando...</div>
         </div>
 
-        <!-- Mover o VU Meter para fora e logo abaixo do station-display garante que na TV ele fique de ponta a ponta sem mudar o aspeto no Celular -->
         <div class="vu-meter" id="vuMeter"></div>
 
         <div class="banner-container"><div class="banner-text" id="runningBanner"></div></div>
@@ -309,7 +340,7 @@
     <div class="modal-overlay" id="passwordModal">
         <div class="modal-content">
             <div class="modal-header">Área Restrita</div>
-            <p style="text-align:center; font-size: 14px; color: var(--text-muted); margin-bottom: 16px;">Digite a senha (602190)</p>
+            <p style="text-align:center; font-size: 14px; color: var(--text-muted); margin-bottom: 16px;">Digite a senha de administrador</p>
             <input type="tel" inputmode="numeric" id="adminPassword" class="input-modern pwd-mask" placeholder="••••••" maxlength="20">
             <div id="passwordError" style="color: #ef4444; font-size: 12px; text-align: center; display: none; margin-bottom: 16px;">Senha incorreta!</div>
             <button class="btn-modern btn-primary" id="enterAdminBtn">ENTRAR</button>
@@ -383,7 +414,7 @@
             const audio = document.getElementById('audioElement');
             const stationName = document.getElementById('stationName');
             const albumArtImage = document.getElementById('albumArtImage'); 
-            const topBadgeNumber = document.getElementById('topBadgeNumber'); 
+            const topBadgeImg = document.getElementById('topBadgeImg'); 
             
             const statusBadge = document.getElementById('statusBadge');
             const statusText = document.getElementById('statusText');
@@ -408,6 +439,7 @@
             const fullscreenBtn = document.getElementById('fullscreenBtn');
             const themeBtn = document.getElementById('themeBtn'); 
             const shareBtn = document.getElementById('shareBtn'); 
+            const favoriteBtn = document.getElementById('favoriteBtn'); 
             
             const stationModal = document.getElementById('stationModal');
             const stationsList = document.getElementById('stationsList');
@@ -512,8 +544,16 @@
             let tapes = JSON.parse(localStorage.getItem('gospelTapes')) || defaultTapes;
             let appConfig = JSON.parse(localStorage.getItem('gospelConfig')) || defaultAppConfig;
             
-            let currentStreamUrl = tapes[0].url;
             let selectedTapeIndex = 0;
+            let savedFav = localStorage.getItem('gospelFavoriteIndex');
+            if (savedFav !== null) {
+                let parsedFav = parseInt(savedFav);
+                if (parsedFav >= 0 && parsedFav < tapes.length) {
+                    selectedTapeIndex = parsedFav;
+                }
+            }
+
+            let currentStreamUrl = tapes[selectedTapeIndex].url;
             let isPlaying = false;
             let isPaused = false;
             let animationFrame = null;
@@ -531,6 +571,25 @@
             }
             applyAppConfigUI();
             
+            function updateFavoriteUI(index) {
+                let currentFav = localStorage.getItem('gospelFavoriteIndex');
+                if (currentFav !== null && parseInt(currentFav) === index) {
+                    favoriteBtn.classList.add('active');
+                } else {
+                    favoriteBtn.classList.remove('active');
+                }
+            }
+
+            favoriteBtn.addEventListener('click', () => {
+                let currentFav = localStorage.getItem('gospelFavoriteIndex');
+                if (currentFav !== null && parseInt(currentFav) === selectedTapeIndex) {
+                    localStorage.removeItem('gospelFavoriteIndex');
+                } else {
+                    localStorage.setItem('gospelFavoriteIndex', selectedTapeIndex);
+                }
+                updateFavoriteUI(selectedTapeIndex);
+            });
+
             fullscreenBtn.addEventListener('click', () => {
                 if (!document.fullscreenElement) { document.documentElement.requestFullscreen().catch(() => alert("Tela cheia não suportada.")); } 
                 else { document.exitFullscreen(); }
@@ -547,14 +606,23 @@
                 window.open(`https://wa.me/?text=${encodeURIComponent(userMsg)}`, '_blank');
             });
 
+            // NOVO MÉTODO: Criar o VU Meter com as cores corretas por posição (Índices de 0 a 14)
             function createVUMeter() {
                 vuMeter.innerHTML = '';
                 for (let i = 0; i < TOTAL_VU_SEGMENTS; i++) {
                     let segment = document.createElement('div');
                     segment.className = 'vu-segment';
-                    if (i < 9) segment.classList.add('green');
-                    else if (i < 12) segment.classList.add('orange');
-                    else segment.classList.add('red');
+                    
+                    if (i === 7) {
+                        segment.classList.add('center-led'); // Centro: Branco
+                    } else if (i < 2 || i > 12) {
+                        segment.classList.add('red'); // 2 pontas vermelhas (0, 1 e 13, 14)
+                    } else if (i === 2 || i === 3 || i === 11 || i === 12) {
+                        segment.classList.add('orange'); // 2 laranjas (2, 3 e 11, 12)
+                    } else {
+                        segment.classList.add('green'); // Restante verde (4, 5, 6 e 8, 9, 10)
+                    }
+                    
                     vuMeter.appendChild(segment);
                     vuSegments.push(segment);
                 }
@@ -570,9 +638,12 @@
                 currentStreamUrl = tapes[selectedTapeIndex].url;
                 stationName.textContent = tapes[selectedTapeIndex].name;
                 runningBanner.textContent = tapes[selectedTapeIndex].banner; 
-                topBadgeNumber.textContent = index + 1;
+                
+                topBadgeImg.src = `Top${index + 1}.png`;
                 
                 albumArtImage.src = tapes[selectedTapeIndex].image ? tapes[selectedTapeIndex].image : "Sint.jpg";
+
+                updateFavoriteUI(index);
 
                 if (isPlaying && !isPaused) { playStream(currentStreamUrl); } 
                 else { if(hlsPlayer) { hlsPlayer.destroy(); hlsPlayer = null; } audio.src = currentStreamUrl; }
@@ -745,8 +816,22 @@
                         try {
                             window.analyser.getByteFrequencyData(window.dataArray);
                             let sum = 0; for (let i = 0; i < window.dataArray.length; i++) sum += window.dataArray[i];
-                            let litCount = Math.floor(((sum / window.dataArray.length) / 255) * TOTAL_VU_SEGMENTS * 2.2);
-                            for (let i = 0; i < TOTAL_VU_SEGMENTS; i++) { if (i < litCount) vuSegments[i].classList.add('lit'); else vuSegments[i].classList.remove('lit'); }
+                            let avg = sum / window.dataArray.length;
+                            
+                            // NOVO CÁLCULO: Sensibilidade reduzida em aproximadamente 50%.
+                            // O divisor base aumentou para forçar o som a ser mais alto para preencher os LEDs
+                            let litCount = Math.floor((avg / 230) * 7); 
+                            if (litCount > 7) litCount = 7; // O limite máximo a partir do centro são 7 LEDs
+                            
+                            vuSegments.forEach(seg => seg.classList.remove('lit'));
+                            
+                            if (avg > 2) { // Se houver som tocando
+                                vuSegments[7].classList.add('lit'); // Acende sempre o LED central
+                                for (let j = 1; j <= litCount; j++) {
+                                    vuSegments[7 - j].classList.add('lit'); // Acende para a Esquerda
+                                    vuSegments[7 + j].classList.add('lit'); // Acende para a Direita
+                                }
+                            }
                         } catch (error) {}
                         animationFrame = requestAnimationFrame(renderRealEQ);
                     }
@@ -871,10 +956,12 @@
             setVolume(50);
             createStationsList();
             
-            stationName.textContent = tapes[0].name;
-            topBadgeNumber.textContent = selectedTapeIndex + 1; 
-            runningBanner.textContent = tapes[0].banner;
-            albumArtImage.src = tapes[0].image ? tapes[0].image : "Sint.jpg";
+            stationName.textContent = tapes[selectedTapeIndex].name;
+            topBadgeImg.src = `Top${selectedTapeIndex + 1}.png`; 
+            runningBanner.textContent = tapes[selectedTapeIndex].banner;
+            albumArtImage.src = tapes[selectedTapeIndex].image ? tapes[selectedTapeIndex].image : "Sint.jpg";
+            
+            updateFavoriteUI(selectedTapeIndex); 
             updateStatusUI('off');
         })();
     </script>
