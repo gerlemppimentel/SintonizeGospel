@@ -5,22 +5,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Top 10 Gospel Radio</title>
     
+    <!-- Configurações PWA -->
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="theme-color" content="#020617">
 
-    <!-- Frameworks Necessários -->
+    <!-- Frameworks (Tailwind, HLS para áudio, Sortable para lista) -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
     <script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script>
 
     <style>
-        /* Importação da Fonte Principal */
+        /* Importação da fonte elegante Inter */
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap');
         
         * { box-sizing: border-box; margin: 0; padding: 0; }
         
-        /* Paleta de Cores do Tema Escuro (Padrão) */
+        /* ======== VARIÁVEIS DE TEMA ======== */
         :root {
             --bg-base: #020617;       
             --surface: #0f172a;       
@@ -33,7 +34,6 @@
             --hub-btn-bg: #1e293b;
         }
 
-        /* Paleta de Cores do Tema Claro */
         .light-theme {
             --bg-base: #e0f2fe;       
             --surface: #bae6fd;       
@@ -48,10 +48,10 @@
         
         body { background-color: var(--bg-base); color: var(--text-main); font-family: 'Inter', sans-serif; height: 100dvh; display: flex; justify-content: center; align-items: center; overflow: hidden; padding: 8px; transition: background-color 0.3s ease, color 0.3s ease; }
         
-        /* Container Base - Modo Mobile */
+        /* Container Principal Base (Mobile) */
         #app-container { width: 100%; max-width: 400px; height: 100%; max-height: 800px; display: flex; flex-direction: column; background: var(--bg-base); border: 1px solid var(--border-color); box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5); border-radius: 32px; overflow: hidden; position: relative; transition: background 0.3s ease, border-color 0.3s ease; }
 
-        /* ======== ESTILOS MOBILE PADRÃO ======== */
+        /* ======== ESTILOS MOBILE (Padrão) ======== */
         .app-header { padding: 24px 24px 16px; display: flex; align-items: center; justify-content: space-between; }
         .app-header h1 { font-size: 16px; font-weight: 700; display: flex; align-items: center; gap: 8px; color: var(--accent); }
         .header-controls { display: flex; align-items: center; gap: 12px; }
@@ -59,6 +59,7 @@
         .admin-gear { background: transparent; border: none; color: var(--text-muted); font-size: 20px; cursor: pointer; transition: color 0.2s, transform 0.2s; display: flex; align-items: center; justify-content: center; }
         .admin-gear:hover { color: var(--text-main); transform: rotate(15deg); }
 
+        /* Status Badge Mobile (Fica em cima da capa no Hub) */
         .status-badge { position: absolute; top: -14px; left: 50%; transform: translateX(-50%); z-index: 20; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; padding: 4px 12px; border-radius: 20px; background: var(--surface); color: var(--text-muted); display: inline-flex; align-items: center; gap: 6px; box-shadow: 0 4px 10px rgba(0,0,0,0.3);}
         .status-dot { width: 8px; height: 8px; border-radius: 50%; background: #ef4444; }
         .status-badge.active .status-dot { background: var(--accent); box-shadow: 0 0 8px var(--accent); }
@@ -67,7 +68,6 @@
         .station-display { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 10px 16px; text-align: center; position: relative; }
         .hub-container { position: relative; width: 250px; height: 250px; margin: 0 auto 16px auto; display: flex; align-items: center; justify-content: center; }
         
-        /* Satélites do Hub (Botões ao redor da capa) */
         .fav-btn { position: absolute; right: -24px; top: 50%; transform: translateY(-50%); background: var(--surface); border: 1px solid var(--border-color); border-radius: 50%; width: 48px; height: 48px; display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 6px 16px rgba(0,0,0,0.3); z-index: 50; transition: all 0.3s ease; color: var(--text-muted); }
         .fav-btn:hover { transform: translateY(-50%) scale(1.1); color: var(--text-main); }
         .fav-btn.active { color: #ef4444; border-color: rgba(239, 68, 68, 0.4); box-shadow: 0 0 15px rgba(239, 68, 68, 0.3); }
@@ -96,28 +96,27 @@
 
         #stationName { font-size: 22px; font-weight: 700; color: var(--text-main); margin-bottom: 8px; }
 
-        /* VU Meter (Atualizado para 29 LEDs com gap reduzido) */
+        /* ======== VU METER ALTA RESOLUÇÃO (29 LEDs) ======== */
         .vu-meter { display: flex; justify-content: center; align-items: center; gap: 2px; height: 16px; margin: 10px 0 16px 0; padding: 0 16px; width: 100%; }
         .vu-segment { flex: 1; height: 100%; border-radius: 2px; background: var(--surface-hover); opacity: 0.2; transition: opacity 0.05s ease; }
         
-        /* Estados Lit (Aceso Máximo) */
+        /* Estados Acesos (Lit) */
         .vu-segment.red-seg.lit { background: #ef4444; box-shadow: 0 0 5px #ef4444; opacity: 1; }
         .vu-segment.orange-seg.lit { background: #f59e0b; box-shadow: 0 0 5px #f59e0b; opacity: 1; }
         .vu-segment.green-seg.lit { background: #10b981; box-shadow: 0 0 5px #10b981; opacity: 1; }
         .vu-segment.center-seg.lit { background: #ffffff; box-shadow: 0 0 8px #ffffff; opacity: 1; }
         .light-theme .vu-segment.center-seg.lit { background: #064e3b; box-shadow: 0 0 8px #064e3b; }
         
-        /* Estados Half-Lit (Meio Brilho Suave) */
+        /* Estados Meio Brilho Suave (Half-Lit) */
         .vu-segment.red-seg.half-lit { background: #ef4444; opacity: 0.5; }
         .vu-segment.orange-seg.half-lit { background: #f59e0b; opacity: 0.5; }
         .vu-segment.green-seg.half-lit { background: #10b981; opacity: 0.5; }
 
-        /* Banner */
         .banner-container { width: 100%; background: var(--surface); padding: 12px 0; overflow: hidden; white-space: nowrap; border-top: 1px solid var(--border-color); border-bottom: 1px solid var(--border-color); }
         .banner-text { display: inline-block; font-size: 14px; font-weight: 600; color: var(--text-muted); animation: scrollBanner 24s linear infinite; }
         @keyframes scrollBanner { 0% { transform: translateX(100vw); } 100% { transform: translateX(-100%); } }
 
-        /* Base Controls Container */
+        /* Controles Inferiores Base */
         .controls-container { padding: 20px 24px; display: flex; justify-content: space-between; align-items: center; background: var(--bg-base); position: relative; }
         .control-btn { background: transparent; border: none; color: var(--text-main); cursor: pointer; display: flex; align-items: center; justify-content: center; transition: transform 0.2s, color 0.2s; }
         .control-btn svg { width: 28px; height: 28px; fill: currentColor; }
@@ -127,7 +126,6 @@
         .nav-btn { width: 48px; height: 48px; background: var(--surface); border-radius: 14px; color: var(--text-main); border: 1px solid var(--border-color); }
         .playback-group { display: flex; align-items: center; gap: 16px; }
 
-        /* Controle de Volume com Popup */
         .volume-wrapper { position: relative; }
         .volume-popup { position: absolute; bottom: 70px; left: -10px; background: var(--surface); border: 1px solid var(--border-color); border-radius: 16px; padding: 16px 12px; box-shadow: 0 15px 35px rgba(0,0,0,0.8); display: none; flex-direction: column; align-items: center; z-index: 100; height: 290px;}
         .volume-popup.show { display: flex; }
@@ -136,15 +134,14 @@
         .volume-fill { position: absolute; bottom: 0; left: 0; width: 100%; background: var(--accent); border-radius: 2px; pointer-events: none; opacity: 0.8;}
         .volume-knob { position: absolute; left: 50%; transform: translate(-50%, 50%); width: 16px; height: 16px; background: #fff; border-radius: 50%; box-shadow: 0 2px 5px rgba(0,0,0,0.5); pointer-events: none; }
 
-        /* Modais Base */
+        /* ======== MODAIS BASE ======== */
         .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(2, 6, 23, 0.8); backdrop-filter: blur(8px); z-index: 1000; justify-content: center; align-items: center; padding: 20px; }
-        .modal-content { background: var(--surface); border: 1px solid var(--border-color); border-radius: 24px; width: 100%; max-width: 380px; padding: 24px; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5); max-height: 85vh; overflow-y: auto; display: flex; flex-direction: column; align-items: center; }
+        .modal-content { background: var(--surface); border: 1px solid var(--border-color); border-radius: 24px; width: 100%; max-width: 380px; padding: 24px; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5); max-height: 85vh; overflow-y: auto; display: flex; flex-direction: column; align-items: center; position: relative; }
         .modal-header { display: flex; align-items: center; justify-content: center; position: relative; font-size: 18px; font-weight: 700; margin-bottom: 20px; color: var(--text-main); min-height: 36px; width: 100%; }
         
-        /* Botões Diversos */
-        .back-btn-top { position: absolute; left: 0; background: var(--surface); border: 1px solid var(--border-color); color: var(--text-muted); cursor: pointer; display: flex; align-items: center; justify-content: center; border-radius: 10px; width: 36px; height: 36px; transition: all 0.2s; }
+        .back-btn-top { position: absolute; left: 16px; top: 16px; background: var(--surface-hover); border: 1px solid var(--border-color); color: var(--text-muted); cursor: pointer; display: flex; align-items: center; justify-content: center; border-radius: 10px; width: 40px; height: 40px; transition: all 0.2s; z-index: 10; }
         .back-btn-top:hover { color: var(--accent); border-color: var(--accent); }
-        .back-btn-top svg { width: 22px; height: 22px; fill: currentColor; }
+        .back-btn-top svg { width: 24px; height: 24px; fill: currentColor; }
         
         .btn-modern { width: 100%; padding: 14px; border-radius: 12px; font-family: 'Inter', sans-serif; font-weight: 600; font-size: 14px; cursor: pointer; transition: all 0.2s; border: none; text-align: center; display: flex; align-items: center; justify-content: center; gap: 8px;}
         .btn-primary { background: var(--accent); color: #fff; }
@@ -154,7 +151,14 @@
         .input-modern { width: 100%; padding: 14px; background: var(--bg-base); border: 1px solid var(--border-color); border-radius: 12px; color: var(--text-main); margin-bottom: 12px; outline: none; font-size: 14px; }
         .input-modern:focus { border-color: var(--accent); }
 
-        /* Estilos do Admin */
+        /* Estilos do Híbrido "Sobre" para Mobile (Padrão) */
+        #aboutContent { padding-top: 56px; max-width: 360px; }
+        .about-grid-wrapper { display: flex; flex-direction: column; width: 100%; }
+        .about-col-app { display: flex; flex-direction: column; align-items: center; }
+        .about-col-dev { display: flex; flex-direction: column; align-items: center; background: var(--surface-hover); border-radius: 16px; padding: 20px; border: 1px solid var(--border-color); margin-top: 16px;}
+        .about-divider { display: none; }
+
+        /* Estilos da Lista e Admin omitidos aqui para poupar espaço visual no head, mas são padrão do sistema */
         .tabs-container { display: flex; gap: 8px; margin-bottom: 16px; background: var(--bg-base); padding: 4px; border-radius: 12px; border: 1px solid var(--border-color); width: 100%; }
         .tab-btn { flex: 1; padding: 10px; border-radius: 8px; font-weight: 600; font-size: 13px; color: var(--text-muted); background: transparent; border: none; cursor: pointer; transition: 0.2s; }
         .tab-btn.active { background: var(--surface-hover); color: var(--accent); box-shadow: 0 2px 4px rgba(0,0,0,0.2); }
@@ -181,128 +185,137 @@
         .tape-body.expanded { display: block; }
         .tape-body label, .config-label { display: block; font-size: 11px; margin-bottom: 6px; font-weight: 700; color: var(--accent); text-transform: uppercase;}
         .sortable-ghost { opacity: 0.4; background: var(--surface-hover); }
-        
         #loadingIndicator { position: absolute; top: 24px; left: 50%; transform: translateX(-50%); background: var(--accent); color: #fff; padding: 6px 16px; border-radius: 20px; font-size: 12px; font-weight: 600; display: none; z-index: 50; }
         
-        /* Utilitários de Visibilidade */
+        /* Controles de Visibilidade Híbrida */
         .tv-only { display: none !important; }
         .mobile-only { display: flex !important; }
 
-        /* ======== ESTILOS DESKTOP / TV / LANDSCAPE ======== */
-        /* Aqui a magia do Grid acontece para transformar a interface preservando o DOM */
+        /* =======================================================================
+           ESTILOS DESKTOP / TV / LANDSCAPE (A Magia do CSS Grid Acontece Aqui) 
+           ======================================================================= */
         @media (min-width: 768px) and (orientation: landscape) {
+            
+            /* Híbrido "Sobre": Transforma a caixa numa TV de duas colunas largas */
+            #aboutContent { max-width: 650px; padding: 32px; padding-top: 40px; flex-direction: column; }
+            #aboutContent .back-btn-top { top: 24px; left: 24px; }
+            .about-grid-wrapper { display: grid; grid-template-columns: 1fr auto 1fr; gap: 16px; margin-top: 24px; align-items: center; }
+            .about-col-dev { margin-top: 0; height: 100%; justify-content: center; }
+            .about-divider { display: block; width: 1px; height: 90%; background: var(--border-color); margin: 0 16px; }
+
+            /* Estrutura Principal da App (Grid TV) */
             #app-container {
-                max-width: 900px; 
-                max-height: 580px; 
+                max-width: 880px; 
+                max-height: 560px; 
                 display: grid;
-                /* As colunas representam: NavPrev, NavNext, Capa Central, Grelha 1, Grelha 2, Grelha 3 */
-                grid-template-columns: 74px 74px 205px 62px 62px 62px;
-                /* As linhas alinham milimetricamente os topos e bases dos blocos nos 240px centrais */
-                grid-template-rows: auto 66px 66px 66px 22px auto;
-                grid-template-areas:
-                    "header header header header header header"
-                    "play   play   cover  btn1   btn2   btn3"
-                    "play   play   cover  btn4   btn5   btn6"
-                    "prev   next   cover  btn7   btn8   btn9"
-                    "vu     vu     vu     vu     vu     vu"
-                    "banner banner banner banner banner banner";
+                
+                /* 
+                   A grelha "super-alinhada": Colunas precisas para evitar toques acidentais.
+                   Col 1: Play/Prev (81px)
+                   Col 2: Play/Next (81px)
+                   Col 3: Espaço (24px)
+                   Col 4: Capa Central/Badge (196px)
+                   Col 5: Espaço (24px)
+                   Col 6: Botões Direita 1 (64px)
+                   Col 7: Espaço Botões (24px)
+                   Col 8: Botões Direita 2 (64px)
+                   Col 9: Espaço Botões (24px)
+                   Col 10: Botões Direita 3 (64px)
+                */
+                grid-template-columns: 81px 81px 24px 196px 24px 64px 24px 64px 24px 64px;
+                
+                /*
+                   Linhas Precisas (240px totais na zona central = 64+24+64+24+64)
+                   Row 1: Header (auto)
+                   Row 2: Grelha Linha 1 + Topo Capa + Topo Play (64px)
+                   Row 3: Espaço (24px)
+                   Row 4: Grelha Linha 2 (64px)
+                   Row 5: Espaço (24px)
+                   Row 6: Grelha Linha 3 + Base Badge + Base Prev/Next (64px)
+                   Row 7: VU Meter (22px)
+                   Row 8: Banner (auto)
+                */
+                grid-template-rows: auto 64px 24px 64px 24px 64px 22px auto;
                 justify-content: center;
                 align-content: center;
-                gap: 21px 16px; /* Row Gap 21px, Col Gap 16px */
+                row-gap: 0; /* Gaps verticais controlados explicitamente nas linhas do grid */
             }
             
-            /* Dizer ao navegador para "ignorar" os containers originais do mobile e deixar os botões fluírem para a Grelha Master */
-            .station-display, .hub-container, .controls-container, .playback-group, .volume-wrapper {
-                display: contents;
-            }
-
+            /* Dizer ao navegador para "dissolver" os containers originais do mobile e deixar os elementos espalharem-se pelo novo Grid */
+            .station-display, .hub-container, .controls-container, .playback-group, .volume-wrapper { display: contents !important; }
             .tv-only { display: flex !important; }
             .mobile-only { display: none !important; }
 
-            .app-header { grid-area: header; padding: 10px 0; }
-            #stationName { display: none; } /* Título desnecessário na TV, já está no header */
+            .app-header { grid-row: 1 / 2; grid-column: 1 / 11; padding-bottom: 24px; }
+            #stationName { display: none; } /* Oculto na TV */
 
-            /* BLOCO CENTRAL (CAPA + BADGE) */
-            #mainIcon {
-                grid-area: cover;
-                align-self: end; /* Encosta a capa na base dos 240px */
-                width: 205px; height: 205px;
-                position: relative; top: auto; left: auto; right: auto; bottom: auto;
-                margin: 0; transform: none;
-                border: 4px solid var(--border-color);
-                box-shadow: 0 12px 30px rgba(0,0,0,0.5);
-                border-radius: 24px;
+            /* ================= BLOCO ESQUERDO ================= */
+            #mainPlayBtn { 
+                grid-row: 2 / 5; grid-column: 1 / 3; 
+                width: 100%; height: 100%; margin: 0; 
+                border-radius: 20px; align-self: start; 
             }
-            #statusBadge {
-                grid-area: cover;
-                align-self: start; /* Encosta o badge no topo dos 240px */
-                justify-self: center;
-                position: relative; top: -5px; left: auto; transform: none;
-                margin: 0; z-index: 10;
-                padding: 4px 14px;
+            #prevBtn { grid-row: 6 / 7; grid-column: 1 / 2; width: 100%; height: 100%; margin: 0; border-radius: 16px; }
+            #nextBtn { grid-row: 6 / 7; grid-column: 2 / 3; width: 100%; height: 100%; margin: 0; border-radius: 16px; }
+
+            /* ================= BLOCO CENTRAL (Invertido e Alinhado) ================= */
+            /* A Capa sobe para o topo (Row 2 a 5) */
+            #mainIcon { 
+                grid-row: 2 / 5; grid-column: 4 / 5; 
+                width: 196px; height: 196px; margin: 0; 
+                border: 4px solid var(--border-color); box-shadow: 0 12px 30px rgba(0,0,0,0.5); 
+                border-radius: 24px; align-self: start; justify-self: center;
+                position: relative; top: 0; transform: none;
+            }
+            /* O Badge desce para a base (Row 6) */
+            #statusBadge { 
+                grid-row: 6 / 7; grid-column: 4 / 5; 
+                height: 28px; padding: 0 16px; margin: 0;
+                align-self: end; justify-self: center;
+                position: relative; top: 0; left: 0; transform: none;
             }
 
-            /* BLOCO ESQUERDA (PLAY + NAVEGAÇÃO) */
-            #mainPlayBtn {
-                grid-area: play;
-                width: 100%; height: 100%; /* Expande preenchendo as 2 linhas */
-                margin: 0; border-radius: 20px;
-            }
-            #prevBtn { grid-area: prev; width: 100%; height: 100%; margin: 0; }
-            #nextBtn { grid-area: next; width: 100%; height: 100%; margin: 0; }
-
-            /* BLOCO DIREITA (GRELHA 3x3 DE BOTÕES) */
-            /* Padronização visual para os 9 botões funcionarem como teclas de TV */
+            /* ================= BLOCO DIREITO (Grelha 3x3) ================= */
+            /* Padronização visual para os 9 botões da TV */
             .hub-satellite, .fav-btn, .theme-btn, .control-btn, .nav-btn, .admin-gear {
-                position: relative !important;
-                top: auto !important; left: auto !important; right: auto !important; bottom: auto !important;
-                transform: none !important;
-                width: 100% !important; height: 100% !important;
-                margin: 0 !important;
-                border-radius: 16px !important;
-                background: var(--surface-hover);
-                border: 1px solid var(--border-color);
+                position: relative !important; top: auto !important; left: auto !important; right: auto !important; bottom: auto !important;
+                transform: none !important; margin: 0 !important; width: 100% !important; height: 100% !important;
+                border-radius: 16px !important; background: var(--surface-hover); border: 1px solid var(--border-color);
+                align-self: center; justify-self: center;
             }
-            /* Aumenta ícones SVG internos na TV */
-            .hub-satellite svg, .fav-btn svg, .theme-btn svg, .control-btn svg, .admin-gear svg {
-                width: 28px !important; height: 28px !important;
-            }
-            /* Efeito Hover/Focus TV Style */
-            .hub-satellite:hover, .fav-btn:hover, .theme-btn:hover, .control-btn:hover, .admin-gear:hover {
-                border-color: var(--accent); box-shadow: 0 0 15px var(--accent-glow); background: #334155; transform: scale(1.05) !important;
-            }
+            #mainPlayBtn { background: var(--accent); } /* Mantém cor original do play */
+            .hub-satellite svg, .fav-btn svg, .theme-btn svg, .control-btn svg, .admin-gear svg { width: 28px !important; height: 28px !important; }
+            .hub-satellite:hover, .fav-btn:hover, .theme-btn:hover, .control-btn:hover, .admin-gear:hover { border-color: var(--accent); box-shadow: 0 0 15px var(--accent-glow); background: #334155; transform: scale(1.05) !important; }
 
-            /* Mapeamento exato dos Botões na Grelha (btn1 até btn9) */
-            .sat-tr { grid-area: btn1; } /* Ranking */
-            #shareBtn { grid-area: btn2; } /* WhatsApp */
-            #cfgBtnLeft { grid-area: btn3; } /* Logo Customizado */
-            #favoriteBtn { grid-area: btn4; } /* Favorito */
-            #volumeBtn { grid-area: btn5; } /* Volume */
-            #aboutBtnTV { grid-area: btn6; } /* Botão Sobre (Clone para TV) */
-            .sat-bl { grid-area: btn7; } /* Estado */
-            #listBtn { grid-area: btn8; } /* Lista */
-            #themeBtn { grid-area: btn9; } /* Tema */
+            /* Mapeamento Matemático na Grelha Invisível (Onde a magia do não-toque acontece) */
+            /* Linha 1 */
+            .sat-tr     { grid-row: 2 / 3; grid-column: 6 / 7; }
+            #shareBtn   { grid-row: 2 / 3; grid-column: 8 / 9; }
+            #cfgBtnLeft { grid-row: 2 / 3; grid-column: 10 / 11; }
+            /* Linha 2 */
+            #favoriteBtn{ grid-row: 4 / 5; grid-column: 6 / 7; }
+            #volumeBtn  { grid-row: 4 / 5; grid-column: 8 / 9; }
+            #aboutBtnTV { grid-row: 4 / 5; grid-column: 10 / 11; }
+            /* Linha 3 */
+            .sat-bl     { grid-row: 6 / 7; grid-column: 6 / 7; }
+            #listBtn    { grid-row: 6 / 7; grid-column: 8 / 9; }
+            #themeBtn   { grid-row: 6 / 7; grid-column: 10 / 11; }
 
-            /* Ajuste de Posição do Popup de Volume para não quebrar a grelha */
-            .volume-popup {
-                position: fixed;
-                bottom: 90px; left: 50%; transform: translateX(-50%);
-                z-index: 1000;
-            }
+            /* ======== VU Meter & Banner ======== */
+            #vuMeter { grid-row: 7 / 8; grid-column: 1 / 11; margin: 24px 0 0 0; padding: 0 10px; height: 22px; gap: 3px; }
+            .banner-container { grid-row: 8 / 9; grid-column: 1 / 11; margin-top: 20px;}
+            
+            /* Ajuste do Volume Popup */
+            .volume-popup { position: fixed; bottom: 100px; left: 50%; transform: translateX(-50%); z-index: 1000; }
 
-            /* VU Meter e Banner */
-            #vuMeter { grid-area: vu; height: 22px; padding: 0 10px; gap: 3px; margin: 0; }
-            .banner-container { grid-area: banner; }
-
-            /* Acessibilidade de Foco via Teclado/Comando */
-            button:focus, a:focus, input:focus {
-                outline: 3px solid var(--accent); outline-offset: 4px; background-color: var(--surface-hover); transition: all 0.2s ease;
-            }
+            /* Foco Acessível (Controle Remoto) */
+            button:focus, a:focus, input:focus { outline: 3px solid var(--accent); outline-offset: 4px; background-color: var(--surface-hover); transition: all 0.2s ease; }
         }
     </style>
 </head>
 <body>
-    <!-- CONTÊINER PRINCIPAL (Controla a Máquina de Estados Visual) -->
+    
+    <!-- CONTÊINER MESTRE: Flexbox no Mobile, CSS Grid rígido na TV -->
     <div id="app-container">
         <div id="loadingIndicator">Carregando...</div>
         
@@ -310,7 +323,7 @@
         <div class="app-header">
             <h1>Top 10 Gospel Radio</h1>
             <div class="header-controls">
-                <!-- Botão Sobre Original (Visível Apenas no Mobile) -->
+                <!-- Botão Sobre Original (Fica oculto na TV) -->
                 <button class="admin-gear mobile-only about-trigger" title="Sobre o App">
                     <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M11 7h2v2h-2zm0 4h2v6h-2zm1-9C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"></path></svg>
                 </button>
@@ -321,7 +334,7 @@
 
         <!-- MÓDULO CENTRAL DO HUB -->
         <div class="station-display">
-            <!-- No Mobile este é um container relativo circular. No PC/TV, usa display:contents soltando os botões na grid -->
+            <!-- No Mobile este é um container relativo circular. No PC/TV os elementos quebram para o Grid master -->
             <div class="hub-container">
                 <button id="themeBtn" class="theme-btn" title="Alternar Tema">
                     <svg viewBox="0 0 24 24"><path d="M12 21c-4.97 0-9-4.03-9-9s4.03-9 9-9 9 4.03 9 9-4.03 9-9 9zm0-16c-3.86 0-7 3.14-7 7s3.14 7 7 7 7-3.14 7-7-3.14-7-7-7zm0 13c-3.31 0-6-2.69-6-6s2.69-6 6-6v12z"></path></svg>
@@ -331,7 +344,7 @@
                     <svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
                 </button>
 
-                <!-- Status Badge (Mapeado no Grid da TV como capa alinhada ao topo) -->
+                <!-- Status Badge -->
                 <div class="status-badge" id="statusBadge"><div class="status-dot"></div><span id="statusText">OFF</span></div>
                 
                 <a href="#" target="_blank" class="hub-satellite sat-tl" id="cfgBtnLeft"><img id="cfgImgLeft" src="Sint.jpg" alt="Logo"></a>
@@ -373,7 +386,7 @@
                 </div>
             </div>
             
-            <!-- Controle de Reprodução (Na TV vão para o grid esquerdo) -->
+            <!-- Controle de Reprodução -->
             <div class="playback-group">
                 <button class="control-btn nav-btn" id="prevBtn" title="Anterior"><svg viewBox="0 0 24 24"><path d="M6 6h2v12H6zm3.5 6l8.5 6V6z"></path></svg></button>
                 <button class="control-btn play-btn" id="mainPlayBtn" title="Play/Pause"><svg id="playIconSVG" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"></path></svg></button>
@@ -382,45 +395,65 @@
             
             <button class="control-btn nav-btn" id="listBtn" title="Lista"><svg viewBox="0 0 24 24"><path d="M3 13h2v-2H3v2zm0 4h2v-2H3v2zm0-8h2V7H3v2zm4 4h14v-2H7v2zm0 4h14v-2H7v2zM7 7v2h14V7H7z"></path></svg></button>
 
-            <!-- Clone do Botão Sobre (Visível APENAS no Modo TV - Para encaixar na Grelha) -->
+            <!-- Clone do Botão Sobre (Visível APENAS no Modo TV para preencher a Grelha Master) -->
             <button class="admin-gear tv-only about-trigger" id="aboutBtnTV" title="Sobre o App">
                 <svg viewBox="0 0 24 24" fill="currentColor"><path d="M11 7h2v2h-2zm0 4h2v6h-2zm1-9C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"></path></svg>
             </button>
         </div>
     </div>
 
-    <!-- ======== MODAIS ======== -->
-
-    <!-- MODAL SOBRE -->
+    <!-- ======== MODAL SOBRE HÍBRIDO (Mobile + TV) ======== -->
     <div class="modal-overlay" id="aboutModal">
-        <div class="modal-content">
-            <div class="modal-header">Sobre Sintonize Gospel</div>
+        <!-- O CSS Media Query transforma esta caixa de coluna única para duas colunas automaticamente -->
+        <div class="modal-content" id="aboutContent">
             
-            <img src="gerlem.png" alt="Logomarca" class="w-48 h-24 rounded-2xl shadow-lg border-2 border-[var(--border-color)] mb-6 object-contain p-1 bg-[var(--surface-hover)]" onerror="this.src='https://via.placeholder.com/192x96?text=G'">
+            <button class="back-btn-top" id="closeAboutBtn" title="Voltar">
+                <svg viewBox="0 0 24 24"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"></path></svg>
+            </button>
             
-            <img src="Sint2.jpg" alt="Sintonize Gospel" class="w-28 h-28 rounded-2xl shadow-lg border-2 border-[var(--border-color)] mb-4 object-cover" onerror="this.src='https://via.placeholder.com/400?text=Sint2'">
-            
-            <p class="text-sm text-[var(--text-muted)] flex items-center justify-center gap-1 mb-2">
-                Top 10 Gospel Radio Brasil 
-                <img src="https://cdnjs.cloudflare.com/ajax/libs/twemoji/14.0.2/svg/1f1e7-1f1f7.svg" alt="Bandeira do Brasil" class="w-4 h-4">
-            </p>
-            
-            <div class="flex items-center justify-center gap-2 mb-6">
-                <span class="text-xs font-bold text-[var(--accent)]">Versão 1.0</span>
-                <span class="text-[11px] text-[var(--text-muted)]">•</span>
-                <span class="text-[11px] font-semibold text-[var(--text-muted)] uppercase tracking-widest">Freeware</span>
-            </div>
-            
-            <div class="w-full bg-[var(--surface-hover)] rounded-xl p-4 mb-2 border border-[var(--border-color)] flex flex-col items-center">
-                <p class="text-[11px] font-bold text-[var(--accent)] uppercase tracking-wider mb-2">Desenvolvedor</p>
-                <p class="font-semibold text-[var(--text-main)] text-base mb-2">Gerlem Pimentel</p>
-                <a href="mailto:suporte@gerlem.dev.br" class="flex items-center gap-2 text-sm text-[var(--text-muted)] hover:text-[var(--accent)] transition-colors">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"></path></svg>
-                    suporte@gerlem.dev.br
-                </a>
+            <div class="about-grid-wrapper">
+                <!-- Coluna App -->
+                <div class="about-col-app">
+                    <img src="Sint2.jpg" alt="Logo Sintonize Gospel" class="w-28 h-28 md:w-36 md:h-36 rounded-2xl md:rounded-3xl shadow-lg border-2 border-[var(--border-color)] mb-4 md:mb-6 object-cover" onerror="this.src='https://via.placeholder.com/400?text=Sint2'">
+                    
+                    <p class="text-[15px] md:text-[16px] font-semibold md:font-bold text-[var(--text-main)] flex items-center justify-center gap-1.5 md:gap-2 mb-1.5 md:mb-2 text-center">
+                        Top 10 Gospel Radio Brasil 
+                        <img src="https://cdnjs.cloudflare.com/ajax/libs/twemoji/14.0.2/svg/1f1e7-1f1f7.svg" alt="Bandeira do Brasil" class="w-4 h-4 md:w-5 md:h-5">
+                    </p>
+                    
+                    <div class="flex items-center justify-center gap-2 mb-4 md:mb-0">
+                        <span class="text-xs md:text-sm font-bold text-[var(--accent)]">Versão 1.0</span>
+                        <span class="text-[11px] md:text-xs text-[var(--text-muted)]">•</span>
+                        <span class="text-[11px] md:text-xs font-semibold md:font-bold text-[var(--text-muted)] uppercase tracking-widest">Freeware</span>
+                    </div>
+                </div>
+
+                <!-- Divisória (Visível apenas na TV) -->
+                <div class="about-divider"></div>
+
+                <!-- Coluna Desenvolvedor -->
+                <div class="about-col-dev">
+                    <p class="text-[11px] md:text-xs font-bold text-[var(--text-muted)] uppercase tracking-wider mb-3 md:mb-4 text-center">
+                        Desenvolvido por:
+                    </p>
+                    
+                    <img src="gerlem.png" alt="Logomarca Gerlem" class="w-40 h-20 md:w-44 md:h-22 rounded-xl shadow border border-[var(--border-color)] mb-4 md:mb-5 object-contain p-1 md:p-2 bg-[var(--surface)]" onerror="this.src='https://via.placeholder.com/192x96?text=G'">
+                    
+                    <p class="font-bold text-[var(--text-main)] text-[15px] md:text-[16px] mb-1 md:mb-2 text-center">
+                        Gerlem Pimentel
+                    </p>
+                    
+                    <a href="mailto:suporte@gerlem.dev.br" tabindex="2" class="flex items-center gap-2 text-sm text-[var(--accent)] hover:text-[#34d399] transition-colors mb-3 md:mb-4 focus:outline-none focus:ring-2 focus:ring-[var(--accent)] rounded-md px-2 py-1">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"></path></svg>
+                        suporte@gerlem.dev.br
+                    </a>
+
+                    <p class="text-xs md:text-[11px] text-[var(--text-muted)] text-center font-medium md:leading-relaxed">
+                        Jaraguá do Sul <span class="hidden md:inline"><br></span><span class="md:hidden">-</span> Santa Catarina - Brasil
+                    </p>
+                </div>
             </div>
 
-            <button class="btn-modern btn-secondary" id="closeAboutBtn">VOLTAR</button>
         </div>
     </div>
 
@@ -623,7 +656,7 @@
                     let segment = document.createElement('div');
                     segment.className = 'vu-segment';
                     
-                    // Definição das Cores Base com as Novas Classes de Segmento
+                    // Definição Simétrica das Cores com 14 LEDs de cada lado + 1 Central
                     if (i === 14) segment.classList.add('center-seg'); 
                     else if (i >= 0 && i <= 3) segment.classList.add('red-seg'); 
                     else if (i >= 4 && i <= 7) segment.classList.add('orange-seg'); 
@@ -874,6 +907,7 @@
                     
                     isPlaying = true; isPaused = false; loadingIndicator.style.display = 'none'; updateStatusUI('playing');
                     
+                    // Renderização Matemática do VU de 29 LEDs com Meio Brilho Suave
                     function renderRealEQ() {
                         if (!isPlaying || isPaused) { animationFrame = requestAnimationFrame(renderRealEQ); return; }
                         try {
@@ -881,7 +915,7 @@
                             let sum = 0; for (let i = 0; i < window.dataArray.length; i++) sum += window.dataArray[i];
                             let avg = sum / window.dataArray.length;
                             
-                            // Lógica de cálculo proporcional para os 14 LEDs de cada lado
+                            // Calcula quantos dos 14 LEDs laterais devem acender com base no volume médio
                             let litLevel = (avg / 240) * 14; 
                             if (litLevel > 14) litLevel = 14; 
                             
@@ -890,7 +924,7 @@
                             vuSegments.forEach(seg => seg.classList.remove('lit', 'half-lit'));
                             
                             if (avg > 2) { 
-                                vuSegments[14].classList.add('lit'); // LED Central sempre aceso no áudio
+                                vuSegments[14].classList.add('lit'); // LED Branco Central fixo quando há som
                                 for (let j = 1; j <= 14; j++) {
                                     if (j <= fullLeds) {
                                         vuSegments[14 - j].classList.add('lit'); 
