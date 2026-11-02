@@ -9,15 +9,18 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="theme-color" content="#020617">
 
+    <!-- Frameworks Necessários -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
     <script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script>
 
     <style>
+        /* Importação da Fonte Principal */
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap');
         
         * { box-sizing: border-box; margin: 0; padding: 0; }
         
+        /* Paleta de Cores do Tema Escuro (Padrão) */
         :root {
             --bg-base: #020617;       
             --surface: #0f172a;       
@@ -30,6 +33,7 @@
             --hub-btn-bg: #1e293b;
         }
 
+        /* Paleta de Cores do Tema Claro */
         .light-theme {
             --bg-base: #e0f2fe;       
             --surface: #bae6fd;       
@@ -43,8 +47,11 @@
         }
         
         body { background-color: var(--bg-base); color: var(--text-main); font-family: 'Inter', sans-serif; height: 100dvh; display: flex; justify-content: center; align-items: center; overflow: hidden; padding: 8px; transition: background-color 0.3s ease, color 0.3s ease; }
+        
+        /* Container Base - Modo Mobile */
         #app-container { width: 100%; max-width: 400px; height: 100%; max-height: 800px; display: flex; flex-direction: column; background: var(--bg-base); border: 1px solid var(--border-color); box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5); border-radius: 32px; overflow: hidden; position: relative; transition: background 0.3s ease, border-color 0.3s ease; }
 
+        /* ======== ESTILOS MOBILE PADRÃO ======== */
         .app-header { padding: 24px 24px 16px; display: flex; align-items: center; justify-content: space-between; }
         .app-header h1 { font-size: 16px; font-weight: 700; display: flex; align-items: center; gap: 8px; color: var(--accent); }
         .header-controls { display: flex; align-items: center; gap: 12px; }
@@ -58,25 +65,15 @@
         .status-badge.active { color: var(--accent); background: rgba(16, 185, 129, 0.15); border: 1px solid rgba(16, 185, 129, 0.3); }
 
         .station-display { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 10px 16px; text-align: center; position: relative; }
-
         .hub-container { position: relative; width: 250px; height: 250px; margin: 0 auto 16px auto; display: flex; align-items: center; justify-content: center; }
         
-        .fav-btn {
-            position: absolute; right: -24px; top: 50%; transform: translateY(-50%);
-            background: var(--surface); border: 1px solid var(--border-color); border-radius: 50%;
-            width: 48px; height: 48px; display: flex; align-items: center; justify-content: center;
-            cursor: pointer; box-shadow: 0 6px 16px rgba(0,0,0,0.3); z-index: 50; transition: all 0.3s ease; color: var(--text-muted); 
-        }
+        /* Satélites do Hub (Botões ao redor da capa) */
+        .fav-btn { position: absolute; right: -24px; top: 50%; transform: translateY(-50%); background: var(--surface); border: 1px solid var(--border-color); border-radius: 50%; width: 48px; height: 48px; display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 6px 16px rgba(0,0,0,0.3); z-index: 50; transition: all 0.3s ease; color: var(--text-muted); }
         .fav-btn:hover { transform: translateY(-50%) scale(1.1); color: var(--text-main); }
         .fav-btn.active { color: #ef4444; border-color: rgba(239, 68, 68, 0.4); box-shadow: 0 0 15px rgba(239, 68, 68, 0.3); }
         .fav-btn svg { width: 24px; height: 24px; fill: currentColor; }
 
-        .theme-btn {
-            position: absolute; left: -24px; top: 50%; transform: translateY(-50%);
-            background: var(--surface); border: 1px solid var(--border-color); border-radius: 50%;
-            width: 48px; height: 48px; display: flex; align-items: center; justify-content: center;
-            cursor: pointer; box-shadow: 0 6px 16px rgba(0,0,0,0.3); z-index: 50; transition: all 0.3s ease; color: var(--text-muted); 
-        }
+        .theme-btn { position: absolute; left: -24px; top: 50%; transform: translateY(-50%); background: var(--surface); border: 1px solid var(--border-color); border-radius: 50%; width: 48px; height: 48px; display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 6px 16px rgba(0,0,0,0.3); z-index: 50; transition: all 0.3s ease; color: var(--text-muted); }
         .theme-btn:hover { transform: translateY(-50%) scale(1.1); color: var(--text-main); }
         .theme-btn svg { width: 24px; height: 24px; fill: currentColor; }
 
@@ -89,32 +86,38 @@
 
         .sat-tl { top: -4px; left: -4px; overflow: hidden; padding: 4px; }
         .sat-tl img { width: 100%; height: 100%; object-fit: cover; border-radius: 12px; }
-        
         .sat-tr { top: -4px; right: -4px; padding: 4px; overflow: hidden; }
         .sat-tr img { width: 100%; height: 100%; object-fit: cover; border-radius: 12px; }
-        
         .sat-bl { bottom: -4px; left: -4px; padding: 4px; overflow: hidden; cursor: default; }
         .sat-bl:hover { transform: none !important; border-color: var(--border-color) !important; }
         .sat-bl img { width: 100%; height: 100%; object-fit: contain; border-radius: 12px; }
-        
         .sat-br { bottom: -4px; right: -4px; color: #25D366; }
         .sat-br svg { width: 32px; height: 32px; fill: currentColor; }
 
         #stationName { font-size: 22px; font-weight: 700; color: var(--text-main); margin-bottom: 8px; }
 
-        .vu-meter { display: flex; justify-content: center; align-items: center; gap: 4px; height: 16px; margin: 10px 0 16px 0; padding: 0 24px; width: 100%; }
-        .vu-segment { flex: 1; height: 100%; border-radius: 2px; background: var(--surface-hover); opacity: 0.3; transition: opacity 0.05s ease, background 0.1s ease; }
-        .vu-segment.lit { opacity: 1; }
-        .vu-segment.green.lit { background: #10b981; box-shadow: 0 0 5px #10b981; }
-        .vu-segment.orange.lit { background: #f59e0b; box-shadow: 0 0 5px #f59e0b; }
-        .vu-segment.red.lit { background: #ef4444; box-shadow: 0 0 5px #ef4444; }
-        .vu-segment.center-led.lit { background: #ffffff; box-shadow: 0 0 8px #ffffff; }
-        .light-theme .vu-segment.center-led.lit { background: #064e3b; box-shadow: 0 0 8px #064e3b; }
+        /* VU Meter (Atualizado para 29 LEDs com gap reduzido) */
+        .vu-meter { display: flex; justify-content: center; align-items: center; gap: 2px; height: 16px; margin: 10px 0 16px 0; padding: 0 16px; width: 100%; }
+        .vu-segment { flex: 1; height: 100%; border-radius: 2px; background: var(--surface-hover); opacity: 0.2; transition: opacity 0.05s ease; }
+        
+        /* Estados Lit (Aceso Máximo) */
+        .vu-segment.red-seg.lit { background: #ef4444; box-shadow: 0 0 5px #ef4444; opacity: 1; }
+        .vu-segment.orange-seg.lit { background: #f59e0b; box-shadow: 0 0 5px #f59e0b; opacity: 1; }
+        .vu-segment.green-seg.lit { background: #10b981; box-shadow: 0 0 5px #10b981; opacity: 1; }
+        .vu-segment.center-seg.lit { background: #ffffff; box-shadow: 0 0 8px #ffffff; opacity: 1; }
+        .light-theme .vu-segment.center-seg.lit { background: #064e3b; box-shadow: 0 0 8px #064e3b; }
+        
+        /* Estados Half-Lit (Meio Brilho Suave) */
+        .vu-segment.red-seg.half-lit { background: #ef4444; opacity: 0.5; }
+        .vu-segment.orange-seg.half-lit { background: #f59e0b; opacity: 0.5; }
+        .vu-segment.green-seg.half-lit { background: #10b981; opacity: 0.5; }
 
+        /* Banner */
         .banner-container { width: 100%; background: var(--surface); padding: 12px 0; overflow: hidden; white-space: nowrap; border-top: 1px solid var(--border-color); border-bottom: 1px solid var(--border-color); }
         .banner-text { display: inline-block; font-size: 14px; font-weight: 600; color: var(--text-muted); animation: scrollBanner 24s linear infinite; }
         @keyframes scrollBanner { 0% { transform: translateX(100vw); } 100% { transform: translateX(-100%); } }
 
+        /* Base Controls Container */
         .controls-container { padding: 20px 24px; display: flex; justify-content: space-between; align-items: center; background: var(--bg-base); position: relative; }
         .control-btn { background: transparent; border: none; color: var(--text-main); cursor: pointer; display: flex; align-items: center; justify-content: center; transition: transform 0.2s, color 0.2s; }
         .control-btn svg { width: 28px; height: 28px; fill: currentColor; }
@@ -124,6 +127,7 @@
         .nav-btn { width: 48px; height: 48px; background: var(--surface); border-radius: 14px; color: var(--text-main); border: 1px solid var(--border-color); }
         .playback-group { display: flex; align-items: center; gap: 16px; }
 
+        /* Controle de Volume com Popup */
         .volume-wrapper { position: relative; }
         .volume-popup { position: absolute; bottom: 70px; left: -10px; background: var(--surface); border: 1px solid var(--border-color); border-radius: 16px; padding: 16px 12px; box-shadow: 0 15px 35px rgba(0,0,0,0.8); display: none; flex-direction: column; align-items: center; z-index: 100; height: 290px;}
         .volume-popup.show { display: flex; }
@@ -132,20 +136,30 @@
         .volume-fill { position: absolute; bottom: 0; left: 0; width: 100%; background: var(--accent); border-radius: 2px; pointer-events: none; opacity: 0.8;}
         .volume-knob { position: absolute; left: 50%; transform: translate(-50%, 50%); width: 16px; height: 16px; background: #fff; border-radius: 50%; box-shadow: 0 2px 5px rgba(0,0,0,0.5); pointer-events: none; }
 
+        /* Modais Base */
         .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(2, 6, 23, 0.8); backdrop-filter: blur(8px); z-index: 1000; justify-content: center; align-items: center; padding: 20px; }
         .modal-content { background: var(--surface); border: 1px solid var(--border-color); border-radius: 24px; width: 100%; max-width: 380px; padding: 24px; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5); max-height: 85vh; overflow-y: auto; display: flex; flex-direction: column; align-items: center; }
-        
         .modal-header { display: flex; align-items: center; justify-content: center; position: relative; font-size: 18px; font-weight: 700; margin-bottom: 20px; color: var(--text-main); min-height: 36px; width: 100%; }
+        
+        /* Botões Diversos */
         .back-btn-top { position: absolute; left: 0; background: var(--surface); border: 1px solid var(--border-color); color: var(--text-muted); cursor: pointer; display: flex; align-items: center; justify-content: center; border-radius: 10px; width: 36px; height: 36px; transition: all 0.2s; }
         .back-btn-top:hover { color: var(--accent); border-color: var(--accent); }
         .back-btn-top svg { width: 22px; height: 22px; fill: currentColor; }
         
+        .btn-modern { width: 100%; padding: 14px; border-radius: 12px; font-family: 'Inter', sans-serif; font-weight: 600; font-size: 14px; cursor: pointer; transition: all 0.2s; border: none; text-align: center; display: flex; align-items: center; justify-content: center; gap: 8px;}
+        .btn-primary { background: var(--accent); color: #fff; }
+        .btn-secondary { background: var(--surface-hover); color: var(--text-main); margin-top: 8px; }
+        .btn-danger { background: rgba(239, 68, 68, 0.1); color: #ef4444; border: 1px solid rgba(239, 68, 68, 0.2); margin-top: 8px; }
+        .btn-export { background: #3b82f6; color: #fff; margin-top: 8px; border: 1px solid #2563eb; } 
+        .input-modern { width: 100%; padding: 14px; background: var(--bg-base); border: 1px solid var(--border-color); border-radius: 12px; color: var(--text-main); margin-bottom: 12px; outline: none; font-size: 14px; }
+        .input-modern:focus { border-color: var(--accent); }
+
+        /* Estilos do Admin */
         .tabs-container { display: flex; gap: 8px; margin-bottom: 16px; background: var(--bg-base); padding: 4px; border-radius: 12px; border: 1px solid var(--border-color); width: 100%; }
         .tab-btn { flex: 1; padding: 10px; border-radius: 8px; font-weight: 600; font-size: 13px; color: var(--text-muted); background: transparent; border: none; cursor: pointer; transition: 0.2s; }
         .tab-btn.active { background: var(--surface-hover); color: var(--accent); box-shadow: 0 2px 4px rgba(0,0,0,0.2); }
         .tab-content { display: none; flex: 1; overflow-y: auto; width: 100%; }
         .tab-content.active { display: block; }
-
         .stations-list { display: flex; flex-direction: column; gap: 12px; margin-bottom: 24px; width: 100%; }
         .station-item { background: var(--bg-base); border: 1px solid var(--border-color); padding: 12px 16px; border-radius: 16px; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; gap: 16px; }
         .station-item:hover { border-color: var(--accent); }
@@ -153,17 +167,6 @@
         .circle-number { width: 36px; height: 36px; background: var(--surface); color: var(--text-main); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 16px; border: 2px solid transparent; transition: all 0.2s; }
         .station-item.selected .circle-number { background: var(--accent); border-color: #fff; color: #fff; }
         .station-item-name { font-weight: 600; font-size: 15px; color: var(--text-main); }
-
-        .btn-modern { width: 100%; padding: 14px; border-radius: 12px; font-family: 'Inter', sans-serif; font-weight: 600; font-size: 14px; cursor: pointer; transition: all 0.2s; border: none; text-align: center; display: flex; align-items: center; justify-content: center; gap: 8px;}
-        .btn-primary { background: var(--accent); color: #fff; }
-        .btn-secondary { background: var(--surface-hover); color: var(--text-main); margin-top: 8px; }
-        .btn-danger { background: rgba(239, 68, 68, 0.1); color: #ef4444; border: 1px solid rgba(239, 68, 68, 0.2); margin-top: 8px; }
-        .btn-export { background: #3b82f6; color: #fff; margin-top: 8px; border: 1px solid #2563eb; } 
-        
-        .input-modern { width: 100%; padding: 14px; background: var(--bg-base); border: 1px solid var(--border-color); border-radius: 12px; color: var(--text-main); margin-bottom: 12px; outline: none; font-size: 14px; }
-        .input-modern:focus { border-color: var(--accent); }
-        .pwd-mask { -webkit-text-security: disc; font-family: text-security-disc; }
-        
         .admin-tape-item { background: var(--bg-base); border-radius: 16px; margin-bottom: 12px; border: 1px solid var(--border-color); overflow: hidden; }
         .tape-header { display: flex; align-items: center; justify-content: space-between; padding: 16px; background: var(--surface-hover); cursor: pointer; transition: background 0.2s ease; }
         .tape-header:hover { background: var(--surface); }
@@ -174,104 +177,192 @@
         .drag-handle { cursor: grab; color: var(--text-muted); display: flex; align-items: center; justify-content: center; padding: 4px; }
         .drag-handle:active { cursor: grabbing; color: var(--accent); }
         .chevron-icon { transition: transform 0.3s ease; color: var(--text-muted); }
-        
         .tape-body { display: none; padding: 16px; border-top: 1px solid var(--border-color); }
         .tape-body.expanded { display: block; }
         .tape-body label, .config-label { display: block; font-size: 11px; margin-bottom: 6px; font-weight: 700; color: var(--accent); text-transform: uppercase;}
-        
         .sortable-ghost { opacity: 0.4; background: var(--surface-hover); }
+        
         #loadingIndicator { position: absolute; top: 24px; left: 50%; transform: translateX(-50%); background: var(--accent); color: #fff; padding: 6px 16px; border-radius: 20px; font-size: 12px; font-weight: 600; display: none; z-index: 50; }
         
+        /* Utilitários de Visibilidade */
+        .tv-only { display: none !important; }
+        .mobile-only { display: flex !important; }
+
+        /* ======== ESTILOS DESKTOP / TV / LANDSCAPE ======== */
+        /* Aqui a magia do Grid acontece para transformar a interface preservando o DOM */
         @media (min-width: 768px) and (orientation: landscape) {
             #app-container {
-                max-width: 900px; max-height: 600px; display: grid;
-                grid-template-columns: 60% 40%; grid-template-rows: auto 1fr auto auto;
-                grid-template-areas: "header header" "display controls" "vu vu" "banner banner";
+                max-width: 900px; 
+                max-height: 580px; 
+                display: grid;
+                /* As colunas representam: NavPrev, NavNext, Capa Central, Grelha 1, Grelha 2, Grelha 3 */
+                grid-template-columns: 74px 74px 205px 62px 62px 62px;
+                /* As linhas alinham milimetricamente os topos e bases dos blocos nos 240px centrais */
+                grid-template-rows: auto 66px 66px 66px 22px auto;
+                grid-template-areas:
+                    "header header header header header header"
+                    "play   play   cover  btn1   btn2   btn3"
+                    "play   play   cover  btn4   btn5   btn6"
+                    "prev   next   cover  btn7   btn8   btn9"
+                    "vu     vu     vu     vu     vu     vu"
+                    "banner banner banner banner banner banner";
+                justify-content: center;
+                align-content: center;
+                gap: 21px 16px; /* Row Gap 21px, Col Gap 16px */
+            }
+            
+            /* Dizer ao navegador para "ignorar" os containers originais do mobile e deixar os botões fluírem para a Grelha Master */
+            .station-display, .hub-container, .controls-container, .playback-group, .volume-wrapper {
+                display: contents;
+            }
+
+            .tv-only { display: flex !important; }
+            .mobile-only { display: none !important; }
+
+            .app-header { grid-area: header; padding: 10px 0; }
+            #stationName { display: none; } /* Título desnecessário na TV, já está no header */
+
+            /* BLOCO CENTRAL (CAPA + BADGE) */
+            #mainIcon {
+                grid-area: cover;
+                align-self: end; /* Encosta a capa na base dos 240px */
+                width: 205px; height: 205px;
+                position: relative; top: auto; left: auto; right: auto; bottom: auto;
+                margin: 0; transform: none;
+                border: 4px solid var(--border-color);
+                box-shadow: 0 12px 30px rgba(0,0,0,0.5);
                 border-radius: 24px;
             }
-            .app-header { grid-area: header; }
-            .station-display { grid-area: display; padding-bottom: 0; justify-content: center; }
-            .vu-meter { grid-area: vu; margin-bottom: 16px; }
+            #statusBadge {
+                grid-area: cover;
+                align-self: start; /* Encosta o badge no topo dos 240px */
+                justify-self: center;
+                position: relative; top: -5px; left: auto; transform: none;
+                margin: 0; z-index: 10;
+                padding: 4px 14px;
+            }
+
+            /* BLOCO ESQUERDA (PLAY + NAVEGAÇÃO) */
+            #mainPlayBtn {
+                grid-area: play;
+                width: 100%; height: 100%; /* Expande preenchendo as 2 linhas */
+                margin: 0; border-radius: 20px;
+            }
+            #prevBtn { grid-area: prev; width: 100%; height: 100%; margin: 0; }
+            #nextBtn { grid-area: next; width: 100%; height: 100%; margin: 0; }
+
+            /* BLOCO DIREITA (GRELHA 3x3 DE BOTÕES) */
+            /* Padronização visual para os 9 botões funcionarem como teclas de TV */
+            .hub-satellite, .fav-btn, .theme-btn, .control-btn, .nav-btn, .admin-gear {
+                position: relative !important;
+                top: auto !important; left: auto !important; right: auto !important; bottom: auto !important;
+                transform: none !important;
+                width: 100% !important; height: 100% !important;
+                margin: 0 !important;
+                border-radius: 16px !important;
+                background: var(--surface-hover);
+                border: 1px solid var(--border-color);
+            }
+            /* Aumenta ícones SVG internos na TV */
+            .hub-satellite svg, .fav-btn svg, .theme-btn svg, .control-btn svg, .admin-gear svg {
+                width: 28px !important; height: 28px !important;
+            }
+            /* Efeito Hover/Focus TV Style */
+            .hub-satellite:hover, .fav-btn:hover, .theme-btn:hover, .control-btn:hover, .admin-gear:hover {
+                border-color: var(--accent); box-shadow: 0 0 15px var(--accent-glow); background: #334155; transform: scale(1.05) !important;
+            }
+
+            /* Mapeamento exato dos Botões na Grelha (btn1 até btn9) */
+            .sat-tr { grid-area: btn1; } /* Ranking */
+            #shareBtn { grid-area: btn2; } /* WhatsApp */
+            #cfgBtnLeft { grid-area: btn3; } /* Logo Customizado */
+            #favoriteBtn { grid-area: btn4; } /* Favorito */
+            #volumeBtn { grid-area: btn5; } /* Volume */
+            #aboutBtnTV { grid-area: btn6; } /* Botão Sobre (Clone para TV) */
+            .sat-bl { grid-area: btn7; } /* Estado */
+            #listBtn { grid-area: btn8; } /* Lista */
+            #themeBtn { grid-area: btn9; } /* Tema */
+
+            /* Ajuste de Posição do Popup de Volume para não quebrar a grelha */
+            .volume-popup {
+                position: fixed;
+                bottom: 90px; left: 50%; transform: translateX(-50%);
+                z-index: 1000;
+            }
+
+            /* VU Meter e Banner */
+            #vuMeter { grid-area: vu; height: 22px; padding: 0 10px; gap: 3px; margin: 0; }
             .banner-container { grid-area: banner; }
-            .controls-container {
-                grid-area: controls; display: grid; grid-template-columns: auto auto; grid-template-rows: auto auto auto;
-                gap: 16px 24px; justify-content: center; align-content: center; justify-items: center; padding: 0 40px 0 0;
-            }
-            .playback-group {
-                grid-column: 1 / 3; grid-row: 1 / 3; display: grid; grid-template-columns: auto auto; grid-template-rows: auto auto;
-                grid-template-areas: "play play" "prev next"; gap: 16px 24px; width: 100%; justify-content: center;
-            }
-            #mainPlayBtn { grid-area: play; justify-self: center; width: 144px; height: 144px; border-radius: 40px; margin-bottom: 12px; }
-            #mainPlayBtn svg { width: 64px; height: 64px; }
-            #prevBtn { grid-area: prev; margin: 0; }
-            #nextBtn { grid-area: next; margin: 0; }
-            .volume-wrapper { grid-column: 1 / 2; grid-row: 3 / 4; }
-            #listBtn { grid-column: 2 / 3; grid-row: 3 / 4; }
-            .nav-btn { width: 60px; height: 60px; }
-            #volumeBtn, #listBtn { width: 60px; height: 60px; background: var(--surface); border-radius: 14px; border: 1px solid var(--border-color); }
-            .hub-container { transform: scale(1.2); }
-            #stationName { font-size: 26px; margin-top: 24px; }
-            .volume-popup { bottom: 80px; left: 50%; transform: translateX(-50%); }
-            button:focus, a:focus, input:focus, .station-item:focus, .admin-tape-item:focus {
+
+            /* Acessibilidade de Foco via Teclado/Comando */
+            button:focus, a:focus, input:focus {
                 outline: 3px solid var(--accent); outline-offset: 4px; background-color: var(--surface-hover); transition: all 0.2s ease;
             }
         }
     </style>
 </head>
 <body>
+    <!-- CONTÊINER PRINCIPAL (Controla a Máquina de Estados Visual) -->
     <div id="app-container">
         <div id="loadingIndicator">Carregando...</div>
         
+        <!-- CABEÇALHO -->
         <div class="app-header">
             <h1>Top 10 Gospel Radio</h1>
             <div class="header-controls">
-                <!-- Botão Info [ i ] adicionado ao lado do botão de engrenagem -->
-                <button class="admin-gear" id="aboutBtn" title="Sobre o App">
-                    <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M11 7h2v2h-2zm0 4h2v6h-2zm1-9C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"></path>
-                    </svg>
+                <!-- Botão Sobre Original (Visível Apenas no Mobile) -->
+                <button class="admin-gear mobile-only about-trigger" title="Sobre o App">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M11 7h2v2h-2zm0 4h2v6h-2zm1-9C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"></path></svg>
                 </button>
                 <button class="admin-gear" id="fullscreenBtn" title="Tela Cheia"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M7 14H5v5h5v-2H7v-3zm-2-4h2V7h3V5H5v5zm12 7h-3v2h5v-5h-2v3zM14 5v2h3v3h2V5h-5z"></path></svg></button>
                 <button class="admin-gear" id="adminBtn" title="Configurações"><svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M19.14,12.94c0.04-0.3,0.06-0.61,0.06-0.94c0-0.32-0.02-0.64-0.06-0.94l2.03-1.58c0.18-0.14,0.23-0.41,0.12-0.61 l-1.92-3.32c-0.12-0.22-0.37-0.29-0.59-0.22l-2.39,0.96c-0.5-0.38-1.03-0.7-1.62-0.94L14.4,2.81c-0.04-0.24-0.24-0.41-0.48-0.41 h-3.84c-0.24,0-0.43,0.17-0.47,0.41L9.25,5.35C8.66,5.59,8.12,5.92,7.63,6.29L5.24,5.33c-0.22-0.08-0.47,0-0.59,0.22L2.73,8.87 C2.62,9.08,2.66,9.34,2.86,9.48l2.03,1.58C4.84,11.36,4.8,11.69,4.8,12s0.02,0.64,0.06,0.94l-2.03,1.58 c-0.18,0.14-0.23,0.41-0.12,0.61l1.92,3.32c0.12,0.22,0.37,0.29,0.59,0.22l2.39-0.96c0.5,0.38,1.03,0.7,1.62,0.94l0.36,2.54 c0.05,0.24,0.24,0.41,0.48,0.41h3.84c0.24,0,0.43-0.17,0.47-0.41l0.36-2.54c0.59-0.24,1.13-0.56,1.62-0.94l2.39,0.96 c0.22,0.08,0.47,0,0.59-0.22l1.92-3.32c0.12-0.22,0.07-0.49-0.12-0.61L19.14,12.94z M12,15.6c-1.98,0-3.6-1.62-3.6-3.6 s1.62-3.6,3.6-3.6s3.6,1.62,3.6,3.6S13.98,15.6,12,15.6z"></path></svg></button>
             </div>
         </div>
 
+        <!-- MÓDULO CENTRAL DO HUB -->
         <div class="station-display">
+            <!-- No Mobile este é um container relativo circular. No PC/TV, usa display:contents soltando os botões na grid -->
             <div class="hub-container">
-                <button id="themeBtn" class="theme-btn" title="Alternar Tema Claro/Escuro">
+                <button id="themeBtn" class="theme-btn" title="Alternar Tema">
                     <svg viewBox="0 0 24 24"><path d="M12 21c-4.97 0-9-4.03-9-9s4.03-9 9-9 9 4.03 9 9-4.03 9-9 9zm0-16c-3.86 0-7 3.14-7 7s3.14 7 7 7 7-3.14 7-7-3.14-7-7-7zm0 13c-3.31 0-6-2.69-6-6s2.69-6 6-6v12z"></path></svg>
                 </button>
 
-                <button id="favoriteBtn" class="fav-btn" title="Marcar como Favorita">
+                <button id="favoriteBtn" class="fav-btn" title="Favorito">
                     <svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
                 </button>
 
+                <!-- Status Badge (Mapeado no Grid da TV como capa alinhada ao topo) -->
                 <div class="status-badge" id="statusBadge"><div class="status-dot"></div><span id="statusText">OFF</span></div>
                 
                 <a href="#" target="_blank" class="hub-satellite sat-tl" id="cfgBtnLeft"><img id="cfgImgLeft" src="Sint.jpg" alt="Logo"></a>
                 
-                <div class="hub-satellite sat-tr" title="Ranking da Rádio">
+                <div class="hub-satellite sat-tr" title="Ranking">
                     <img id="topBadgeImg" src="Top1.png" alt="Top Ranking">
                 </div>
                 
-                <div class="station-icon" id="mainIcon"><img id="albumArtImage" src="Sint.jpg" alt="Arte do Álbum" onerror="this.src='Sint.jpg'"></div>
+                <!-- Capa Principal -->
+                <div class="station-icon" id="mainIcon"><img id="albumArtImage" src="Sint.jpg" alt="Arte" onerror="this.src='Sint.jpg'"></div>
                 
-                <div class="hub-satellite sat-bl" title="Estado da Rádio">
+                <div class="hub-satellite sat-bl" title="Estado">
                     <img id="stateBadgeImg" src="estados/CE.png" alt="Estado" onerror="this.src='Sint.jpg'">
                 </div>
                 
-                <button class="hub-satellite sat-br" id="shareBtn"><svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.888-.788-1.489-1.761-1.663-2.06-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"></path></svg></button>
+                <button class="hub-satellite sat-br" id="shareBtn" title="WhatsApp"><svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.888-.788-1.489-1.761-1.663-2.06-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"></path></svg></button>
             </div>
+            
             <div id="stationName">Carregando...</div>
         </div>
 
+        <!-- VU METER (ALTA RESOLUÇÃO 29 LEDs) -->
         <div class="vu-meter" id="vuMeter"></div>
 
         <div class="banner-container"><div class="banner-text" id="runningBanner"></div></div>
 
+        <!-- CONTROLES INFERIORES -->
         <div class="controls-container">
+            
             <div class="volume-wrapper">
-                <button class="control-btn" id="volumeBtn" title="Volume"><svg viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"></path></svg></button>
+                <button class="control-btn nav-btn" id="volumeBtn" title="Volume"><svg viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"></path></svg></button>
                 <div class="volume-popup" id="volumePopup">
                     <span style="font-size: 11px; font-weight: bold; color: var(--text-muted); margin-bottom: 2px;">VOL</span>
                     <span id="volumeValueDisplay" style="font-size: 16px; font-weight: 800; color: var(--accent); margin-bottom: 8px;">5</span>
@@ -281,58 +372,59 @@
                     </div>
                 </div>
             </div>
+            
+            <!-- Controle de Reprodução (Na TV vão para o grid esquerdo) -->
             <div class="playback-group">
-                <button class="control-btn nav-btn" id="prevBtn" title="Rádio Anterior"><svg width="24" height="24" viewBox="0 0 24 24"><path d="M6 6h2v12H6zm3.5 6l8.5 6V6z"></path></svg></button>
+                <button class="control-btn nav-btn" id="prevBtn" title="Anterior"><svg viewBox="0 0 24 24"><path d="M6 6h2v12H6zm3.5 6l8.5 6V6z"></path></svg></button>
                 <button class="control-btn play-btn" id="mainPlayBtn" title="Play/Pause"><svg id="playIconSVG" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"></path></svg></button>
-                <button class="control-btn nav-btn" id="nextBtn" title="Próxima Rádio"><svg width="24" height="24" viewBox="0 0 24 24"><path d="M6 18l8.5-6L6 6v12zM16 6v12h2V6h-2z"></path></svg></button>
+                <button class="control-btn nav-btn" id="nextBtn" title="Próximo"><svg viewBox="0 0 24 24"><path d="M6 18l8.5-6L6 6v12zM16 6v12h2V6h-2z"></path></svg></button>
             </div>
-            <button class="control-btn" id="listBtn" title="Lista de Rádios"><svg viewBox="0 0 24 24"><path d="M3 13h2v-2H3v2zm0 4h2v-2H3v2zm0-8h2V7H3v2zm4 4h14v-2H7v2zm0 4h14v-2H7v2zM7 7v2h14V7H7z"></path></svg></button>
+            
+            <button class="control-btn nav-btn" id="listBtn" title="Lista"><svg viewBox="0 0 24 24"><path d="M3 13h2v-2H3v2zm0 4h2v-2H3v2zm0-8h2V7H3v2zm4 4h14v-2H7v2zm0 4h14v-2H7v2zM7 7v2h14V7H7z"></path></svg></button>
+
+            <!-- Clone do Botão Sobre (Visível APENAS no Modo TV - Para encaixar na Grelha) -->
+            <button class="admin-gear tv-only about-trigger" id="aboutBtnTV" title="Sobre o App">
+                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M11 7h2v2h-2zm0 4h2v6h-2zm1-9C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"></path></svg>
+            </button>
         </div>
     </div>
 
-    <!-- MODAL "SOBRE SINTONIZE GOSPEL" -->
+    <!-- ======== MODAIS ======== -->
+
+    <!-- MODAL SOBRE -->
     <div class="modal-overlay" id="aboutModal">
         <div class="modal-content">
             <div class="modal-header">Sobre Sintonize Gospel</div>
             
-            <!-- Imagem da Logomarca do desenvolvedor -->
-            <img src="gerlem.png" alt="Logomarca Gerlem" class="w-48 h-24 rounded-2xl shadow-lg border-2 border-[var(--border-color)] mb-6 object-contain p-1 bg-[var(--surface-hover)]" onerror="this.src='https://via.placeholder.com/192x96?text=G'">
+            <img src="gerlem.png" alt="Logomarca" class="w-48 h-24 rounded-2xl shadow-lg border-2 border-[var(--border-color)] mb-6 object-contain p-1 bg-[var(--surface-hover)]" onerror="this.src='https://via.placeholder.com/192x96?text=G'">
             
-            <!-- Imagem Sint2.jpg posicionada centralizada -->
-            <img src="Sint2.jpg" alt="Logo Sintonize Gospel" class="w-28 h-28 rounded-2xl shadow-lg border-2 border-[var(--border-color)] mb-4 object-cover" onerror="this.src='https://via.placeholder.com/400?text=Sint2'">
+            <img src="Sint2.jpg" alt="Sintonize Gospel" class="w-28 h-28 rounded-2xl shadow-lg border-2 border-[var(--border-color)] mb-4 object-cover" onerror="this.src='https://via.placeholder.com/400?text=Sint2'">
             
-            <!-- Subtítulo com a imagem SVG da bandeira -->
             <p class="text-sm text-[var(--text-muted)] flex items-center justify-center gap-1 mb-2">
                 Top 10 Gospel Radio Brasil 
                 <img src="https://cdnjs.cloudflare.com/ajax/libs/twemoji/14.0.2/svg/1f1e7-1f1f7.svg" alt="Bandeira do Brasil" class="w-4 h-4">
             </p>
             
-            <!-- Informações de Versão e Licença agrupadas na mesma linha -->
             <div class="flex items-center justify-center gap-2 mb-6">
                 <span class="text-xs font-bold text-[var(--accent)]">Versão 1.0</span>
                 <span class="text-[11px] text-[var(--text-muted)]">•</span>
                 <span class="text-[11px] font-semibold text-[var(--text-muted)] uppercase tracking-widest">Freeware</span>
             </div>
             
-            <!-- Bloco de Créditos ao Desenvolvedor -->
             <div class="w-full bg-[var(--surface-hover)] rounded-xl p-4 mb-2 border border-[var(--border-color)] flex flex-col items-center">
                 <p class="text-[11px] font-bold text-[var(--accent)] uppercase tracking-wider mb-2">Desenvolvedor</p>
                 <p class="font-semibold text-[var(--text-main)] text-base mb-2">Gerlem Pimentel</p>
-                
-                <!-- Link direto de envio de e-mail -->
                 <a href="mailto:suporte@gerlem.dev.br" class="flex items-center gap-2 text-sm text-[var(--text-muted)] hover:text-[var(--accent)] transition-colors">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"></path>
-                    </svg>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"></path></svg>
                     suporte@gerlem.dev.br
                 </a>
             </div>
 
-            <!-- Botão de fechamento do Modal -->
             <button class="btn-modern btn-secondary" id="closeAboutBtn">VOLTAR</button>
         </div>
     </div>
 
+    <!-- MODAL LISTA DE RÁDIOS -->
     <div class="modal-overlay" id="stationModal">
         <div class="modal-content">
             <div class="modal-header">
@@ -344,17 +436,19 @@
         </div>
     </div>
 
+    <!-- MODAL SENHA ADMIN -->
     <div class="modal-overlay" id="passwordModal">
         <div class="modal-content">
             <div class="modal-header">Área Restrita</div>
             <p style="text-align:center; font-size: 14px; color: var(--text-muted); margin-bottom: 16px;">Digite a senha de administrador</p>
-            <input type="tel" inputmode="numeric" id="adminPassword" class="input-modern pwd-mask" placeholder="••••••" maxlength="20">
+            <input type="tel" inputmode="numeric" id="adminPassword" class="input-modern" style="-webkit-text-security:disc;" placeholder="••••••" maxlength="20">
             <div id="passwordError" style="color: #ef4444; font-size: 12px; text-align: center; display: none; margin-bottom: 16px;">Senha incorreta!</div>
             <button class="btn-modern btn-primary" id="enterAdminBtn">ENTRAR</button>
             <button class="btn-modern btn-secondary" id="cancelPasswordBtn">CANCELAR</button>
         </div>
     </div>
 
+    <!-- MODAL ADMIN -->
     <div class="modal-overlay" id="adminModal">
         <div class="modal-content">
             <div class="modal-header">
@@ -390,21 +484,17 @@
             </div>
 
             <div style="margin-top: 16px; width: 100%;">
-                <button class="btn-modern btn-primary" id="saveAdminBtn" style="margin-bottom: 8px;">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M17 3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V7l-4-4zm-5 16c-1.66 0-3-1.34-3-3s1.34-3 3-3 3 1.34 3 3-1.34 3-3 3zm3-10H5V5h10v4z"></path></svg>
-                    SALVAR NA MEMÓRIA
-                </button>
-                <button class="btn-modern btn-export" id="exportBtn" style="margin-bottom: 8px;">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"></path></svg>
-                    EXPORTAR ARQUIVO (GITHUB)
-                </button>
+                <button class="btn-modern btn-primary" id="saveAdminBtn" style="margin-bottom: 8px;"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M17 3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V7l-4-4zm-5 16c-1.66 0-3-1.34-3-3s1.34-3 3-3 3 1.34 3 3-1.34 3-3 3zm3-10H5V5h10v4z"></path></svg> SALVAR NA MEMÓRIA</button>
+                <button class="btn-modern btn-export" id="exportBtn" style="margin-bottom: 8px;"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"></path></svg> EXPORTAR HTML</button>
                 <button class="btn-modern btn-danger" id="cancelAdminBtn">FECHAR / CANCELAR</button>
             </div>
         </div>
     </div>
 
+    <!-- Elemento Audio Oculto -->
     <audio id="audioElement" crossorigin="anonymous" preload="none"></audio>
 
+    <!-- ======== JAVASCRIPT PRINCIPAL ======== -->
     <script>
         (function() {
             let fileVersion = Date.now(); 
@@ -449,8 +539,8 @@
             const shareBtn = document.getElementById('shareBtn'); 
             const favoriteBtn = document.getElementById('favoriteBtn'); 
 
-            // Elementos da caixa Sobre
-            const aboutBtn = document.getElementById('aboutBtn');
+            // Modal Sobre
+            const aboutTriggers = document.querySelectorAll('.about-trigger');
             const aboutModal = document.getElementById('aboutModal');
             const closeAboutBtn = document.getElementById('closeAboutBtn');
             
@@ -484,76 +574,16 @@
             const ADMIN_PASSWORD = "602190"; 
             
             let defaultTapes = [
-                {
-                    "name": "Radio Canaã 93.5",
-                    "url": "https://stream1.svrdedicado.org/8006/stream",
-                    "image": "93.5.png",
-                    "banner": "Rádio Canaã FM 93.5  - Fortaleza - Ceará - Brasil",
-                    "state": "CE.png"
-                },
-                {
-                    "name": "Radio Melodia",
-                    "url": "https://24223.live.streamtheworld.com/MELODIAFMAAC.aac",
-                    "image": "97.5.png",
-                    "banner": "Radio Melodia FM - Rio de Janeiro - Brasil",
-                    "state": "RJ.png"
-                },
-                {
-                    "name": "Radio 107.5",
-                    "url": "https://cast2.youngtech.radio.br/radio/8290/radio",
-                    "image": "107-5.png",
-                    "banner": "Simplesmente Diferente - Joinville - Santa Catarina Brasil",
-                    "state": "SC.png"
-                },
-                {
-                    "name": "Boas Novas",
-                    "url": "https://boasnovasaac.jmvstream.com/stream",
-                    "image": "91.9.png",
-                    "banner": "Bem-vindo à Top 10 Gospel Radio!",
-                    "state": "PA.png"
-                },
-                {
-                    "name": "Radio CPAD",
-                    "url": "https://server3.webradios.com.br:19404/9404?1793498718881",
-                    "image": "96.1.png",
-                    "banner": "Radio CPAD - João Pessoa - Paraíba - Brasil - ",
-                    "state": "PB.png"
-                },
-                {
-                    "name": "Radio Feliz FM",
-                    "url": "https://cloud1.cdnseguro.com:5520/stream/",
-                    "image": "92.1.png",
-                    "banner": "Rádio Feliz - São Paulo - Brasil",
-                    "state": "SP.png"
-                },
-                {
-                    "name": "Rádio Novas de Paz",
-                    "url": "https://radio.saopaulo01.com.br/8304/stream",
-                    "image": "88.1.png",
-                    "banner": "Rádio Novas de Paz FM 88.1 - Pernambuco - Brasil",
-                    "state": "PE.png"
-                },
-                {
-                    "name": "Paz FM 89.5",
-                    "url": "https://digital.umhost.com.br/9978/stream",
-                    "image": "89.5.png",
-                    "banner": "Rádio Paz FM 89.5 - Goiânia - Goiás - Brasil",
-                    "state": "GO.png"
-                },
-                {
-                    "name": "Mais FM 102.9",
-                    "url": "https://8313.brasilstream.com.br/stream",
-                    "image": "102.9.png",
-                    "banner": "Rádio 102.9 FM - Essa Rádio é d+ São Paulo -Brasil",
-                    "state": "SP.png"
-                },
-                {
-                    "name": "Rádio Rede Aleluia",
-                    "url": "https://station.azrmcsoftbroadcast.com.br/listen/radio_porto_alegre/rd_portoalegre",
-                    "image": "rede.png",
-                    "banner": "Rádio Rede Aleluia Porto Alegre - Rio Grande do Sul - Brasil",
-                    "state": "RS.png"
-                }
+                { "name": "Radio Canaã 93.5", "url": "https://stream1.svrdedicado.org/8006/stream", "image": "93.5.png", "banner": "Rádio Canaã FM 93.5  - Fortaleza - Ceará - Brasil", "state": "CE.png" },
+                { "name": "Radio Melodia", "url": "https://24223.live.streamtheworld.com/MELODIAFMAAC.aac", "image": "97.5.png", "banner": "Radio Melodia FM - Rio de Janeiro - Brasil", "state": "RJ.png" },
+                { "name": "Radio 107.5", "url": "https://cast2.youngtech.radio.br/radio/8290/radio", "image": "107-5.png", "banner": "Simplesmente Diferente - Joinville - Santa Catarina Brasil", "state": "SC.png" },
+                { "name": "Boas Novas", "url": "https://boasnovasaac.jmvstream.com/stream", "image": "91.9.png", "banner": "Bem-vindo à Top 10 Gospel Radio!", "state": "PA.png" },
+                { "name": "Radio CPAD", "url": "https://server3.webradios.com.br:19404/9404?1793498718881", "image": "96.1.png", "banner": "Radio CPAD - João Pessoa - Paraíba - Brasil - ", "state": "PB.png" },
+                { "name": "Radio Feliz FM", "url": "https://cloud1.cdnseguro.com:5520/stream/", "image": "92.1.png", "banner": "Rádio Feliz - São Paulo - Brasil", "state": "SP.png" },
+                { "name": "Rádio Novas de Paz", "url": "https://radio.saopaulo01.com.br/8304/stream", "image": "88.1.png", "banner": "Rádio Novas de Paz FM 88.1 - Pernambuco - Brasil", "state": "PE.png" },
+                { "name": "Paz FM 89.5", "url": "https://digital.umhost.com.br/9978/stream", "image": "89.5.png", "banner": "Rádio Paz FM 89.5 - Goiânia - Goiás - Brasil", "state": "GO.png" },
+                { "name": "Mais FM 102.9", "url": "https://8313.brasilstream.com.br/stream", "image": "102.9.png", "banner": "Rádio 102.9 FM - Essa Rádio é d+ São Paulo -Brasil", "state": "SP.png" },
+                { "name": "Rádio Rede Aleluia", "url": "https://station.azrmcsoftbroadcast.com.br/listen/radio_porto_alegre/rd_portoalegre", "image": "rede.png", "banner": "Rádio Rede Aleluia Porto Alegre - Rio Grande do Sul - Brasil", "state": "RS.png" }
             ];
 
             let defaultAppConfig = {
@@ -583,8 +613,30 @@
             let hlsPlayer = null; 
             let sortableInstance = null;
             
-            const TOTAL_VU_SEGMENTS = 15;
+            // ===== SISTEMA DO VU METER DE ALTA RESOLUÇÃO (29 LEDs) =====
+            const TOTAL_VU_SEGMENTS = 29;
             const vuSegments = [];
+
+            function createVUMeter() {
+                vuMeter.innerHTML = '';
+                for (let i = 0; i < TOTAL_VU_SEGMENTS; i++) {
+                    let segment = document.createElement('div');
+                    segment.className = 'vu-segment';
+                    
+                    // Definição das Cores Base com as Novas Classes de Segmento
+                    if (i === 14) segment.classList.add('center-seg'); 
+                    else if (i >= 0 && i <= 3) segment.classList.add('red-seg'); 
+                    else if (i >= 4 && i <= 7) segment.classList.add('orange-seg'); 
+                    else if (i >= 8 && i <= 13) segment.classList.add('green-seg'); 
+                    else if (i >= 15 && i <= 20) segment.classList.add('green-seg'); 
+                    else if (i >= 21 && i <= 24) segment.classList.add('orange-seg'); 
+                    else if (i >= 25 && i <= 28) segment.classList.add('red-seg'); 
+                    
+                    vuMeter.appendChild(segment);
+                    vuSegments.push(segment);
+                }
+            }
+            createVUMeter();
 
             function applyAppConfigUI() {
                 document.getElementById('cfgBtnLeft').href = appConfig.btnLeftUrl;
@@ -629,29 +681,12 @@
                 window.open(`https://wa.me/?text=${encodeURIComponent(userMsg)}`, '_blank');
             });
 
-            // Eventos do Modal "Sobre"
-            aboutBtn.addEventListener('click', () => {
-                aboutModal.style.display = 'flex';
+            // Lógica do Modal "Sobre"
+            aboutTriggers.forEach(btn => {
+                btn.addEventListener('click', () => { aboutModal.style.display = 'flex'; });
             });
-            closeAboutBtn.addEventListener('click', () => {
-                aboutModal.style.display = 'none';
-            });
+            closeAboutBtn.addEventListener('click', () => { aboutModal.style.display = 'none'; });
 
-            function createVUMeter() {
-                vuMeter.innerHTML = '';
-                for (let i = 0; i < TOTAL_VU_SEGMENTS; i++) {
-                    let segment = document.createElement('div');
-                    segment.className = 'vu-segment';
-                    if (i === 7) segment.classList.add('center-led'); 
-                    else if (i < 2 || i > 12) segment.classList.add('red'); 
-                    else if (i === 2 || i === 3 || i === 11 || i === 12) segment.classList.add('orange'); 
-                    else segment.classList.add('green'); 
-                    vuMeter.appendChild(segment);
-                    vuSegments.push(segment);
-                }
-            }
-            createVUMeter();
-            
             function changeStation(index) {
                 document.querySelectorAll('.station-item').forEach(el => el.classList.remove('selected'));
                 const items = document.querySelectorAll('.station-item');
@@ -666,9 +701,7 @@
                 albumArtImage.src = tapes[selectedTapeIndex].image ? tapes[selectedTapeIndex].image : "Sint.jpg";
                 
                 let stateFile = tapes[selectedTapeIndex].state || 'CE.png';
-                if (!stateFile.startsWith('estados/')) {
-                    stateFile = 'estados/' + stateFile;
-                }
+                if (!stateFile.startsWith('estados/')) { stateFile = 'estados/' + stateFile; }
                 stateBadgeImg.src = stateFile;
 
                 updateFavoriteUI(index);
@@ -815,7 +848,7 @@
                 } else {
                     statusBadge.classList.remove('active'); statusText.textContent = 'OFF';
                     mainIcon.classList.remove('playing'); playIconSVG.innerHTML = iconPlay;
-                    vuSegments.forEach(seg => seg.classList.remove('lit'));
+                    vuSegments.forEach(seg => seg.classList.remove('lit', 'half-lit'));
                 }
             }
             
@@ -848,16 +881,24 @@
                             let sum = 0; for (let i = 0; i < window.dataArray.length; i++) sum += window.dataArray[i];
                             let avg = sum / window.dataArray.length;
                             
-                            let litCount = Math.floor((avg / 230) * 7); 
-                            if (litCount > 7) litCount = 7; 
+                            // Lógica de cálculo proporcional para os 14 LEDs de cada lado
+                            let litLevel = (avg / 240) * 14; 
+                            if (litLevel > 14) litLevel = 14; 
                             
-                            vuSegments.forEach(seg => seg.classList.remove('lit'));
+                            let fullLeds = Math.floor(litLevel);
+                            
+                            vuSegments.forEach(seg => seg.classList.remove('lit', 'half-lit'));
                             
                             if (avg > 2) { 
-                                vuSegments[7].classList.add('lit'); 
-                                for (let j = 1; j <= litCount; j++) {
-                                    vuSegments[7 - j].classList.add('lit'); 
-                                    vuSegments[7 + j].classList.add('lit'); 
+                                vuSegments[14].classList.add('lit'); // LED Central sempre aceso no áudio
+                                for (let j = 1; j <= 14; j++) {
+                                    if (j <= fullLeds) {
+                                        vuSegments[14 - j].classList.add('lit'); 
+                                        vuSegments[14 + j].classList.add('lit'); 
+                                    } else if (j === fullLeds + 1) {
+                                        vuSegments[14 - j].classList.add('half-lit'); 
+                                        vuSegments[14 + j].classList.add('half-lit'); 
+                                    }
                                 }
                             }
                         } catch (error) {}
@@ -939,21 +980,16 @@
                 applyAppConfigUI();
             };
 
-            saveAdminBtn.addEventListener('click', () => {
-                memorySaveHandler();
-                adminModal.style.display = 'none';
-            });
+            saveAdminBtn.addEventListener('click', () => { memorySaveHandler(); adminModal.style.display = 'none'; });
 
             exportBtn.addEventListener('click', () => {
                 memorySaveHandler();
-
                 document.querySelectorAll('.modal-overlay').forEach(modal => { modal.style.display = 'none'; });
 
                 const currentVersion = Date.now();
                 localStorage.setItem('gospelVersion', currentVersion);
 
                 let htmlContent = "<!DOCTYPE html>\n" + document.documentElement.outerHTML;
-                
                 const tapesRegex = /let\s+defaultTapes\s*=\s*\[[\s\S]*?\];/;
                 const newTapesString = 'let defaultTapes = ' + JSON.stringify(tapes, null, 4) + ';';
                 htmlContent = htmlContent.replace(tapesRegex, newTapesString);
@@ -969,19 +1005,12 @@
                 const blob = new Blob([htmlContent], { type: 'text/html;charset=utf-8' });
                 const url = URL.createObjectURL(blob);
                 const a = document.createElement('a');
-                a.href = url;
-                a.download = 'index.html';
-                document.body.appendChild(a);
-                a.click();
-                document.body.removeChild(a);
-                URL.revokeObjectURL(url);
+                a.href = url; a.download = 'index.html';
+                document.body.appendChild(a); a.click(); document.body.removeChild(a); URL.revokeObjectURL(url);
             });
             
-            // Inclusão do modal "aboutModal" na lista para fechar ao clicar no overlay escuro
             [stationModal, passwordModal, adminModal, aboutModal].forEach(modal => { 
-                modal.addEventListener('click', (e) => { 
-                    if (e.target === modal) modal.style.display = 'none'; 
-                }); 
+                modal.addEventListener('click', (e) => { if (e.target === modal) modal.style.display = 'none'; }); 
             });
             
             audio.addEventListener('waiting', () => { loadingIndicator.style.display = 'block'; loadingIndicator.textContent = 'Carregando...'; });
@@ -993,11 +1022,9 @@
             
             stationName.textContent = tapes[selectedTapeIndex].name;
             topBadgeImg.src = `Top${selectedTapeIndex + 1}.png`; 
-            
             let initialImage = tapes[selectedTapeIndex].state || 'CE.png';
             if (!initialImage.startsWith('estados/')) initialImage = 'estados/' + initialImage;
             stateBadgeImg.src = initialImage;
-
             runningBanner.textContent = tapes[selectedTapeIndex].banner;
             albumArtImage.src = tapes[selectedTapeIndex].image ? tapes[selectedTapeIndex].image : "Sint.jpg";
             
