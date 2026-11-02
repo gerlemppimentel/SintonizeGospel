@@ -3,7 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Top 10 Gospel Radio</title>
+    
+    <!-- Título Oficial: Este é o nome que o Android usará sob o ícone -->
+    <title>Sintonize Gospel</title>
+    
+    <!-- Ícone Padrão para navegadores e Android -->
+    <link rel="icon" type="image/png" sizes="192x192" href="icon192.png">
+    
+    <!-- Ícone para dispositivos Apple (iOS) -->
+    <link rel="apple-touch-icon" href="icon192.png">
     
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -162,21 +170,20 @@
         .tv-only { display: none !important; }
         .mobile-only { display: flex !important; }
 
-        /* ====== NOVO ESTILO DOS CARDS DOS PARCEIROS ====== */
         .partners-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; width: 100%; margin-top: 10px; }
         
         .partner-card { 
             background: var(--bg-base); 
             border: 1px solid var(--border-color); 
             border-radius: 16px; 
-            padding: 0; /* Zerado para a imagem ocupar tudo */
+            padding: 0; 
             display: flex; 
             align-items: center; 
             justify-content: center; 
             text-decoration: none; 
             transition: transform 0.2s, border-color 0.2s; 
-            overflow: hidden; /* Corta as quinas da imagem para respeitar os 16px do card */
-            aspect-ratio: 1 / 1; /* Força o card a ser um quadrado perfeito */
+            overflow: hidden; 
+            aspect-ratio: 1 / 1; 
         }
         
         .partner-card:hover { transform: scale(1.05); border-color: var(--accent); }
@@ -184,7 +191,7 @@
         .partner-card img { 
             width: 100%; 
             height: 100%; 
-            object-fit: cover; /* A imagem vai preencher 100% da área */
+            object-fit: cover; 
             background: var(--surface); 
         }
 
@@ -656,7 +663,6 @@
                 });
             }
 
-            // Lógica do Modal dos parceiros atualizada para usar apenas a imagem
             function renderPartnersModal() {
                 partnersGridContainer.innerHTML = '';
                 appConfig.partners.forEach((partner, idx) => {
@@ -665,10 +671,8 @@
                     card.href = partner.url && partner.url !== "#" ? partner.url : "#";
                     card.target = "_blank";
                     
-                    // Adicionamos o nome no título para mostrar ao passar o mouse
                     card.title = partner.name || 'Parceiro ' + (idx + 1);
                     
-                    // Apenas a imagem é renderizada dentro do link
                     card.innerHTML = `
                         <img src="${partner.image || 'Sint.jpg'}" alt="${partner.name || 'Parceiro'}" onerror="this.src='Sint.jpg'">
                     `;
