@@ -61,7 +61,7 @@
 
         .hub-container { position: relative; width: 250px; height: 250px; margin: 0 auto 16px auto; display: flex; align-items: center; justify-content: center; }
         
-        /* NOVO CSS: Botão de Favorito ancorado na borda direita do hub-container (-24px o deixa metade dentro, metade fora) */
+        /* Botão de Favorito (Ancorado à direita) */
         .fav-btn {
             position: absolute;
             right: -24px; 
@@ -85,6 +85,29 @@
         .fav-btn.active { color: #ef4444; border-color: rgba(239, 68, 68, 0.4); box-shadow: 0 0 15px rgba(239, 68, 68, 0.3); }
         .fav-btn svg { width: 24px; height: 24px; fill: currentColor; }
 
+        /* Novo Botão de Tema (Ancorado à esquerda, espelhando o fav-btn) */
+        .theme-btn {
+            position: absolute;
+            left: -24px; 
+            top: 50%;
+            transform: translateY(-50%);
+            background: var(--surface);
+            border: 1px solid var(--border-color);
+            border-radius: 50%;
+            width: 48px;
+            height: 48px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 6px 16px rgba(0,0,0,0.3);
+            z-index: 50;
+            transition: all 0.3s ease;
+            color: var(--text-muted); 
+        }
+        .theme-btn:hover { transform: translateY(-50%) scale(1.1); color: var(--text-main); }
+        .theme-btn svg { width: 24px; height: 24px; fill: currentColor; }
+
         .station-icon { width: 175px; height: 175px; border-radius: 20px; box-shadow: 0 15px 35px rgba(0,0,0,0.4); border: 4px solid var(--surface); transition: box-shadow 0.3s ease, border-color 0.3s ease; overflow: hidden; background-color: var(--surface); display: flex; align-items: center; justify-content: center; z-index: 5; }
         .station-icon img { width: 100%; height: 100%; object-fit: cover; }
         .station-icon.playing { box-shadow: 0 0 40px var(--accent-glow); border-color: var(--accent); }
@@ -98,8 +121,11 @@
         .sat-tr { top: -4px; right: -4px; padding: 4px; overflow: hidden; }
         .sat-tr img { width: 100%; height: 100%; object-fit: cover; border-radius: 12px; }
         
-        .sat-bl { bottom: -4px; left: -4px; }
-        .sat-bl svg { width: 28px; height: 28px; fill: currentColor; }
+        /* O antigo botão de tema virou um display inativo para a Imagem do Estado */
+        .sat-bl { bottom: -4px; left: -4px; padding: 4px; overflow: hidden; cursor: default; }
+        .sat-bl:hover { transform: none !important; border-color: var(--border-color) !important; } /* Desativa animação hover */
+        .sat-bl img { width: 100%; height: 100%; object-fit: contain; border-radius: 12px; }
+        
         .sat-br { bottom: -4px; right: -4px; color: #25D366; }
         .sat-br svg { width: 32px; height: 32px; fill: currentColor; }
 
@@ -111,7 +137,6 @@
         .vu-segment.green.lit { background: #10b981; box-shadow: 0 0 5px #10b981; }
         .vu-segment.orange.lit { background: #f59e0b; box-shadow: 0 0 5px #f59e0b; }
         .vu-segment.red.lit { background: #ef4444; box-shadow: 0 0 5px #ef4444; }
-        /* NOVO CSS: Estilo para o LED central branco/verde-escuro */
         .vu-segment.center-led.lit { background: #ffffff; box-shadow: 0 0 8px #ffffff; }
         .light-theme .vu-segment.center-led.lit { background: #064e3b; box-shadow: 0 0 8px #064e3b; }
 
@@ -280,7 +305,12 @@
 
         <div class="station-display">
             <div class="hub-container">
-                <!-- Botão de Favorito ancorado no container central -->
+                <!-- Botão de Tema na lateral esquerda (Espelho) -->
+                <button id="themeBtn" class="theme-btn" title="Alternar Tema Claro/Escuro">
+                    <svg viewBox="0 0 24 24"><path d="M12 21c-4.97 0-9-4.03-9-9s4.03-9 9-9 9 4.03 9 9-4.03 9-9 9zm0-16c-3.86 0-7 3.14-7 7s3.14 7 7 7 7-3.14 7-7-3.14-7-7-7zm0 13c-3.31 0-6-2.69-6-6s2.69-6 6-6v12z"></path></svg>
+                </button>
+
+                <!-- Botão de Favorito na lateral direita -->
                 <button id="favoriteBtn" class="fav-btn" title="Marcar como Favorita">
                     <svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
                 </button>
@@ -295,7 +325,11 @@
                 
                 <div class="station-icon" id="mainIcon"><img id="albumArtImage" src="Sint.jpg" alt="Arte do Álbum" onerror="this.src='Sint.jpg'"></div>
                 
-                <button class="hub-satellite sat-bl" id="themeBtn" title="Alternar Tema Claro/Escuro"><svg viewBox="0 0 24 24"><path d="M12 21c-4.97 0-9-4.03-9-9s4.03-9 9-9 9 4.03 9 9-4.03 9-9 9zm0-16c-3.86 0-7 3.14-7 7s3.14 7 7 7 7-3.14 7-7-3.14-7-7-7zm0 13c-3.31 0-6-2.69-6-6s2.69-6 6-6v12z"></path></svg></button>
+                <!-- Nova Imagem de Estado do Brasil (sat-bl) -->
+                <div class="hub-satellite sat-bl" title="Estado da Rádio">
+                    <img id="stateBadgeImg" src="estados/CE.PNG" alt="Estado" onerror="this.src='Sint.jpg'">
+                </div>
+                
                 <button class="hub-satellite sat-br" id="shareBtn"><svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.888-.788-1.489-1.761-1.663-2.06-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"></path></svg></button>
             </div>
             <div id="stationName">Carregando...</div>
@@ -415,6 +449,7 @@
             const stationName = document.getElementById('stationName');
             const albumArtImage = document.getElementById('albumArtImage'); 
             const topBadgeImg = document.getElementById('topBadgeImg'); 
+            const stateBadgeImg = document.getElementById('stateBadgeImg'); // Referência para a Imagem do Estado
             
             const statusBadge = document.getElementById('statusBadge');
             const statusText = document.getElementById('statusText');
@@ -470,66 +505,77 @@
             const iconPause = '<path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>';
             const ADMIN_PASSWORD = "602190"; 
             
+            // ATUALIZAÇÃO NO ARRAY: Inclusão da propriedade "state" para mapear a imagem correta.
             let defaultTapes = [
                 {
                     "name": "Radio Canaã 93.5",
                     "url": "https://stream1.svrdedicado.org/8006/stream",
                     "image": "93.5.png",
-                    "banner": "Rádio Canaã FM 93.5  - Fortaleza - Ceará - Brasil"
+                    "banner": "Rádio Canaã FM 93.5  - Fortaleza - Ceará - Brasil",
+                    "state": "CE.PNG"
                 },
                 {
                     "name": "Radio Melodia",
                     "url": "https://24223.live.streamtheworld.com/MELODIAFMAAC.aac",
                     "image": "97.5.png",
-                    "banner": "Radio Melodia FM - Rio de Janeiro - Brasil"
+                    "banner": "Radio Melodia FM - Rio de Janeiro - Brasil",
+                    "state": "RJ.PNG"
                 },
                 {
                     "name": "Radio 107.5",
                     "url": "https://cast2.youngtech.radio.br/radio/8290/radio",
                     "image": "107-5.png",
-                    "banner": "Simplesmente Diferente - Joinville - Santa Catarina Brasil"
+                    "banner": "Simplesmente Diferente - Joinville - Santa Catarina Brasil",
+                    "state": "SC.PNG"
                 },
                 {
                     "name": "Boas Novas",
                     "url": "https://boasnovasaac.jmvstream.com/stream",
                     "image": "91.9.png",
-                    "banner": "Bem-vindo à Top 10 Gospel Radio!"
+                    "banner": "Bem-vindo à Top 10 Gospel Radio!",
+                    "state": "PA.PNG"
                 },
                 {
                     "name": "Radio CPAD",
                     "url": "https://server3.webradios.com.br:19404/9404?1793498718881",
                     "image": "96.1.png",
-                    "banner": "Radio CPAD - João Pessoa - Paraíba - Brasil - "
+                    "banner": "Radio CPAD - João Pessoa - Paraíba - Brasil - ",
+                    "state": "PB.PNG"
                 },
                 {
                     "name": "Radio Feliz FM",
                     "url": "https://cloud1.cdnseguro.com:5520/stream/",
                     "image": "92.1.png",
-                    "banner": "Rádio Feliz - São Paulo - Brasil"
+                    "banner": "Rádio Feliz - São Paulo - Brasil",
+                    "state": "SP.PNG"
                 },
                 {
                     "name": "Rádio Novas de Paz",
                     "url": "https://radio.saopaulo01.com.br/8304/stream",
                     "image": "88.1.png",
-                    "banner": "Rádio Novas de Paz FM 88.1 - Pernambuco - Brasil"
+                    "banner": "Rádio Novas de Paz FM 88.1 - Pernambuco - Brasil",
+                    "state": "PE.PNG"
                 },
                 {
                     "name": "Paz FM 89.5",
                     "url": "https://digital.umhost.com.br/9978/stream",
                     "image": "89.5.png",
-                    "banner": "Rádio Paz FM 89.5 - Goiânia - Goiás - Brasil"
+                    "banner": "Rádio Paz FM 89.5 - Goiânia - Goiás - Brasil",
+                    "state": "GO.PNG"
                 },
                 {
                     "name": "Mais FM 102.9",
                     "url": "https://8313.brasilstream.com.br/stream",
                     "image": "102.9.png",
-                    "banner": "Rádio 102.9 FM - Essa Rádio é d+ São Paulo -Brasil"
+                    "banner": "Rádio 102.9 FM - Essa Rádio é d+ São Paulo -Brasil",
+                    "state": "SP.PNG"
                 },
                 {
                     "name": "Rádio Rede Aleluia",
                     "url": "https://station.azrmcsoftbroadcast.com.br/listen/radio_porto_alegre/rd_portoalegre",
                     "image": "rede.png",
-                    "banner": "Rádio Rede Aleluia Porto Alegre - Rio Grande do Sul - Brasil"
+                    "banner": "Rádio Rede Aleluia Porto Alegre - Rio Grande do Sul - Brasil",
+                    "state": "RS.PNG"
                 }
             ];
 
@@ -606,7 +652,6 @@
                 window.open(`https://wa.me/?text=${encodeURIComponent(userMsg)}`, '_blank');
             });
 
-            // NOVO MÉTODO: Criar o VU Meter com as cores corretas por posição (Índices de 0 a 14)
             function createVUMeter() {
                 vuMeter.innerHTML = '';
                 for (let i = 0; i < TOTAL_VU_SEGMENTS; i++) {
@@ -614,13 +659,13 @@
                     segment.className = 'vu-segment';
                     
                     if (i === 7) {
-                        segment.classList.add('center-led'); // Centro: Branco
+                        segment.classList.add('center-led'); 
                     } else if (i < 2 || i > 12) {
-                        segment.classList.add('red'); // 2 pontas vermelhas (0, 1 e 13, 14)
+                        segment.classList.add('red'); 
                     } else if (i === 2 || i === 3 || i === 11 || i === 12) {
-                        segment.classList.add('orange'); // 2 laranjas (2, 3 e 11, 12)
+                        segment.classList.add('orange'); 
                     } else {
-                        segment.classList.add('green'); // Restante verde (4, 5, 6 e 8, 9, 10)
+                        segment.classList.add('green'); 
                     }
                     
                     vuMeter.appendChild(segment);
@@ -640,8 +685,12 @@
                 runningBanner.textContent = tapes[selectedTapeIndex].banner; 
                 
                 topBadgeImg.src = `Top${index + 1}.png`;
-                
                 albumArtImage.src = tapes[selectedTapeIndex].image ? tapes[selectedTapeIndex].image : "Sint.jpg";
+                
+                // ATUALIZAÇÃO DA IMAGEM DO ESTADO
+                // O fallback já ocorre naturalmente com o onerror no HTML, 
+                // mas a gente também tenta pegar a propriedade de forma segura aqui:
+                stateBadgeImg.src = tapes[selectedTapeIndex].state ? ('estados/' + tapes[selectedTapeIndex].state) : 'Sint.jpg';
 
                 updateFavoriteUI(index);
 
@@ -683,6 +732,7 @@
 
                     const body = document.createElement('div');
                     body.className = 'tape-body';
+                    // ADICIONADO: Input para o arquivo do estado
                     body.innerHTML = `
                         <label>NOME DA RÁDIO</label>
                         <input type="text" class="input-modern tape-name-input" placeholder="Ex: Sintonize Gospel" value="${tape.name}">
@@ -690,6 +740,8 @@
                         <input type="text" class="input-modern tape-url-input" placeholder="http://..." value="${tape.url}">
                         <label>ARQUIVO DE IMAGEM DA RÁDIO</label>
                         <input type="text" class="input-modern tape-image-input" placeholder="Ex: logo-radio.png" value="${tape.image || ''}">
+                        <label>ARQUIVO DO ESTADO (PASTA 'estados/')</label>
+                        <input type="text" class="input-modern tape-state-input" placeholder="Ex: CE.PNG" value="${tape.state || ''}">
                         <label>TEXTO DO BANNER</label>
                         <input type="text" class="input-modern tape-banner-input" placeholder="Mensagem rolando" style="margin-bottom:0;" value="${tape.banner}">
                     `;
@@ -818,18 +870,16 @@
                             let sum = 0; for (let i = 0; i < window.dataArray.length; i++) sum += window.dataArray[i];
                             let avg = sum / window.dataArray.length;
                             
-                            // NOVO CÁLCULO: Sensibilidade reduzida em aproximadamente 50%.
-                            // O divisor base aumentou para forçar o som a ser mais alto para preencher os LEDs
                             let litCount = Math.floor((avg / 230) * 7); 
-                            if (litCount > 7) litCount = 7; // O limite máximo a partir do centro são 7 LEDs
+                            if (litCount > 7) litCount = 7; 
                             
                             vuSegments.forEach(seg => seg.classList.remove('lit'));
                             
-                            if (avg > 2) { // Se houver som tocando
-                                vuSegments[7].classList.add('lit'); // Acende sempre o LED central
+                            if (avg > 2) { 
+                                vuSegments[7].classList.add('lit'); 
                                 for (let j = 1; j <= litCount; j++) {
-                                    vuSegments[7 - j].classList.add('lit'); // Acende para a Esquerda
-                                    vuSegments[7 + j].classList.add('lit'); // Acende para a Direita
+                                    vuSegments[7 - j].classList.add('lit'); 
+                                    vuSegments[7 + j].classList.add('lit'); 
                                 }
                             }
                         } catch (error) {}
@@ -874,6 +924,7 @@
                 const urlInputs = document.querySelectorAll('.tape-url-input');
                 const imageInputs = document.querySelectorAll('.tape-image-input');
                 const bannerInputs = document.querySelectorAll('.tape-banner-input');
+                const stateInputs = document.querySelectorAll('.tape-state-input'); // Capturando o novo input
                 const newTapes = [];
                 
                 for (let i = 0; i < 10; i++) {
@@ -882,7 +933,8 @@
                             name: nameInputs[i].value, 
                             url: urlInputs[i].value, 
                             image: imageInputs[i].value,
-                            banner: bannerInputs[i].value 
+                            banner: bannerInputs[i].value,
+                            state: stateInputs[i] ? stateInputs[i].value : '' // Gravando o dado do estado
                         });
                     }
                 }
@@ -958,6 +1010,7 @@
             
             stationName.textContent = tapes[selectedTapeIndex].name;
             topBadgeImg.src = `Top${selectedTapeIndex + 1}.png`; 
+            stateBadgeImg.src = tapes[selectedTapeIndex].state ? ('estados/' + tapes[selectedTapeIndex].state) : 'Sint.jpg'; // Atribuição inicial
             runningBanner.textContent = tapes[selectedTapeIndex].banner;
             albumArtImage.src = tapes[selectedTapeIndex].image ? tapes[selectedTapeIndex].image : "Sint.jpg";
             
