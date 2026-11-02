@@ -89,7 +89,6 @@
         .vu-segment.green-seg.lit { background: #10b981; box-shadow: 0 0 5px #10b981; opacity: 1; }
         .vu-segment.center-seg.lit { background: #ffffff; box-shadow: 0 0 8px #ffffff; opacity: 1; }
         
-        /* Ajuste do banner com cantos perfeitamente arredondados */
         .banner-container { width: 100%; background: var(--surface); padding: 12px 0; overflow: hidden; white-space: nowrap; border-radius: 16px; border: 1px solid var(--border-color); }
         .banner-text { display: inline-block; font-size: 14px; font-weight: 600; color: var(--text-muted); animation: scrollBanner 24s linear infinite; }
         @keyframes scrollBanner { 0% { transform: translateX(100vw); } 100% { transform: translateX(-100%); } }
@@ -163,10 +162,31 @@
         .tv-only { display: none !important; }
         .mobile-only { display: flex !important; }
 
+        /* ====== NOVO ESTILO DOS CARDS DOS PARCEIROS ====== */
         .partners-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; width: 100%; margin-top: 10px; }
-        .partner-card { background: var(--bg-base); border: 1px solid var(--border-color); border-radius: 16px; padding: 12px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; text-decoration: none; color: var(--text-main); transition: transform 0.2s, border-color 0.2s; }
-        .partner-card:hover { transform: scale(1.03); border-color: var(--accent); }
-        .partner-card img { width: 64px; height: 64px; object-fit: contain; border-radius: 12px; background: var(--surface); padding: 4px; border: 1px solid var(--border-color); }
+        
+        .partner-card { 
+            background: var(--bg-base); 
+            border: 1px solid var(--border-color); 
+            border-radius: 16px; 
+            padding: 0; /* Zerado para a imagem ocupar tudo */
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            text-decoration: none; 
+            transition: transform 0.2s, border-color 0.2s; 
+            overflow: hidden; /* Corta as quinas da imagem para respeitar os 16px do card */
+            aspect-ratio: 1 / 1; /* Força o card a ser um quadrado perfeito */
+        }
+        
+        .partner-card:hover { transform: scale(1.05); border-color: var(--accent); }
+        
+        .partner-card img { 
+            width: 100%; 
+            height: 100%; 
+            object-fit: cover; /* A imagem vai preencher 100% da área */
+            background: var(--surface); 
+        }
 
         /* ================= ESTILOS DESKTOP / TV ================= */
         @media (min-width: 768px) and (orientation: landscape) {
@@ -190,7 +210,6 @@
             .tv-only { display: flex !important; }
             .mobile-only { display: none !important; }
 
-            /* Cabeçalho da TV: Sem margens internas para alinhar o botão ao grid principal */
             .app-header { 
                 grid-row: 1 / 2; grid-column: 1 / 11; 
                 padding: 0; margin-bottom: 24px; 
@@ -198,7 +217,6 @@
                 position: relative; 
             }
             
-            /* Título perfeitamente centralizado e com fonte maior */
             .app-header h1 { 
                 display: flex !important; 
                 position: absolute; left: 50%; transform: translateX(-50%); 
@@ -216,7 +234,6 @@
             #mainIcon { grid-row: 2 / 5; grid-column: 4 / 5; width: 196px; height: 196px; margin: 0; border: 4px solid var(--border-color); box-shadow: 0 12px 30px rgba(0,0,0,0.5); border-radius: 24px; align-self: start; justify-self: center; position: relative; top: 0; transform: none; }
             #statusBadge { grid-row: 6 / 7; grid-column: 4 / 5; height: 28px; padding: 0 16px; margin: 0; align-self: end; justify-self: center; position: relative; top: 0; left: 0; transform: none; }
 
-            /* Botão Tela Cheia formatado visualmente para a TV */
             #fullscreenBtn {
                 width: 64px !important; height: 64px !important; border-radius: 16px !important; 
                 background: var(--surface-hover); border: 1px solid var(--border-color);
@@ -236,7 +253,6 @@
             
             #exitBtnTV:hover { border-color: #ef4444; box-shadow: 0 0 15px rgba(239, 68, 68, 0.4); color: #fff !important; background: #ef4444 !important; transform: scale(1.05) !important; }
 
-            /* Menu alinhado à esquerda na grid da TV */
             #menuToggleBtn { width: 64px !important; height: 64px !important; }
             
             .sat-tr     { grid-row: 2 / 3; grid-column: 6 / 7; }
@@ -251,10 +267,8 @@
             #listBtn    { grid-row: 6 / 7; grid-column: 8 / 9; }
             #themeBtn   { grid-row: 6 / 7; grid-column: 10 / 11; }
 
-            /* Aumentar o espaçamento do VU para evitar sobreposição */
             #vuMeter { grid-row: 7 / 8; grid-column: 1 / 11; margin: 16px 0 16px 0; padding: 0 10px; height: 22px; gap: 3px; }
             
-            /* Banner com margem garantida na TV */
             .banner-container { grid-row: 8 / 9; grid-column: 1 / 11; margin-top: 12px;}
             
             .volume-popup { position: fixed; bottom: 100px; left: 50%; transform: translateX(-50%); z-index: 1000; }
@@ -268,15 +282,12 @@
         <div id="loadingIndicator">Carregando...</div>
         
         <div class="app-header">
-            <!-- Botão Menu Hambúrguer -->
             <button class="admin-gear" id="menuToggleBtn" title="Menu Principal">
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/></svg>
             </button>
             
-            <!-- Título Principal (Centralizado em todas as telas) -->
             <h1>Top 10 Gospel Brasil <img src="https://cdnjs.cloudflare.com/ajax/libs/twemoji/14.0.2/svg/1f1e7-1f1f7.svg" alt="Bandeira do Brasil" class="w-5 h-5"></h1>
             
-            <!-- Botão Tela Cheia (Agora visível na TV também) -->
             <div class="header-controls">
                 <button class="admin-gear" id="fullscreenBtn" title="Tela Cheia"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M7 14H5v5h5v-2H7v-3zm-2-4h2V7h3V5H5v5zm12 7h-3v2h5v-5h-2v3zM14 5v2h3v3h2V5h-5z"></path></svg></button>
             </div>
@@ -340,7 +351,6 @@
             <button class="control-btn nav-btn" id="listBtn" title="Lista"><svg viewBox="0 0 24 24"><path d="M3 13h2v-2H3v2zm0 4h2v-2H3v2zm0-8h2V7H3v2zm4 4h14v-2H7v2zm0 4h14v-2H7v2zM7 7v2h14V7H7z"></path></svg></button>
 
             <button class="control-btn tv-only" id="exitBtnTV" title="Sair" style="font-weight: 800; font-size: 14px; color: #ef4444;">SAIR</button>
-            <!-- Botão Sobre (agora com o evento de clique ativo) -->
             <button class="admin-gear tv-only about-trigger" id="aboutBtnTV" title="Sobre o App">
                 <svg viewBox="0 0 24 24" fill="currentColor"><path d="M11 7h2v2h-2zm0 4h2v6h-2zm1-9C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"></path></svg>
             </button>
@@ -640,13 +650,13 @@
                 aboutModal.style.display = 'flex';
             });
             
-            // Reativando a função do botão Sobre (TV)
             if(aboutBtnTV) {
                 aboutBtnTV.addEventListener('click', () => {
                     aboutModal.style.display = 'flex';
                 });
             }
 
+            // Lógica do Modal dos parceiros atualizada para usar apenas a imagem
             function renderPartnersModal() {
                 partnersGridContainer.innerHTML = '';
                 appConfig.partners.forEach((partner, idx) => {
@@ -654,10 +664,15 @@
                     card.className = 'partner-card';
                     card.href = partner.url && partner.url !== "#" ? partner.url : "#";
                     card.target = "_blank";
+                    
+                    // Adicionamos o nome no título para mostrar ao passar o mouse
+                    card.title = partner.name || 'Parceiro ' + (idx + 1);
+                    
+                    // Apenas a imagem é renderizada dentro do link
                     card.innerHTML = `
-                        <img src="${partner.image || 'Sint.jpg'}" alt="Parceiro" onerror="this.src='Sint.jpg'">
-                        <span style="font-size: 13px; font-weight: 600;">${partner.name || 'Parceiro ' + (idx + 1)}</span>
+                        <img src="${partner.image || 'Sint.jpg'}" alt="${partner.name || 'Parceiro'}" onerror="this.src='Sint.jpg'">
                     `;
+                    
                     card.addEventListener('click', (e) => {
                         if(!partner.url || partner.url === "#") { e.preventDefault(); alert("Este parceiro ainda não possui um link configurado."); }
                     });
