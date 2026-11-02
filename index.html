@@ -5,43 +5,28 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Top 10 Gospel Radio</title>
     
-    <!-- Configurações PWA -->
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="theme-color" content="#020617">
 
-    <!-- Frameworks -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
     <script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script>
 
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap');
-        
         * { box-sizing: border-box; margin: 0; padding: 0; }
         
         :root {
-            --bg-base: #020617;       
-            --surface: #0f172a;       
-            --surface-hover: #1e293b; 
-            --accent: #10b981;        
-            --accent-glow: rgba(16, 185, 129, 0.4);
-            --text-main: #f8fafc;
-            --text-muted: #94a3b8;
-            --border-color: #1e293b;
-            --hub-btn-bg: #1e293b;
+            --bg-base: #020617; --surface: #0f172a; --surface-hover: #1e293b; 
+            --accent: #10b981; --accent-glow: rgba(16, 185, 129, 0.4);
+            --text-main: #f8fafc; --text-muted: #94a3b8; --border-color: #1e293b; --hub-btn-bg: #1e293b;
         }
 
         .light-theme {
-            --bg-base: #e0f2fe;       
-            --surface: #bae6fd;       
-            --surface-hover: #7dd3fc; 
-            --accent: #059669;        
-            --accent-glow: rgba(5, 150, 105, 0.4);
-            --text-main: #0f172a;
-            --text-muted: #334155;
-            --border-color: #7dd3fc;
-            --hub-btn-bg: #f0f9ff;
+            --bg-base: #e0f2fe; --surface: #bae6fd; --surface-hover: #7dd3fc; 
+            --accent: #059669; --accent-glow: rgba(5, 150, 105, 0.4);
+            --text-main: #0f172a; --text-muted: #334155; --border-color: #7dd3fc; --hub-btn-bg: #f0f9ff;
         }
         
         body { background-color: var(--bg-base); color: var(--text-main); font-family: 'Inter', sans-serif; height: 100dvh; display: flex; justify-content: center; align-items: center; overflow: hidden; padding: 8px; transition: background-color 0.3s ease, color 0.3s ease; }
@@ -53,7 +38,13 @@
         .header-controls { display: flex; align-items: center; gap: 12px; }
 
         .admin-gear { background: transparent; border: none; color: var(--text-muted); font-size: 20px; cursor: pointer; transition: color 0.2s, transform 0.2s; display: flex; align-items: center; justify-content: center; }
-        .admin-gear:hover { color: var(--text-main); transform: rotate(15deg); }
+        .admin-gear:hover { color: var(--text-main); transform: scale(1.1); }
+
+        /* Menu Hambúrguer lateral corrigido: Altura automática ajustada para terminar perto do 'Sobre'[cite: 11] */
+        .menu-drawer { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(2, 6, 23, 0.8); backdrop-filter: blur(8px); z-index: 1100; justify-content: flex-start; }
+        .menu-drawer-content { background: var(--surface); border: 1px solid var(--border-color); border-top-right-radius: 24px; border-bottom-right-radius: 24px; width: 280px; height: auto; max-height: 90vh; margin-top: 15px; padding: 20px; display: flex; flex-direction: column; gap: 12px; box-shadow: 10px 0 30px rgba(0,0,0,0.5); overflow-y: auto; }
+        .menu-item { background: var(--surface-hover); border: 1px solid var(--border-color); color: var(--text-main); padding: 12px 16px; border-radius: 12px; font-weight: 600; font-size: 14px; cursor: pointer; transition: all 0.2s; text-align: left; display: flex; align-items: center; gap: 10px; text-decoration: none; }
+        .menu-item:hover { border-color: var(--accent); color: var(--accent); background: var(--bg-base); }
 
         .status-badge { position: absolute; top: -14px; left: 50%; transform: translateX(-50%); z-index: 20; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; padding: 4px 12px; border-radius: 20px; background: var(--surface); color: var(--text-muted); display: inline-flex; align-items: center; gap: 6px; box-shadow: 0 4px 10px rgba(0,0,0,0.3);}
         .status-dot { width: 8px; height: 8px; border-radius: 50%; background: #ef4444; }
@@ -98,12 +89,7 @@
         .vu-segment.orange-seg.lit { background: #f59e0b; box-shadow: 0 0 5px #f59e0b; opacity: 1; }
         .vu-segment.green-seg.lit { background: #10b981; box-shadow: 0 0 5px #10b981; opacity: 1; }
         .vu-segment.center-seg.lit { background: #ffffff; box-shadow: 0 0 8px #ffffff; opacity: 1; }
-        .light-theme .vu-segment.center-seg.lit { background: #064e3b; box-shadow: 0 0 8px #064e3b; }
         
-        .vu-segment.red-seg.half-lit { background: #ef4444; opacity: 0.5; }
-        .vu-segment.orange-seg.half-lit { background: #f59e0b; opacity: 0.5; }
-        .vu-segment.green-seg.half-lit { background: #10b981; opacity: 0.5; }
-
         .banner-container { width: 100%; background: var(--surface); padding: 12px 0; overflow: hidden; white-space: nowrap; border-top: 1px solid var(--border-color); border-bottom: 1px solid var(--border-color); }
         .banner-text { display: inline-block; font-size: 14px; font-weight: 600; color: var(--text-muted); animation: scrollBanner 24s linear infinite; }
         @keyframes scrollBanner { 0% { transform: translateX(100vw); } 100% { transform: translateX(-100%); } }
@@ -115,7 +101,6 @@
         .control-btn.play-btn { width: 70px; height: 70px; background: var(--accent); color: #fff; border-radius: 20px; box-shadow: 0 10px 20px var(--accent-glow); }
         .control-btn.play-btn:hover { transform: scale(1.05); background: #0ea5e9; color: #fff; }
         
-        /* Modificação 1 (Mobile Fix): Adicionado flex-shrink: 0 para impedir botões de serem amassados */
         .nav-btn { width: 48px; height: 48px; background: var(--surface); border-radius: 14px; color: var(--text-main); border: 1px solid var(--border-color); flex-shrink: 0; }
         .playback-group { display: flex; align-items: center; gap: 16px; }
 
@@ -140,7 +125,7 @@
         .btn-secondary { background: var(--surface-hover); color: var(--text-main); margin-top: 8px; }
         .btn-danger { background: rgba(239, 68, 68, 0.1); color: #ef4444; border: 1px solid rgba(239, 68, 68, 0.2); margin-top: 8px; }
         .btn-export { background: #3b82f6; color: #fff; margin-top: 8px; border: 1px solid #2563eb; } 
-        .input-modern { width: 100%; padding: 14px; background: var(--bg-base); border: 1px solid var(--border-color); border-radius: 12px; color: var(--text-main); margin-bottom: 12px; outline: none; font-size: 14px; }
+        .input-modern { width: 100%; padding: 12px; background: var(--bg-base); border: 1px solid var(--border-color); border-radius: 12px; color: var(--text-main); margin-bottom: 12px; outline: none; font-size: 14px; }
         .input-modern:focus { border-color: var(--accent); }
 
         #aboutContent { padding-top: 56px; max-width: 360px; }
@@ -149,54 +134,53 @@
         .about-col-dev { display: flex; flex-direction: column; align-items: center; background: var(--surface-hover); border-radius: 16px; padding: 20px; border: 1px solid var(--border-color); margin-top: 16px;}
         .about-divider { display: none; }
 
-        .tabs-container { display: flex; gap: 8px; margin-bottom: 16px; background: var(--bg-base); padding: 4px; border-radius: 12px; border: 1px solid var(--border-color); width: 100%; }
-        .tab-btn { flex: 1; padding: 10px; border-radius: 8px; font-weight: 600; font-size: 13px; color: var(--text-muted); background: transparent; border: none; cursor: pointer; transition: 0.2s; }
-        .tab-btn.active { background: var(--surface-hover); color: var(--accent); box-shadow: 0 2px 4px rgba(0,0,0,0.2); }
-        .tab-content { display: none; flex: 1; overflow-y: auto; width: 100%; }
-        .tab-content.active { display: block; }
+        .sub-tabs-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 16px; width: 100%; }
+        .sub-tab-btn { padding: 10px; border-radius: 10px; font-weight: 600; font-size: 12px; color: var(--text-muted); background: var(--bg-base); border: 1px solid var(--border-color); cursor: pointer; text-align: center; transition: 0.2s; }
+        .sub-tab-btn.active { background: var(--surface-hover); color: var(--accent); border-color: var(--accent); box-shadow: 0 2px 4px rgba(0,0,0,0.2); }
+        .sub-tab-content { display: none; flex: 1; overflow-y: auto; width: 100%; }
+        .sub-tab-content.active { display: block; }
+
         .stations-list { display: flex; flex-direction: column; gap: 12px; margin-bottom: 24px; width: 100%; }
         .station-item { background: var(--bg-base); border: 1px solid var(--border-color); padding: 12px 16px; border-radius: 16px; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; gap: 16px; }
         .station-item:hover { border-color: var(--accent); }
         .station-item.selected { border-color: var(--accent); background: var(--surface-hover); }
-        .circle-number { width: 36px; height: 36px; background: var(--surface); color: var(--text-main); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 16px; border: 2px solid transparent; transition: all 0.2s; }
+        .circle-number { width: 36px; height: 36px; background: var(--surface); color: var(--text-main); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 16px; border: 2px solid transparent; }
         .station-item.selected .circle-number { background: var(--accent); border-color: #fff; color: #fff; }
         .station-item-name { font-weight: 600; font-size: 15px; color: var(--text-main); }
+        
         .admin-tape-item { background: var(--bg-base); border-radius: 16px; margin-bottom: 12px; border: 1px solid var(--border-color); overflow: hidden; }
-        .tape-header { display: flex; align-items: center; justify-content: space-between; padding: 16px; background: var(--surface-hover); cursor: pointer; transition: background 0.2s ease; }
-        .tape-header:hover { background: var(--surface); }
-        .tape-header-left { display: flex; align-items: center; gap: 12px; }
-        .tape-rank { font-size: 18px; font-weight: 800; color: var(--accent); width: 24px; text-align: center;}
-        .tape-title { font-weight: 600; font-size: 15px; color: var(--text-main); }
-        .tape-header-right { display: flex; align-items: center; gap: 8px; }
-        .drag-handle { cursor: grab; color: var(--text-muted); display: flex; align-items: center; justify-content: center; padding: 4px; }
-        .drag-handle:active { cursor: grabbing; color: var(--accent); }
+        .tape-header { display: flex; align-items: center; justify-content: space-between; padding: 14px; background: var(--surface-hover); cursor: pointer; }
+        .tape-rank { font-size: 16px; font-weight: 800; color: var(--accent); width: 24px; text-align: center;}
+        .tape-title { font-weight: 600; font-size: 14px; color: var(--text-main); }
+        .drag-handle { cursor: grab; color: var(--text-muted); padding: 4px; }
         .chevron-icon { transition: transform 0.3s ease; color: var(--text-muted); }
-        .tape-body { display: none; padding: 16px; border-top: 1px solid var(--border-color); }
+        .tape-body { display: none; padding: 14px; border-top: 1px solid var(--border-color); }
         .tape-body.expanded { display: block; }
-        .tape-body label, .config-label { display: block; font-size: 11px; margin-bottom: 6px; font-weight: 700; color: var(--accent); text-transform: uppercase;}
+        .config-label { display: block; font-size: 11px; margin-bottom: 4px; font-weight: 700; color: var(--accent); text-transform: uppercase;}
         .sortable-ghost { opacity: 0.4; background: var(--surface-hover); }
         #loadingIndicator { position: absolute; top: 24px; left: 50%; transform: translateX(-50%); background: var(--accent); color: #fff; padding: 6px 16px; border-radius: 20px; font-size: 12px; font-weight: 600; display: none; z-index: 50; }
         
         .tv-only { display: none !important; }
         .mobile-only { display: flex !important; }
 
+        .partners-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; width: 100%; margin-top: 10px; }
+        .partner-card { background: var(--bg-base); border: 1px solid var(--border-color); border-radius: 16px; padding: 12px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; text-decoration: none; color: var(--text-main); transition: transform 0.2s, border-color 0.2s; }
+        .partner-card:hover { transform: scale(1.03); border-color: var(--accent); }
+        .partner-card img { width: 64px; height: 64px; object-fit: contain; border-radius: 12px; background: var(--surface); padding: 4px; border: 1px solid var(--border-color); }
+
         /* ================= ESTILOS DESKTOP / TV ================= */
         @media (min-width: 768px) and (orientation: landscape) {
-            
             #aboutContent { max-width: 650px; padding: 32px; padding-top: 40px; flex-direction: column; }
             #aboutContent .back-btn-top { top: 24px; left: 24px; }
             .about-grid-wrapper { display: grid; grid-template-columns: 1fr auto 1fr; gap: 16px; margin-top: 24px; align-items: center; }
             .about-col-dev { margin-top: 0; height: 100%; justify-content: center; }
             .about-divider { display: block; width: 1px; height: 90%; background: var(--border-color); margin: 0 16px; }
 
-            /* Modificação 2 (TV Fix): Modal Rádios em Duas Colunas */
             #stationModal .modal-content { max-width: 680px; }
             #stationModal .stations-list { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 0; }
 
             #app-container {
-                max-width: 880px; 
-                max-height: 560px; 
-                display: grid;
+                max-width: 880px; max-height: 560px; display: grid;
                 grid-template-columns: 81px 81px 24px 196px 24px 64px 24px 64px 24px 64px;
                 grid-template-rows: auto 64px 24px 64px 24px 64px 22px auto;
                 justify-content: center; align-content: center; row-gap: 0;
@@ -206,7 +190,10 @@
             .tv-only { display: flex !important; }
             .mobile-only { display: none !important; }
 
-            .app-header { grid-row: 1 / 2; grid-column: 1 / 11; padding-bottom: 24px; }
+            /* Cabeçalho da TV ajustado para abrigar o texto à direita com a bandeira */
+            .app-header { grid-row: 1 / 2; grid-column: 1 / 11; padding-bottom: 12px; display: flex; align-items: center; justify-content: space-between; }
+            .app-header h1 { display: flex !important; font-size: 15px; font-weight: 700; color: var(--accent); align-items: center; gap: 8px; justify-self: end; }
+            
             #stationName { display: none; }
 
             #mainPlayBtn { grid-row: 2 / 5; grid-column: 1 / 3; width: 100%; height: 100%; margin: 0; border-radius: 20px; align-self: start; }
@@ -216,7 +203,7 @@
             #mainIcon { grid-row: 2 / 5; grid-column: 4 / 5; width: 196px; height: 196px; margin: 0; border: 4px solid var(--border-color); box-shadow: 0 12px 30px rgba(0,0,0,0.5); border-radius: 24px; align-self: start; justify-self: center; position: relative; top: 0; transform: none; }
             #statusBadge { grid-row: 6 / 7; grid-column: 4 / 5; height: 28px; padding: 0 16px; margin: 0; align-self: end; justify-self: center; position: relative; top: 0; left: 0; transform: none; }
 
-            .hub-satellite, .fav-btn, .theme-btn, .control-btn, .nav-btn, .admin-gear, #exitBtnTV {
+            .hub-satellite, .fav-btn, .theme-btn, .control-btn, .nav-btn, .admin-gear, #exitBtnTV, #menuToggleBtn {
                 position: relative !important; top: auto !important; left: auto !important; right: auto !important; bottom: auto !important;
                 transform: none !important; margin: 0 !important; width: 100% !important; height: 100% !important;
                 border-radius: 16px !important; background: var(--surface-hover); border: 1px solid var(--border-color);
@@ -226,14 +213,16 @@
             .hub-satellite svg, .fav-btn svg, .theme-btn svg, .control-btn svg, .admin-gear svg { width: 28px !important; height: 28px !important; }
             .hub-satellite:hover, .fav-btn:hover, .theme-btn:hover, .control-btn:hover, .admin-gear:hover { border-color: var(--accent); box-shadow: 0 0 15px var(--accent-glow); background: #334155; transform: scale(1.05) !important; }
             
-            /* Efeito exclusivo Sair */
             #exitBtnTV:hover { border-color: #ef4444; box-shadow: 0 0 15px rgba(239, 68, 68, 0.4); color: #fff !important; background: #ef4444 !important; transform: scale(1.05) !important; }
 
-            /* Modificação 3 (TV Fix): Reposicionamento WhatsApp -> Logo -> SAIR */
+            /* Alinhamento perfeito do Botão de Menu na TV (Coluna 1, Linha 1) */
+            #menuToggleBtn { grid-row: 1 / 2; grid-column: 1 / 2; width: 64px !important; height: 64px !important; }
+            .app-header h1 { grid-row: 1 / 2; grid-column: 6 / 11; justify-self: end; align-self: center; }
+            
             .sat-tr     { grid-row: 2 / 3; grid-column: 6 / 7; }
-            #cfgBtnLeft { grid-row: 2 / 3; grid-column: 8 / 9; } /* Logo movida para o meio (antigo Whatsapp) */
-            #exitBtnTV  { grid-row: 2 / 3; grid-column: 10 / 11; } /* Botão SAIR entra na ponta direita */
-            #shareBtn   { display: none !important; } /* WhatsApp nativo oculto na TV */
+            #cfgBtnLeft { grid-row: 2 / 3; grid-column: 8 / 9; }
+            #exitBtnTV  { grid-row: 2 / 3; grid-column: 10 / 11; }
+            #shareBtn   { display: none !important; }
             
             #favoriteBtn{ grid-row: 4 / 5; grid-column: 6 / 7; }
             #volumeBtn  { grid-row: 4 / 5; grid-column: 8 / 9; }
@@ -255,13 +244,33 @@
         <div id="loadingIndicator">Carregando...</div>
         
         <div class="app-header">
-            <h1>Top 10 Gospel Radio</h1>
-            <div class="header-controls">
-                <button class="admin-gear mobile-only about-trigger" title="Sobre o App">
-                    <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M11 7h2v2h-2zm0 4h2v6h-2zm1-9C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"></path></svg>
-                </button>
+            <!-- Botão de Menu Hambúrguer (Tamanho padrão e alinhado na TV) -->
+            <button class="admin-gear" id="menuToggleBtn" title="Menu Principal">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/></svg>
+            </button>
+            
+            <!-- Texto Top 10 Gospel Brasil com a bandeira do Brasil -->
+            <h1>Top 10 Gospel Brasil <img src="https://cdnjs.cloudflare.com/ajax/libs/twemoji/14.0.2/svg/1f1e7-1f1f7.svg" alt="Bandeira do Brasil" class="w-4 h-4"></h1>
+            
+            <div class="header-controls mobile-only">
                 <button class="admin-gear" id="fullscreenBtn" title="Tela Cheia"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M7 14H5v5h5v-2H7v-3zm-2-4h2V7h3V5H5v5zm12 7h-3v2h5v-5h-2v3zM14 5v2h3v3h2V5h-5z"></path></svg></button>
-                <button class="admin-gear" id="adminBtn" title="Configurações"><svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M19.14,12.94c0.04-0.3,0.06-0.61,0.06-0.94c0-0.32-0.02-0.64-0.06-0.94l2.03-1.58c0.18-0.14,0.23-0.41,0.12-0.61 l-1.92-3.32c-0.12-0.22-0.37-0.29-0.59-0.22l-2.39,0.96c-0.5-0.38-1.03-0.7-1.62-0.94L14.4,2.81c-0.04-0.24-0.24-0.41-0.48-0.41 h-3.84c-0.24,0-0.43,0.17-0.47,0.41L9.25,5.35C8.66,5.59,8.12,5.92,7.63,6.29L5.24,5.33c-0.22-0.08-0.47,0-0.59,0.22L2.73,8.87 C2.62,9.08,2.66,9.34,2.86,9.48l2.03,1.58C4.84,11.36,4.8,11.69,4.8,12s0.02,0.64,0.06,0.94l-2.03,1.58 c-0.18,0.14-0.23,0.41-0.12,0.61l1.92,3.32c0.12,0.22,0.37,0.29,0.59,0.22l2.39-0.96c0.5,0.38,1.03,0.7,1.62,0.94l0.36,2.54 c0.05,0.24,0.24,0.41,0.48,0.41h3.84c0.24,0,0.43-0.17,0.47-0.41l0.36-2.54c0.59-0.24,1.13-0.56,1.62-0.94l2.39,0.96 c0.22,0.08,0.47,0,0.59-0.22l1.92-3.32c0.12-0.22,0.07-0.49-0.12-0.61L19.14,12.94z M12,15.6c-1.98,0-3.6-1.62-3.6-3.6 s1.62-3.6,3.6-3.6s3.6,1.62,3.6,3.6S13.98,15.6,12,15.6z"></path></svg></button>
+            </div>
+        </div>
+
+        <!-- Menu Lateral (Drawer) corrigido para terminar perto do 'Sobre' -->
+        <div class="menu-drawer" id="menuDrawer">
+            <div class="menu-drawer-content">
+                <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 4px;">
+                    <span style="font-weight: 700; font-size: 15px; color: var(--accent); display: flex; align-items: center; gap: 6px;">
+                        Top 10 Gospel Brasil <img src="https://cdnjs.cloudflare.com/ajax/libs/twemoji/14.0.2/svg/1f1e7-1f1f7.svg" alt="Bandeira" class="w-4 h-4">
+                    </span>
+                    <button class="admin-gear" id="closeMenuBtn"><svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg></button>
+                </div>
+                <button class="menu-item" id="menuEval">⭐ Avalie!</button>
+                <button class="menu-item" id="menuContact">✉️ Fale Conosco</button>
+                <button class="menu-item" id="menuPartners">🤝 Parceiros</button>
+                <button class="menu-item" id="menuAdmin">⚙️ Adm</button>
+                <button class="menu-item" id="menuAbout">ℹ️ Sobre</button>
             </div>
         </div>
 
@@ -306,11 +315,21 @@
             
             <button class="control-btn nav-btn" id="listBtn" title="Lista"><svg viewBox="0 0 24 24"><path d="M3 13h2v-2H3v2zm0 4h2v-2H3v2zm0-8h2V7H3v2zm4 4h14v-2H7v2zm0 4h14v-2H7v2zM7 7v2h14V7H7z"></path></svg></button>
 
-            <!-- Botões que entram na Grelha apenas na TV -->
             <button class="control-btn tv-only" id="exitBtnTV" title="Sair" style="font-weight: 800; font-size: 14px; color: #ef4444;">SAIR</button>
             <button class="admin-gear tv-only about-trigger" id="aboutBtnTV" title="Sobre o App">
                 <svg viewBox="0 0 24 24" fill="currentColor"><path d="M11 7h2v2h-2zm0 4h2v6h-2zm1-9C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"></path></svg>
             </button>
+        </div>
+    </div>
+
+    <!-- MODAL PARCEIROS -->
+    <div class="modal-overlay" id="partnersModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button class="back-btn-top" id="backPartnersBtn" title="Voltar"><svg viewBox="0 0 24 24"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"></path></svg></button>
+                Nossos Parceiros
+            </div>
+            <div class="partners-grid" id="partnersGridContainer"></div>
         </div>
     </div>
 
@@ -340,7 +359,7 @@
         </div>
     </div>
 
-    <!-- MODAIS RESTANTES -->
+    <!-- MODAL LISTA DE RÁDIOS -->
     <div class="modal-overlay" id="stationModal">
         <div class="modal-content">
             <div class="modal-header"><button class="back-btn-top" id="backStationBtn" title="Voltar"><svg viewBox="0 0 24 24"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"></path></svg></button> Selecione uma Rádio</div>
@@ -349,6 +368,7 @@
         </div>
     </div>
 
+    <!-- MODAL SENHA ADMIN -->
     <div class="modal-overlay" id="passwordModal">
         <div class="modal-content">
             <div class="modal-header">Área Restrita</div><p style="text-align:center; font-size: 14px; color: var(--text-muted); margin-bottom: 16px;">Digite a senha de administrador</p>
@@ -359,25 +379,50 @@
         </div>
     </div>
 
+    <!-- PAINEL ADMIN ROBUSTO COM SUB-ABAS (2 linhas x 2 abas) -->
     <div class="modal-overlay" id="adminModal">
-        <div class="modal-content">
-            <div class="modal-header"><button class="back-btn-top" id="backAdminBtn" title="Voltar"><svg viewBox="0 0 24 24"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"></path></svg></button> Configurações</div>
-            <div class="tabs-container"><button class="tab-btn active" id="btnTabRanking">Ranking</button><button class="tab-btn" id="btnTabConfig">Preferências</button></div>
-            <div id="tabRankingContent" class="tab-content active"><div id="adminStationsList"></div></div>
-            <div id="tabConfigContent" class="tab-content">
+        <div class="modal-content" style="max-width: 600px;">
+            <div class="modal-header"><button class="back-btn-top" id="backAdminBtn" title="Voltar"><svg viewBox="0 0 24 24"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"></path></svg></button> Configurações Administrativas</div>
+            
+            <div class="sub-tabs-grid">
+                <button class="sub-tab-btn active" id="subTab1Btn">1. Ranking</button>
+                <button class="sub-tab-btn" id="subTab2Btn">2. Atalhos & Forms</button>
+                <button class="sub-tab-btn" id="subTab3Btn">3. Parceiros (6)</button>
+                <button class="sub-tab-btn" id="subTab4Btn">4. Sistema</button>
+            </div>
+            
+            <div id="subTab1Content" class="sub-tab-content active">
+                <div id="adminStationsList"></div>
+            </div>
+            
+            <div id="subTab2Content" class="sub-tab-content">
                 <div class="admin-tape-item" style="padding: 16px;">
-                    <div style="font-weight: 700; color: var(--accent); margin-bottom: 12px; font-size: 14px;">Botão Superior (Logo Principal)</div>
-                    <label class="config-label">ARQUIVO DA IMAGEM</label><input type="text" id="cfgInputLeftImage" class="input-modern" placeholder="Ex: logo2.png">
-                    <label class="config-label">TEXTO AO PASSAR O MOUSE</label><input type="text" id="cfgInputLeftHover" class="input-modern" placeholder="Ex: Meu Site">
+                    <div style="font-weight: 700; color: var(--accent); margin-bottom: 12px; font-size: 14px;">Botão Superior (Logo Principal / YouTube)</div>
+                    <label class="config-label">ARQUIVO DA IMAGEM</label><input type="text" id="cfgInputLeftImage" class="input-modern" placeholder="Ex: Sint.jpg">
+                    <label class="config-label">TEXTO AO PASSAR O MOUSE</label><input type="text" id="cfgInputLeftHover" class="input-modern" placeholder="Ex: Canal YouTube">
                     <label class="config-label">LINK (URL)</label><input type="text" id="cfgInputLeftUrl" class="input-modern" placeholder="https://...">
-                    <div style="font-weight: 700; color: var(--accent); margin-top: 24px; margin-bottom: 12px; font-size: 14px;">Botão Inferior (WhatsApp)</div>
-                    <label class="config-label">TEXTO AO PASSAR O MOUSE</label><input type="text" id="cfgInputWaHover" class="input-modern" placeholder="Ex: Partilhar">
-                    <label class="config-label">TEXTO/LINK (USE [Radio] PARA NOME)</label><input type="text" id="cfgInputWaUrl" class="input-modern" placeholder="Mensagem a ser enviada">
+
+                    <div style="font-weight: 700; color: var(--accent); margin-top: 24px; margin-bottom: 12px; font-size: 14px;">Integração Google Forms</div>
+                    <label class="config-label">LINK GOOGLE FORMS - AVALIE!</label><input type="text" id="cfgInputEval" class="input-modern" placeholder="https://forms.gle/...">
+                    <label class="config-label">LINK GOOGLE FORMS - FALE CONOSCO</label><input type="text" id="cfgInputContact" class="input-modern" placeholder="https://forms.gle/...">
                 </div>
             </div>
+
+            <div id="subTab3Content" class="sub-tab-content">
+                <div class="admin-tape-item" style="padding: 16px;" id="adminPartnersContainer">
+                    <div style="font-weight: 700; color: var(--accent); margin-bottom: 12px; font-size: 14px;">Gerenciamento dos 6 Parceiros</div>
+                </div>
+            </div>
+
+            <div id="subTab4Content" class="sub-tab-content">
+                <div class="admin-tape-item" style="padding: 16px; text-align: center;">
+                    <div style="font-weight: 700; color: var(--accent); margin-bottom: 12px; font-size: 14px;">Opções de Sistema e Exportação</div>
+                    <button class="btn-modern btn-primary" id="saveAdminBtn" style="margin-bottom: 8px;"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M17 3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V7l-4-4zm-5 16c-1.66 0-3-1.34-3-3s1.34-3 3-3 3 1.34 3 3-1.34 3-3 3zm3-10H5V5h10v4z"></path></svg> SALVAR NA MEMÓRIA</button>
+                    <button class="btn-modern btn-export" id="exportBtn" style="margin-bottom: 8px;"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"></path></svg> EXPORTAR HTML</button>
+                </div>
+            </div>
+
             <div style="margin-top: 16px; width: 100%;">
-                <button class="btn-modern btn-primary" id="saveAdminBtn" style="margin-bottom: 8px;"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M17 3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V7l-4-4zm-5 16c-1.66 0-3-1.34-3-3s1.34-3 3-3 3 1.34 3 3-1.34 3-3 3zm3-10H5V5h10v4z"></path></svg> SALVAR NA MEMÓRIA</button>
-                <button class="btn-modern btn-export" id="exportBtn" style="margin-bottom: 8px;"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"></path></svg> EXPORTAR HTML</button>
                 <button class="btn-modern btn-danger" id="cancelAdminBtn">FECHAR / CANCELAR</button>
             </div>
         </div>
@@ -424,7 +469,19 @@
             const favoriteBtn = document.getElementById('favoriteBtn'); 
             const exitBtnTV = document.getElementById('exitBtnTV'); 
 
-            const aboutTriggers = document.querySelectorAll('.about-trigger');
+            const menuToggleBtn = document.getElementById('menuToggleBtn');
+            const menuDrawer = document.getElementById('menuDrawer');
+            const closeMenuBtn = document.getElementById('closeMenuBtn');
+            const menuEval = document.getElementById('menuEval');
+            const menuContact = document.getElementById('menuContact');
+            const menuPartners = document.getElementById('menuPartners');
+            const menuAdmin = document.getElementById('menuAdmin');
+            const menuAbout = document.getElementById('menuAbout');
+
+            const partnersModal = document.getElementById('partnersModal');
+            const backPartnersBtn = document.getElementById('backPartnersBtn');
+            const partnersGridContainer = document.getElementById('partnersGridContainer');
+
             const aboutModal = document.getElementById('aboutModal');
             const closeAboutBtn = document.getElementById('closeAboutBtn');
             
@@ -433,7 +490,6 @@
             const closeStationModal = document.getElementById('closeStationModal');
             const backStationBtn = document.getElementById('backStationBtn'); 
             
-            const adminBtn = document.getElementById('adminBtn');
             const passwordModal = document.getElementById('passwordModal');
             const adminPassword = document.getElementById('adminPassword');
             const passwordError = document.getElementById('passwordError');
@@ -443,13 +499,18 @@
             const adminModal = document.getElementById('adminModal');
             const adminStationsList = document.getElementById('adminStationsList');
             const backAdminBtn = document.getElementById('backAdminBtn'); 
-            const btnTabRanking = document.getElementById('btnTabRanking');
-            const btnTabConfig = document.getElementById('btnTabConfig');
-            const tabRankingContent = document.getElementById('tabRankingContent');
-            const tabConfigContent = document.getElementById('tabConfigContent');
             const saveAdminBtn = document.getElementById('saveAdminBtn');
             const exportBtn = document.getElementById('exportBtn'); 
             const cancelAdminBtn = document.getElementById('cancelAdminBtn');
+
+            const subTab1Btn = document.getElementById('subTab1Btn');
+            const subTab2Btn = document.getElementById('subTab2Btn');
+            const subTab3Btn = document.getElementById('subTab3Btn');
+            const subTab4Btn = document.getElementById('subTab4Btn');
+            const subTab1Content = document.getElementById('subTab1Content');
+            const subTab2Content = document.getElementById('subTab2Content');
+            const subTab3Content = document.getElementById('subTab3Content');
+            const subTab4Content = document.getElementById('subTab4Content');
             
             const iconPlay = '<path d="M8 5v14l11-7z"/>';
             const iconPause = '<path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>';
@@ -472,6 +533,16 @@
                 btnLeftImage: "Sint.jpg",
                 btnLeftHover: "Canal YouTube",
                 btnLeftUrl: "https://www.youtube.com/@sintonizegospel",
+                evalUrl: "",
+                contactUrl: "",
+                partners: [
+                    { name: "Parceiro 1", image: "Sint.jpg", url: "#" },
+                    { name: "Parceiro 2", image: "Sint.jpg", url: "#" },
+                    { name: "Parceiro 3", image: "Sint.jpg", url: "#" },
+                    { name: "Parceiro 4", image: "Sint.jpg", url: "#" },
+                    { name: "Parceiro 5", image: "Sint.jpg", url: "#" },
+                    { name: "Parceiro 6", image: "Sint.jpg", url: "#" }
+                ],
                 waHover: "Compartilhar no WhatsApp",
                 waUrl: "Estou ouvindo a [Radio] no Top 10 Gospel Radio! Acesse também: https://gerlemppimentel.github.io/SintonizeGospel/"
             };
@@ -503,11 +574,64 @@
             createVUMeter();
 
             function applyAppConfigUI() {
-                document.getElementById('cfgBtnLeft').href = appConfig.btnLeftUrl; document.getElementById('cfgBtnLeft').title = appConfig.btnLeftHover;
-                document.getElementById('cfgImgLeft').src = appConfig.btnLeftImage || "Sint.jpg"; document.getElementById('shareBtn').title = appConfig.waHover;
+                document.getElementById('cfgBtnLeft').href = appConfig.btnLeftUrl; 
+                document.getElementById('cfgBtnLeft').title = appConfig.btnLeftHover;
+                document.getElementById('cfgImgLeft').src = appConfig.btnLeftImage || "Sint.jpg"; 
+                document.getElementById('shareBtn').title = appConfig.waHover;
             }
             applyAppConfigUI();
             
+            menuToggleBtn.addEventListener('click', () => { menuDrawer.style.display = 'flex'; });
+            closeMenuBtn.addEventListener('click', () => { menuDrawer.style.display = 'none'; });
+            menuDrawer.addEventListener('click', (e) => { if (e.target === menuDrawer) menuDrawer.style.display = 'none'; });
+
+            menuEval.addEventListener('click', () => {
+                menuDrawer.style.display = 'none';
+                if(appConfig.evalUrl) window.open(appConfig.evalUrl, '_blank');
+                else alert("O link de avaliação ainda não foi configurado na Área Restrita.");
+            });
+
+            menuContact.addEventListener('click', () => {
+                menuDrawer.style.display = 'none';
+                if(appConfig.contactUrl) window.open(appConfig.contactUrl, '_blank');
+                else alert("O link de Fale Conosco ainda não foi configurado na Área Restrita.");
+            });
+
+            menuPartners.addEventListener('click', () => {
+                menuDrawer.style.display = 'none';
+                renderPartnersModal();
+                partnersModal.style.display = 'flex';
+            });
+            backPartnersBtn.addEventListener('click', () => { partnersModal.style.display = 'none'; });
+
+            menuAdmin.addEventListener('click', () => {
+                menuDrawer.style.display = 'none';
+                adminPassword.value = ''; passwordError.style.display = 'none'; passwordModal.style.display = 'flex';
+            });
+
+            menuAbout.addEventListener('click', () => {
+                menuDrawer.style.display = 'none';
+                aboutModal.style.display = 'flex';
+            });
+
+            function renderPartnersModal() {
+                partnersGridContainer.innerHTML = '';
+                appConfig.partners.forEach((partner, idx) => {
+                    const card = document.createElement('a');
+                    card.className = 'partner-card';
+                    card.href = partner.url && partner.url !== "#" ? partner.url : "#";
+                    card.target = "_blank";
+                    card.innerHTML = `
+                        <img src="${partner.image || 'Sint.jpg'}" alt="Parceiro" onerror="this.src='Sint.jpg'">
+                        <span style="font-size: 13px; font-weight: 600;">${partner.name || 'Parceiro ' + (idx + 1)}</span>
+                    `;
+                    card.addEventListener('click', (e) => {
+                        if(!partner.url || partner.url === "#") { e.preventDefault(); alert("Este parceiro ainda não possui um link configurado."); }
+                    });
+                    partnersGridContainer.appendChild(card);
+                });
+            }
+
             function updateFavoriteUI(index) {
                 let currentFav = localStorage.getItem('gospelFavoriteIndex');
                 if (currentFav !== null && parseInt(currentFav) === index) favoriteBtn.classList.add('active'); else favoriteBtn.classList.remove('active');
@@ -536,7 +660,6 @@
                 });
             }
 
-            aboutTriggers.forEach(btn => { btn.addEventListener('click', () => { aboutModal.style.display = 'flex'; }); });
             closeAboutBtn.addEventListener('click', () => { aboutModal.style.display = 'none'; });
 
             function changeStation(index) {
@@ -564,9 +687,9 @@
                 tapes.forEach((tape, index) => {
                     const item = document.createElement('div'); item.className = 'admin-tape-item';
                     const header = document.createElement('div'); header.className = 'tape-header';
-                    header.innerHTML = `<div class="tape-header-left"><span class="tape-rank">${index + 1}</span><span class="tape-title">${tape.name || "Slot Vazio"}</span></div><div class="tape-header-right"><div class="drag-handle" title="Arraste para reordenar"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M3 15h18v-2H3v2zm0 4h18v-2H3v2zm0-8h18V9H3v2zm0-6v2h18V5H3z"/></svg></div><svg class="chevron-icon" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"/></svg></div>`;
+                    header.innerHTML = `<div style="display:flex; align-items:center; gap:10px;"><div class="drag-handle" title="Arraste"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M3 15h18v-2H3v2zm0 4h18v-2H3v2zm0-8h18V9H3v2zm0-6v2h18V5H3z"/></svg></div><span class="tape-rank">${index + 1}</span><span class="tape-title">${tape.name || "Slot Vazio"}</span></div><svg class="chevron-icon" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"/></svg>`;
                     const body = document.createElement('div'); body.className = 'tape-body';
-                    body.innerHTML = `<label>NOME DA RÁDIO</label><input type="text" class="input-modern tape-name-input" placeholder="Ex: Sintonize Gospel" value="${tape.name}"><label>LINK DO STREAM (URL)</label><input type="text" class="input-modern tape-url-input" placeholder="http://..." value="${tape.url}"><label>ARQUIVO DE IMAGEM DA RÁDIO</label><input type="text" class="input-modern tape-image-input" placeholder="Ex: logo-radio.png" value="${tape.image || ''}"><label>ARQUIVO DO ESTADO (EX: CE.png)</label><input type="text" class="input-modern tape-state-input" placeholder="Ex: CE.png" value="${tape.state || ''}"><label>TEXTO DO BANNER</label><input type="text" class="input-modern tape-banner-input" placeholder="Mensagem rolando" style="margin-bottom:0;" value="${tape.banner}">`;
+                    body.innerHTML = `<label class="config-label">Nome</label><input type="text" class="input-modern tape-name-input" value="${tape.name}"><label class="config-label">Stream URL</label><input type="text" class="input-modern tape-url-input" value="${tape.url}"><label class="config-label">Imagem</label><input type="text" class="input-modern tape-image-input" value="${tape.image || ''}"><label class="config-label">Estado</label><input type="text" class="input-modern tape-state-input" value="${tape.state || ''}"><label class="config-label">Banner</label><input type="text" class="input-modern tape-banner-input" value="${tape.banner}">`;
                     header.addEventListener('click', (e) => {
                         if(e.target.closest('.drag-handle')) return; const isExpanded = body.classList.contains('expanded');
                         document.querySelectorAll('.tape-body').forEach(b => b.classList.remove('expanded')); document.querySelectorAll('.chevron-icon').forEach(c => c.style.transform = 'rotate(0deg)');
@@ -577,12 +700,41 @@
                 });
                 if (sortableInstance) sortableInstance.destroy();
                 sortableInstance = new Sortable(adminStationsList, { handle: '.drag-handle', animation: 150, ghostClass: 'sortable-ghost', onEnd: function () { const allRanks = adminStationsList.querySelectorAll('.tape-rank'); allRanks.forEach((rank, idx) => { rank.textContent = idx + 1; }); } });
-                document.getElementById('cfgInputLeftImage').value = appConfig.btnLeftImage; document.getElementById('cfgInputLeftHover').value = appConfig.btnLeftHover; document.getElementById('cfgInputLeftUrl').value = appConfig.btnLeftUrl; document.getElementById('cfgInputWaHover').value = appConfig.waHover; document.getElementById('cfgInputWaUrl').value = appConfig.waUrl;
+                
+                document.getElementById('cfgInputLeftImage').value = appConfig.btnLeftImage; 
+                document.getElementById('cfgInputLeftHover').value = appConfig.btnLeftHover; 
+                document.getElementById('cfgInputLeftUrl').value = appConfig.btnLeftUrl;
+                document.getElementById('cfgInputEval').value = appConfig.evalUrl || '';
+                document.getElementById('cfgInputContact').value = appConfig.contactUrl || '';
+
+                const adminPartnersContainer = document.getElementById('adminPartnersContainer');
+                adminPartnersContainer.innerHTML = '<div style="font-weight: 700; color: var(--accent); margin-bottom: 12px; font-size: 14px;">Gerenciamento dos 6 Parceiros</div>';
+                
+                appConfig.partners.forEach((p, idx) => {
+                    const pDiv = document.createElement('div');
+                    pDiv.style.cssText = "background: var(--bg-base); padding: 12px; border-radius: 12px; border: 1px solid var(--border-color); margin-bottom: 10px;";
+                    pDiv.innerHTML = `
+                        <div style="font-weight:700; margin-bottom:8px; font-size:13px; color:var(--text-main);">Parceiro ${idx + 1}</div>
+                        <label class="config-label">Nome</label><input type="text" class="input-modern p-name" value="${p.name || ''}" placeholder="Nome">
+                        <label class="config-label">Imagem</label><input type="text" class="input-modern p-image" value="${p.image || ''}" placeholder="imagem.png">
+                        <label class="config-label">URL Link</label><input type="text" class="input-modern p-url" value="${p.url || ''}" placeholder="https://...">
+                    `;
+                    adminPartnersContainer.appendChild(pDiv);
+                });
             }
             
-            btnTabRanking.addEventListener('click', () => { btnTabConfig.classList.remove('active'); tabConfigContent.classList.remove('active'); btnTabRanking.classList.add('active'); tabRankingContent.classList.add('active'); });
-            btnTabConfig.addEventListener('click', () => { btnTabRanking.classList.remove('active'); tabRankingContent.classList.remove('active'); btnTabConfig.classList.add('active'); tabConfigContent.classList.add('active'); });
-            
+            function switchSubTab(targetTab) {
+                [subTab1Btn, subTab2Btn, subTab3Btn, subTab4Btn].forEach(b => b.classList.remove('active'));
+                [subTab1Content, subTab2Content, subTab3Content, subTab4Content].forEach(c => c.classList.remove('active'));
+                targetTab.btn.classList.add('active');
+                targetTab.content.classList.add('active');
+            }
+
+            subTab1Btn.addEventListener('click', () => switchSubTab({ btn: subTab1Btn, content: subTab1Content }));
+            subTab2Btn.addEventListener('click', () => switchSubTab({ btn: subTab2Btn, content: subTab2Content }));
+            subTab3Btn.addEventListener('click', () => switchSubTab({ btn: subTab3Btn, content: subTab3Content }));
+            subTab4Btn.addEventListener('click', () => switchSubTab({ btn: subTab4Btn, content: subTab4Content }));
+
             volumeBtn.addEventListener('click', (e) => { e.stopPropagation(); volumePopup.classList.toggle('show'); }); document.addEventListener('click', (e) => { if (!volumePopup.contains(e.target) && !volumeBtn.contains(e.target)) volumePopup.classList.remove('show'); });
 
             function setVolume(percent) {
@@ -626,14 +778,36 @@
             listBtn.addEventListener('click', () => stationModal.style.display = 'flex');
             closeStationModal.addEventListener('click', () => stationModal.style.display = 'none'); backStationBtn.addEventListener('click', () => stationModal.style.display = 'none'); cancelAdminBtn.addEventListener('click', () => adminModal.style.display = 'none'); backAdminBtn.addEventListener('click', () => adminModal.style.display = 'none');
             
-            adminBtn.addEventListener('click', () => { adminPassword.value = ''; passwordError.style.display = 'none'; passwordModal.style.display = 'flex'; });
             enterAdminBtn.addEventListener('click', () => { if (adminPassword.value === ADMIN_PASSWORD) { passwordModal.style.display = 'none'; createAdminTapes(); adminModal.style.display = 'flex'; } else { passwordError.style.display = 'block'; adminPassword.focus(); } });
             cancelPasswordBtn.addEventListener('click', () => passwordModal.style.display = 'none'); adminPassword.addEventListener('keypress', (e) => { if (e.key === 'Enter') enterAdminBtn.click(); });
             
             const memorySaveHandler = () => {
                 const nameInputs = document.querySelectorAll('.tape-name-input'); const urlInputs = document.querySelectorAll('.tape-url-input'); const imageInputs = document.querySelectorAll('.tape-image-input'); const bannerInputs = document.querySelectorAll('.tape-banner-input'); const stateInputs = document.querySelectorAll('.tape-state-input'); const newTapes = [];
                 for (let i = 0; i < 10; i++) { if (nameInputs[i]) { newTapes.push({ name: nameInputs[i].value, url: urlInputs[i].value, image: imageInputs[i].value, banner: bannerInputs[i].value, state: stateInputs[i] ? stateInputs[i].value : '' }); } }
-                appConfig = { btnLeftImage: document.getElementById('cfgInputLeftImage').value, btnLeftHover: document.getElementById('cfgInputLeftHover').value, btnLeftUrl: document.getElementById('cfgInputLeftUrl').value, waHover: document.getElementById('cfgInputWaHover').value, waUrl: document.getElementById('cfgInputWaUrl').value };
+                
+                const pNames = document.querySelectorAll('.p-name');
+                const pImages = document.querySelectorAll('.p-image');
+                const pUrls = document.querySelectorAll('.p-url');
+                const updatedPartners = [];
+                for(let i=0; i<6; i++) {
+                    updatedPartners.push({
+                        name: pNames[i] ? pNames[i].value : `Parceiro ${i+1}`,
+                        image: pImages[i] ? pImages[i].value : 'Sint.jpg',
+                        url: pUrls[i] ? pUrls[i].value : '#'
+                    });
+                }
+
+                appConfig = {
+                    btnLeftImage: document.getElementById('cfgInputLeftImage').value,
+                    btnLeftHover: document.getElementById('cfgInputLeftHover').value,
+                    btnLeftUrl: document.getElementById('cfgInputLeftUrl').value,
+                    evalUrl: document.getElementById('cfgInputEval').value,
+                    contactUrl: document.getElementById('cfgInputContact').value,
+                    partners: updatedPartners,
+                    waHover: document.getElementById('cfgInputWaHover') ? document.getElementById('cfgInputWaHover').value : defaultAppConfig.waHover,
+                    waUrl: document.getElementById('cfgInputWaUrl') ? document.getElementById('cfgInputWaUrl').value : defaultAppConfig.waUrl
+                };
+                
                 const playingUrl = tapes[selectedTapeIndex].url; tapes = newTapes; localStorage.setItem('gospelTapes', JSON.stringify(tapes)); localStorage.setItem('gospelConfig', JSON.stringify(appConfig));
                 let newIndex = tapes.findIndex(t => t.url === playingUrl && t.url !== ""); if (newIndex !== -1) { selectedTapeIndex = newIndex; }
                 createStationsList(); changeStation(selectedTapeIndex); applyAppConfigUI();
@@ -651,7 +825,7 @@
                 const blob = new Blob([htmlContent], { type: 'text/html;charset=utf-8' }); const url = URL.createObjectURL(blob); const a = document.createElement('a'); a.href = url; a.download = 'index.html'; document.body.appendChild(a); a.click(); document.body.removeChild(a); URL.revokeObjectURL(url);
             });
             
-            [stationModal, passwordModal, adminModal, aboutModal].forEach(modal => { modal.addEventListener('click', (e) => { if (e.target === modal) modal.style.display = 'none'; }); });
+            [stationModal, passwordModal, adminModal, aboutModal, partnersModal].forEach(modal => { modal.addEventListener('click', (e) => { if (e.target === modal) modal.style.display = 'none'; }); });
             audio.addEventListener('waiting', () => { loadingIndicator.style.display = 'block'; loadingIndicator.textContent = 'Carregando...'; }); audio.addEventListener('canplay', () => loadingIndicator.style.display = 'none'); audio.addEventListener('playing', () => loadingIndicator.style.display = 'none');
             
             setVolume(50); createStationsList();
