@@ -10,18 +10,16 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="theme-color" content="#020617">
 
-    <!-- Frameworks (Tailwind, HLS para áudio, Sortable para lista) -->
+    <!-- Frameworks -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
     <script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script>
 
     <style>
-        /* Importação da fonte elegante Inter */
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap');
         
         * { box-sizing: border-box; margin: 0; padding: 0; }
         
-        /* ======== VARIÁVEIS DE TEMA ======== */
         :root {
             --bg-base: #020617;       
             --surface: #0f172a;       
@@ -48,10 +46,8 @@
         
         body { background-color: var(--bg-base); color: var(--text-main); font-family: 'Inter', sans-serif; height: 100dvh; display: flex; justify-content: center; align-items: center; overflow: hidden; padding: 8px; transition: background-color 0.3s ease, color 0.3s ease; }
         
-        /* Container Principal Base (Mobile) */
         #app-container { width: 100%; max-width: 400px; height: 100%; max-height: 800px; display: flex; flex-direction: column; background: var(--bg-base); border: 1px solid var(--border-color); box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5); border-radius: 32px; overflow: hidden; position: relative; transition: background 0.3s ease, border-color 0.3s ease; }
 
-        /* ======== ESTILOS MOBILE (Padrão) ======== */
         .app-header { padding: 24px 24px 16px; display: flex; align-items: center; justify-content: space-between; }
         .app-header h1 { font-size: 16px; font-weight: 700; display: flex; align-items: center; gap: 8px; color: var(--accent); }
         .header-controls { display: flex; align-items: center; gap: 12px; }
@@ -59,7 +55,6 @@
         .admin-gear { background: transparent; border: none; color: var(--text-muted); font-size: 20px; cursor: pointer; transition: color 0.2s, transform 0.2s; display: flex; align-items: center; justify-content: center; }
         .admin-gear:hover { color: var(--text-main); transform: rotate(15deg); }
 
-        /* Status Badge Mobile (Fica em cima da capa no Hub) */
         .status-badge { position: absolute; top: -14px; left: 50%; transform: translateX(-50%); z-index: 20; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; padding: 4px 12px; border-radius: 20px; background: var(--surface); color: var(--text-muted); display: inline-flex; align-items: center; gap: 6px; box-shadow: 0 4px 10px rgba(0,0,0,0.3);}
         .status-dot { width: 8px; height: 8px; border-radius: 50%; background: #ef4444; }
         .status-badge.active .status-dot { background: var(--accent); box-shadow: 0 0 8px var(--accent); }
@@ -96,18 +91,15 @@
 
         #stationName { font-size: 22px; font-weight: 700; color: var(--text-main); margin-bottom: 8px; }
 
-        /* ======== VU METER ALTA RESOLUÇÃO (29 LEDs) ======== */
         .vu-meter { display: flex; justify-content: center; align-items: center; gap: 2px; height: 16px; margin: 10px 0 16px 0; padding: 0 16px; width: 100%; }
         .vu-segment { flex: 1; height: 100%; border-radius: 2px; background: var(--surface-hover); opacity: 0.2; transition: opacity 0.05s ease; }
         
-        /* Estados Acesos (Lit) */
         .vu-segment.red-seg.lit { background: #ef4444; box-shadow: 0 0 5px #ef4444; opacity: 1; }
         .vu-segment.orange-seg.lit { background: #f59e0b; box-shadow: 0 0 5px #f59e0b; opacity: 1; }
         .vu-segment.green-seg.lit { background: #10b981; box-shadow: 0 0 5px #10b981; opacity: 1; }
         .vu-segment.center-seg.lit { background: #ffffff; box-shadow: 0 0 8px #ffffff; opacity: 1; }
         .light-theme .vu-segment.center-seg.lit { background: #064e3b; box-shadow: 0 0 8px #064e3b; }
         
-        /* Estados Meio Brilho Suave (Half-Lit) */
         .vu-segment.red-seg.half-lit { background: #ef4444; opacity: 0.5; }
         .vu-segment.orange-seg.half-lit { background: #f59e0b; opacity: 0.5; }
         .vu-segment.green-seg.half-lit { background: #10b981; opacity: 0.5; }
@@ -116,14 +108,15 @@
         .banner-text { display: inline-block; font-size: 14px; font-weight: 600; color: var(--text-muted); animation: scrollBanner 24s linear infinite; }
         @keyframes scrollBanner { 0% { transform: translateX(100vw); } 100% { transform: translateX(-100%); } }
 
-        /* Controles Inferiores Base */
         .controls-container { padding: 20px 24px; display: flex; justify-content: space-between; align-items: center; background: var(--bg-base); position: relative; }
         .control-btn { background: transparent; border: none; color: var(--text-main); cursor: pointer; display: flex; align-items: center; justify-content: center; transition: transform 0.2s, color 0.2s; }
         .control-btn svg { width: 28px; height: 28px; fill: currentColor; }
         .control-btn:hover { color: var(--accent); transform: scale(1.1); }
         .control-btn.play-btn { width: 70px; height: 70px; background: var(--accent); color: #fff; border-radius: 20px; box-shadow: 0 10px 20px var(--accent-glow); }
         .control-btn.play-btn:hover { transform: scale(1.05); background: #0ea5e9; color: #fff; }
-        .nav-btn { width: 48px; height: 48px; background: var(--surface); border-radius: 14px; color: var(--text-main); border: 1px solid var(--border-color); }
+        
+        /* Modificação 1 (Mobile Fix): Adicionado flex-shrink: 0 para impedir botões de serem amassados */
+        .nav-btn { width: 48px; height: 48px; background: var(--surface); border-radius: 14px; color: var(--text-main); border: 1px solid var(--border-color); flex-shrink: 0; }
         .playback-group { display: flex; align-items: center; gap: 16px; }
 
         .volume-wrapper { position: relative; }
@@ -134,7 +127,6 @@
         .volume-fill { position: absolute; bottom: 0; left: 0; width: 100%; background: var(--accent); border-radius: 2px; pointer-events: none; opacity: 0.8;}
         .volume-knob { position: absolute; left: 50%; transform: translate(-50%, 50%); width: 16px; height: 16px; background: #fff; border-radius: 50%; box-shadow: 0 2px 5px rgba(0,0,0,0.5); pointer-events: none; }
 
-        /* ======== MODAIS BASE ======== */
         .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(2, 6, 23, 0.8); backdrop-filter: blur(8px); z-index: 1000; justify-content: center; align-items: center; padding: 20px; }
         .modal-content { background: var(--surface); border: 1px solid var(--border-color); border-radius: 24px; width: 100%; max-width: 380px; padding: 24px; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5); max-height: 85vh; overflow-y: auto; display: flex; flex-direction: column; align-items: center; position: relative; }
         .modal-header { display: flex; align-items: center; justify-content: center; position: relative; font-size: 18px; font-weight: 700; margin-bottom: 20px; color: var(--text-main); min-height: 36px; width: 100%; }
@@ -151,14 +143,12 @@
         .input-modern { width: 100%; padding: 14px; background: var(--bg-base); border: 1px solid var(--border-color); border-radius: 12px; color: var(--text-main); margin-bottom: 12px; outline: none; font-size: 14px; }
         .input-modern:focus { border-color: var(--accent); }
 
-        /* Estilos do Híbrido "Sobre" para Mobile (Padrão) */
         #aboutContent { padding-top: 56px; max-width: 360px; }
         .about-grid-wrapper { display: flex; flex-direction: column; width: 100%; }
         .about-col-app { display: flex; flex-direction: column; align-items: center; }
         .about-col-dev { display: flex; flex-direction: column; align-items: center; background: var(--surface-hover); border-radius: 16px; padding: 20px; border: 1px solid var(--border-color); margin-top: 16px;}
         .about-divider { display: none; }
 
-        /* Estilos da Lista e Admin omitidos aqui para poupar espaço visual no head, mas são padrão do sistema */
         .tabs-container { display: flex; gap: 8px; margin-bottom: 16px; background: var(--bg-base); padding: 4px; border-radius: 12px; border: 1px solid var(--border-color); width: 100%; }
         .tab-btn { flex: 1; padding: 10px; border-radius: 8px; font-weight: 600; font-size: 13px; color: var(--text-muted); background: transparent; border: none; cursor: pointer; transition: 0.2s; }
         .tab-btn.active { background: var(--surface-hover); color: var(--accent); box-shadow: 0 2px 4px rgba(0,0,0,0.2); }
@@ -187,143 +177,86 @@
         .sortable-ghost { opacity: 0.4; background: var(--surface-hover); }
         #loadingIndicator { position: absolute; top: 24px; left: 50%; transform: translateX(-50%); background: var(--accent); color: #fff; padding: 6px 16px; border-radius: 20px; font-size: 12px; font-weight: 600; display: none; z-index: 50; }
         
-        /* Controles de Visibilidade Híbrida */
         .tv-only { display: none !important; }
         .mobile-only { display: flex !important; }
 
-        /* =======================================================================
-           ESTILOS DESKTOP / TV / LANDSCAPE (A Magia do CSS Grid Acontece Aqui) 
-           ======================================================================= */
+        /* ================= ESTILOS DESKTOP / TV ================= */
         @media (min-width: 768px) and (orientation: landscape) {
             
-            /* Híbrido "Sobre": Transforma a caixa numa TV de duas colunas largas */
             #aboutContent { max-width: 650px; padding: 32px; padding-top: 40px; flex-direction: column; }
             #aboutContent .back-btn-top { top: 24px; left: 24px; }
             .about-grid-wrapper { display: grid; grid-template-columns: 1fr auto 1fr; gap: 16px; margin-top: 24px; align-items: center; }
             .about-col-dev { margin-top: 0; height: 100%; justify-content: center; }
             .about-divider { display: block; width: 1px; height: 90%; background: var(--border-color); margin: 0 16px; }
 
-            /* Estrutura Principal da App (Grid TV) */
+            /* Modificação 2 (TV Fix): Modal Rádios em Duas Colunas */
+            #stationModal .modal-content { max-width: 680px; }
+            #stationModal .stations-list { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 0; }
+
             #app-container {
                 max-width: 880px; 
                 max-height: 560px; 
                 display: grid;
-                
-                /* 
-                   A grelha "super-alinhada": Colunas precisas para evitar toques acidentais.
-                   Col 1: Play/Prev (81px)
-                   Col 2: Play/Next (81px)
-                   Col 3: Espaço (24px)
-                   Col 4: Capa Central/Badge (196px)
-                   Col 5: Espaço (24px)
-                   Col 6: Botões Direita 1 (64px)
-                   Col 7: Espaço Botões (24px)
-                   Col 8: Botões Direita 2 (64px)
-                   Col 9: Espaço Botões (24px)
-                   Col 10: Botões Direita 3 (64px)
-                */
                 grid-template-columns: 81px 81px 24px 196px 24px 64px 24px 64px 24px 64px;
-                
-                /*
-                   Linhas Precisas (240px totais na zona central = 64+24+64+24+64)
-                   Row 1: Header (auto)
-                   Row 2: Grelha Linha 1 + Topo Capa + Topo Play (64px)
-                   Row 3: Espaço (24px)
-                   Row 4: Grelha Linha 2 (64px)
-                   Row 5: Espaço (24px)
-                   Row 6: Grelha Linha 3 + Base Badge + Base Prev/Next (64px)
-                   Row 7: VU Meter (22px)
-                   Row 8: Banner (auto)
-                */
                 grid-template-rows: auto 64px 24px 64px 24px 64px 22px auto;
-                justify-content: center;
-                align-content: center;
-                row-gap: 0; /* Gaps verticais controlados explicitamente nas linhas do grid */
+                justify-content: center; align-content: center; row-gap: 0;
             }
             
-            /* Dizer ao navegador para "dissolver" os containers originais do mobile e deixar os elementos espalharem-se pelo novo Grid */
             .station-display, .hub-container, .controls-container, .playback-group, .volume-wrapper { display: contents !important; }
             .tv-only { display: flex !important; }
             .mobile-only { display: none !important; }
 
             .app-header { grid-row: 1 / 2; grid-column: 1 / 11; padding-bottom: 24px; }
-            #stationName { display: none; } /* Oculto na TV */
+            #stationName { display: none; }
 
-            /* ================= BLOCO ESQUERDO ================= */
-            #mainPlayBtn { 
-                grid-row: 2 / 5; grid-column: 1 / 3; 
-                width: 100%; height: 100%; margin: 0; 
-                border-radius: 20px; align-self: start; 
-            }
+            #mainPlayBtn { grid-row: 2 / 5; grid-column: 1 / 3; width: 100%; height: 100%; margin: 0; border-radius: 20px; align-self: start; }
             #prevBtn { grid-row: 6 / 7; grid-column: 1 / 2; width: 100%; height: 100%; margin: 0; border-radius: 16px; }
             #nextBtn { grid-row: 6 / 7; grid-column: 2 / 3; width: 100%; height: 100%; margin: 0; border-radius: 16px; }
 
-            /* ================= BLOCO CENTRAL (Invertido e Alinhado) ================= */
-            /* A Capa sobe para o topo (Row 2 a 5) */
-            #mainIcon { 
-                grid-row: 2 / 5; grid-column: 4 / 5; 
-                width: 196px; height: 196px; margin: 0; 
-                border: 4px solid var(--border-color); box-shadow: 0 12px 30px rgba(0,0,0,0.5); 
-                border-radius: 24px; align-self: start; justify-self: center;
-                position: relative; top: 0; transform: none;
-            }
-            /* O Badge desce para a base (Row 6) */
-            #statusBadge { 
-                grid-row: 6 / 7; grid-column: 4 / 5; 
-                height: 28px; padding: 0 16px; margin: 0;
-                align-self: end; justify-self: center;
-                position: relative; top: 0; left: 0; transform: none;
-            }
+            #mainIcon { grid-row: 2 / 5; grid-column: 4 / 5; width: 196px; height: 196px; margin: 0; border: 4px solid var(--border-color); box-shadow: 0 12px 30px rgba(0,0,0,0.5); border-radius: 24px; align-self: start; justify-self: center; position: relative; top: 0; transform: none; }
+            #statusBadge { grid-row: 6 / 7; grid-column: 4 / 5; height: 28px; padding: 0 16px; margin: 0; align-self: end; justify-self: center; position: relative; top: 0; left: 0; transform: none; }
 
-            /* ================= BLOCO DIREITO (Grelha 3x3) ================= */
-            /* Padronização visual para os 9 botões da TV */
-            .hub-satellite, .fav-btn, .theme-btn, .control-btn, .nav-btn, .admin-gear {
+            .hub-satellite, .fav-btn, .theme-btn, .control-btn, .nav-btn, .admin-gear, #exitBtnTV {
                 position: relative !important; top: auto !important; left: auto !important; right: auto !important; bottom: auto !important;
                 transform: none !important; margin: 0 !important; width: 100% !important; height: 100% !important;
                 border-radius: 16px !important; background: var(--surface-hover); border: 1px solid var(--border-color);
                 align-self: center; justify-self: center;
             }
-            #mainPlayBtn { background: var(--accent); } /* Mantém cor original do play */
+            #mainPlayBtn { background: var(--accent); }
             .hub-satellite svg, .fav-btn svg, .theme-btn svg, .control-btn svg, .admin-gear svg { width: 28px !important; height: 28px !important; }
             .hub-satellite:hover, .fav-btn:hover, .theme-btn:hover, .control-btn:hover, .admin-gear:hover { border-color: var(--accent); box-shadow: 0 0 15px var(--accent-glow); background: #334155; transform: scale(1.05) !important; }
+            
+            /* Efeito exclusivo Sair */
+            #exitBtnTV:hover { border-color: #ef4444; box-shadow: 0 0 15px rgba(239, 68, 68, 0.4); color: #fff !important; background: #ef4444 !important; transform: scale(1.05) !important; }
 
-            /* Mapeamento Matemático na Grelha Invisível (Onde a magia do não-toque acontece) */
-            /* Linha 1 */
+            /* Modificação 3 (TV Fix): Reposicionamento WhatsApp -> Logo -> SAIR */
             .sat-tr     { grid-row: 2 / 3; grid-column: 6 / 7; }
-            #shareBtn   { grid-row: 2 / 3; grid-column: 8 / 9; }
-            #cfgBtnLeft { grid-row: 2 / 3; grid-column: 10 / 11; }
-            /* Linha 2 */
+            #cfgBtnLeft { grid-row: 2 / 3; grid-column: 8 / 9; } /* Logo movida para o meio (antigo Whatsapp) */
+            #exitBtnTV  { grid-row: 2 / 3; grid-column: 10 / 11; } /* Botão SAIR entra na ponta direita */
+            #shareBtn   { display: none !important; } /* WhatsApp nativo oculto na TV */
+            
             #favoriteBtn{ grid-row: 4 / 5; grid-column: 6 / 7; }
             #volumeBtn  { grid-row: 4 / 5; grid-column: 8 / 9; }
             #aboutBtnTV { grid-row: 4 / 5; grid-column: 10 / 11; }
-            /* Linha 3 */
             .sat-bl     { grid-row: 6 / 7; grid-column: 6 / 7; }
             #listBtn    { grid-row: 6 / 7; grid-column: 8 / 9; }
             #themeBtn   { grid-row: 6 / 7; grid-column: 10 / 11; }
 
-            /* ======== VU Meter & Banner ======== */
             #vuMeter { grid-row: 7 / 8; grid-column: 1 / 11; margin: 24px 0 0 0; padding: 0 10px; height: 22px; gap: 3px; }
             .banner-container { grid-row: 8 / 9; grid-column: 1 / 11; margin-top: 20px;}
-            
-            /* Ajuste do Volume Popup */
             .volume-popup { position: fixed; bottom: 100px; left: 50%; transform: translateX(-50%); z-index: 1000; }
-
-            /* Foco Acessível (Controle Remoto) */
             button:focus, a:focus, input:focus { outline: 3px solid var(--accent); outline-offset: 4px; background-color: var(--surface-hover); transition: all 0.2s ease; }
         }
     </style>
 </head>
 <body>
     
-    <!-- CONTÊINER MESTRE: Flexbox no Mobile, CSS Grid rígido na TV -->
     <div id="app-container">
         <div id="loadingIndicator">Carregando...</div>
         
-        <!-- CABEÇALHO -->
         <div class="app-header">
             <h1>Top 10 Gospel Radio</h1>
             <div class="header-controls">
-                <!-- Botão Sobre Original (Fica oculto na TV) -->
                 <button class="admin-gear mobile-only about-trigger" title="Sobre o App">
                     <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M11 7h2v2h-2zm0 4h2v6h-2zm1-9C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"></path></svg>
                 </button>
@@ -332,48 +265,27 @@
             </div>
         </div>
 
-        <!-- MÓDULO CENTRAL DO HUB -->
         <div class="station-display">
-            <!-- No Mobile este é um container relativo circular. No PC/TV os elementos quebram para o Grid master -->
             <div class="hub-container">
-                <button id="themeBtn" class="theme-btn" title="Alternar Tema">
-                    <svg viewBox="0 0 24 24"><path d="M12 21c-4.97 0-9-4.03-9-9s4.03-9 9-9 9 4.03 9 9-4.03 9-9 9zm0-16c-3.86 0-7 3.14-7 7s3.14 7 7 7 7-3.14 7-7-3.14-7-7-7zm0 13c-3.31 0-6-2.69-6-6s2.69-6 6-6v12z"></path></svg>
-                </button>
+                <button id="themeBtn" class="theme-btn" title="Alternar Tema"><svg viewBox="0 0 24 24"><path d="M12 21c-4.97 0-9-4.03-9-9s4.03-9 9-9 9 4.03 9 9-4.03 9-9 9zm0-16c-3.86 0-7 3.14-7 7s3.14 7 7 7 7-3.14 7-7-3.14-7-7-7zm0 13c-3.31 0-6-2.69-6-6s2.69-6 6-6v12z"></path></svg></button>
+                <button id="favoriteBtn" class="fav-btn" title="Favorito"><svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg></button>
 
-                <button id="favoriteBtn" class="fav-btn" title="Favorito">
-                    <svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
-                </button>
-
-                <!-- Status Badge -->
                 <div class="status-badge" id="statusBadge"><div class="status-dot"></div><span id="statusText">OFF</span></div>
-                
                 <a href="#" target="_blank" class="hub-satellite sat-tl" id="cfgBtnLeft"><img id="cfgImgLeft" src="Sint.jpg" alt="Logo"></a>
-                
-                <div class="hub-satellite sat-tr" title="Ranking">
-                    <img id="topBadgeImg" src="Top1.png" alt="Top Ranking">
-                </div>
-                
-                <!-- Capa Principal -->
+                <div class="hub-satellite sat-tr" title="Ranking"><img id="topBadgeImg" src="Top1.png" alt="Top Ranking"></div>
                 <div class="station-icon" id="mainIcon"><img id="albumArtImage" src="Sint.jpg" alt="Arte" onerror="this.src='Sint.jpg'"></div>
-                
-                <div class="hub-satellite sat-bl" title="Estado">
-                    <img id="stateBadgeImg" src="estados/CE.png" alt="Estado" onerror="this.src='Sint.jpg'">
-                </div>
+                <div class="hub-satellite sat-bl" title="Estado"><img id="stateBadgeImg" src="estados/CE.png" alt="Estado" onerror="this.src='Sint.jpg'"></div>
                 
                 <button class="hub-satellite sat-br" id="shareBtn" title="WhatsApp"><svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.888-.788-1.489-1.761-1.663-2.06-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"></path></svg></button>
             </div>
-            
             <div id="stationName">Carregando...</div>
         </div>
 
-        <!-- VU METER (ALTA RESOLUÇÃO 29 LEDs) -->
         <div class="vu-meter" id="vuMeter"></div>
 
         <div class="banner-container"><div class="banner-text" id="runningBanner"></div></div>
 
-        <!-- CONTROLES INFERIORES -->
         <div class="controls-container">
-            
             <div class="volume-wrapper">
                 <button class="control-btn nav-btn" id="volumeBtn" title="Volume"><svg viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"></path></svg></button>
                 <div class="volume-popup" id="volumePopup">
@@ -386,7 +298,6 @@
                 </div>
             </div>
             
-            <!-- Controle de Reprodução -->
             <div class="playback-group">
                 <button class="control-btn nav-btn" id="prevBtn" title="Anterior"><svg viewBox="0 0 24 24"><path d="M6 6h2v12H6zm3.5 6l8.5 6V6z"></path></svg></button>
                 <button class="control-btn play-btn" id="mainPlayBtn" title="Play/Pause"><svg id="playIconSVG" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"></path></svg></button>
@@ -395,85 +306,52 @@
             
             <button class="control-btn nav-btn" id="listBtn" title="Lista"><svg viewBox="0 0 24 24"><path d="M3 13h2v-2H3v2zm0 4h2v-2H3v2zm0-8h2V7H3v2zm4 4h14v-2H7v2zm0 4h14v-2H7v2zM7 7v2h14V7H7z"></path></svg></button>
 
-            <!-- Clone do Botão Sobre (Visível APENAS no Modo TV para preencher a Grelha Master) -->
+            <!-- Botões que entram na Grelha apenas na TV -->
+            <button class="control-btn tv-only" id="exitBtnTV" title="Sair" style="font-weight: 800; font-size: 14px; color: #ef4444;">SAIR</button>
             <button class="admin-gear tv-only about-trigger" id="aboutBtnTV" title="Sobre o App">
                 <svg viewBox="0 0 24 24" fill="currentColor"><path d="M11 7h2v2h-2zm0 4h2v6h-2zm1-9C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"></path></svg>
             </button>
         </div>
     </div>
 
-    <!-- ======== MODAL SOBRE HÍBRIDO (Mobile + TV) ======== -->
+    <!-- MODAL SOBRE HÍBRIDO -->
     <div class="modal-overlay" id="aboutModal">
-        <!-- O CSS Media Query transforma esta caixa de coluna única para duas colunas automaticamente -->
         <div class="modal-content" id="aboutContent">
-            
-            <button class="back-btn-top" id="closeAboutBtn" title="Voltar">
-                <svg viewBox="0 0 24 24"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"></path></svg>
-            </button>
-            
+            <button class="back-btn-top" id="closeAboutBtn" title="Voltar"><svg viewBox="0 0 24 24"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"></path></svg></button>
             <div class="about-grid-wrapper">
-                <!-- Coluna App -->
                 <div class="about-col-app">
                     <img src="Sint2.jpg" alt="Logo Sintonize Gospel" class="w-28 h-28 md:w-36 md:h-36 rounded-2xl md:rounded-3xl shadow-lg border-2 border-[var(--border-color)] mb-4 md:mb-6 object-cover" onerror="this.src='https://via.placeholder.com/400?text=Sint2'">
-                    
                     <p class="text-[15px] md:text-[16px] font-semibold md:font-bold text-[var(--text-main)] flex items-center justify-center gap-1.5 md:gap-2 mb-1.5 md:mb-2 text-center">
-                        Top 10 Gospel Radio Brasil 
-                        <img src="https://cdnjs.cloudflare.com/ajax/libs/twemoji/14.0.2/svg/1f1e7-1f1f7.svg" alt="Bandeira do Brasil" class="w-4 h-4 md:w-5 md:h-5">
+                        Top 10 Gospel Radio Brasil <img src="https://cdnjs.cloudflare.com/ajax/libs/twemoji/14.0.2/svg/1f1e7-1f1f7.svg" alt="Bandeira" class="w-4 h-4 md:w-5 md:h-5">
                     </p>
-                    
                     <div class="flex items-center justify-center gap-2 mb-4 md:mb-0">
-                        <span class="text-xs md:text-sm font-bold text-[var(--accent)]">Versão 1.0</span>
-                        <span class="text-[11px] md:text-xs text-[var(--text-muted)]">•</span>
-                        <span class="text-[11px] md:text-xs font-semibold md:font-bold text-[var(--text-muted)] uppercase tracking-widest">Freeware</span>
+                        <span class="text-xs md:text-sm font-bold text-[var(--accent)]">Versão 1.0</span><span class="text-[11px] md:text-xs text-[var(--text-muted)]">•</span><span class="text-[11px] md:text-xs font-semibold md:font-bold text-[var(--text-muted)] uppercase tracking-widest">Freeware</span>
                     </div>
                 </div>
-
-                <!-- Divisória (Visível apenas na TV) -->
                 <div class="about-divider"></div>
-
-                <!-- Coluna Desenvolvedor -->
                 <div class="about-col-dev">
-                    <p class="text-[11px] md:text-xs font-bold text-[var(--text-muted)] uppercase tracking-wider mb-3 md:mb-4 text-center">
-                        Desenvolvido por:
-                    </p>
-                    
-                    <img src="gerlem.png" alt="Logomarca Gerlem" class="w-40 h-20 md:w-44 md:h-22 rounded-xl shadow border border-[var(--border-color)] mb-4 md:mb-5 object-contain p-1 md:p-2 bg-[var(--surface)]" onerror="this.src='https://via.placeholder.com/192x96?text=G'">
-                    
-                    <p class="font-bold text-[var(--text-main)] text-[15px] md:text-[16px] mb-1 md:mb-2 text-center">
-                        Gerlem Pimentel
-                    </p>
-                    
-                    <a href="mailto:suporte@gerlem.dev.br" tabindex="2" class="flex items-center gap-2 text-sm text-[var(--accent)] hover:text-[#34d399] transition-colors mb-3 md:mb-4 focus:outline-none focus:ring-2 focus:ring-[var(--accent)] rounded-md px-2 py-1">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"></path></svg>
-                        suporte@gerlem.dev.br
-                    </a>
-
-                    <p class="text-xs md:text-[11px] text-[var(--text-muted)] text-center font-medium md:leading-relaxed">
-                        Jaraguá do Sul <span class="hidden md:inline"><br></span><span class="md:hidden">-</span> Santa Catarina - Brasil
-                    </p>
+                    <p class="text-[11px] md:text-xs font-bold text-[var(--text-muted)] uppercase tracking-wider mb-3 md:mb-4 text-center">Desenvolvido por:</p>
+                    <img src="gerlem.png" alt="Logomarca" class="w-40 h-20 md:w-44 md:h-22 rounded-xl shadow border border-[var(--border-color)] mb-4 md:mb-5 object-contain p-1 md:p-2 bg-[var(--surface)]" onerror="this.src='https://via.placeholder.com/192x96?text=G'">
+                    <p class="font-bold text-[var(--text-main)] text-[15px] md:text-[16px] mb-1 md:mb-2 text-center">Gerlem Pimentel</p>
+                    <a href="mailto:suporte@gerlem.dev.br" tabindex="2" class="flex items-center gap-2 text-sm text-[var(--accent)] hover:text-[#34d399] transition-colors mb-3 md:mb-4 focus:outline-none focus:ring-2 focus:ring-[var(--accent)] rounded-md px-2 py-1"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"></path></svg> suporte@gerlem.dev.br</a>
+                    <p class="text-xs md:text-[11px] text-[var(--text-muted)] text-center font-medium md:leading-relaxed">Jaraguá do Sul <span class="hidden md:inline"><br></span><span class="md:hidden">-</span> Santa Catarina - Brasil</p>
                 </div>
             </div>
-
         </div>
     </div>
 
-    <!-- MODAL LISTA DE RÁDIOS -->
+    <!-- MODAIS RESTANTES -->
     <div class="modal-overlay" id="stationModal">
         <div class="modal-content">
-            <div class="modal-header">
-                <button class="back-btn-top" id="backStationBtn" title="Voltar"><svg viewBox="0 0 24 24"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"></path></svg></button>
-                Selecione uma Rádio
-            </div>
+            <div class="modal-header"><button class="back-btn-top" id="backStationBtn" title="Voltar"><svg viewBox="0 0 24 24"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"></path></svg></button> Selecione uma Rádio</div>
             <div class="stations-list" id="stationsList"></div>
             <button class="btn-modern btn-secondary" id="closeStationModal">FECHAR</button>
         </div>
     </div>
 
-    <!-- MODAL SENHA ADMIN -->
     <div class="modal-overlay" id="passwordModal">
         <div class="modal-content">
-            <div class="modal-header">Área Restrita</div>
-            <p style="text-align:center; font-size: 14px; color: var(--text-muted); margin-bottom: 16px;">Digite a senha de administrador</p>
+            <div class="modal-header">Área Restrita</div><p style="text-align:center; font-size: 14px; color: var(--text-muted); margin-bottom: 16px;">Digite a senha de administrador</p>
             <input type="tel" inputmode="numeric" id="adminPassword" class="input-modern" style="-webkit-text-security:disc;" placeholder="••••••" maxlength="20">
             <div id="passwordError" style="color: #ef4444; font-size: 12px; text-align: center; display: none; margin-bottom: 16px;">Senha incorreta!</div>
             <button class="btn-modern btn-primary" id="enterAdminBtn">ENTRAR</button>
@@ -481,41 +359,22 @@
         </div>
     </div>
 
-    <!-- MODAL ADMIN -->
     <div class="modal-overlay" id="adminModal">
         <div class="modal-content">
-            <div class="modal-header">
-                <button class="back-btn-top" id="backAdminBtn" title="Voltar"><svg viewBox="0 0 24 24"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"></path></svg></button>
-                Configurações
-            </div>
-            
-            <div class="tabs-container">
-                <button class="tab-btn active" id="btnTabRanking">Ranking</button>
-                <button class="tab-btn" id="btnTabConfig">Preferências</button>
-            </div>
-            
-            <div id="tabRankingContent" class="tab-content active">
-                <div id="adminStationsList"></div>
-            </div>
-            
+            <div class="modal-header"><button class="back-btn-top" id="backAdminBtn" title="Voltar"><svg viewBox="0 0 24 24"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"></path></svg></button> Configurações</div>
+            <div class="tabs-container"><button class="tab-btn active" id="btnTabRanking">Ranking</button><button class="tab-btn" id="btnTabConfig">Preferências</button></div>
+            <div id="tabRankingContent" class="tab-content active"><div id="adminStationsList"></div></div>
             <div id="tabConfigContent" class="tab-content">
                 <div class="admin-tape-item" style="padding: 16px;">
                     <div style="font-weight: 700; color: var(--accent); margin-bottom: 12px; font-size: 14px;">Botão Superior (Logo Principal)</div>
-                    <label class="config-label">ARQUIVO DA IMAGEM</label>
-                    <input type="text" id="cfgInputLeftImage" class="input-modern" placeholder="Ex: logo2.png">
-                    <label class="config-label">TEXTO AO PASSAR O MOUSE</label>
-                    <input type="text" id="cfgInputLeftHover" class="input-modern" placeholder="Ex: Meu Site">
-                    <label class="config-label">LINK (URL)</label>
-                    <input type="text" id="cfgInputLeftUrl" class="input-modern" placeholder="https://...">
-
+                    <label class="config-label">ARQUIVO DA IMAGEM</label><input type="text" id="cfgInputLeftImage" class="input-modern" placeholder="Ex: logo2.png">
+                    <label class="config-label">TEXTO AO PASSAR O MOUSE</label><input type="text" id="cfgInputLeftHover" class="input-modern" placeholder="Ex: Meu Site">
+                    <label class="config-label">LINK (URL)</label><input type="text" id="cfgInputLeftUrl" class="input-modern" placeholder="https://...">
                     <div style="font-weight: 700; color: var(--accent); margin-top: 24px; margin-bottom: 12px; font-size: 14px;">Botão Inferior (WhatsApp)</div>
-                    <label class="config-label">TEXTO AO PASSAR O MOUSE</label>
-                    <input type="text" id="cfgInputWaHover" class="input-modern" placeholder="Ex: Partilhar">
-                    <label class="config-label">TEXTO/LINK DE COMPARTILHAMENTO (USE [Radio] PARA O NOME)</label>
-                    <input type="text" id="cfgInputWaUrl" class="input-modern" placeholder="Mensagem a ser enviada">
+                    <label class="config-label">TEXTO AO PASSAR O MOUSE</label><input type="text" id="cfgInputWaHover" class="input-modern" placeholder="Ex: Partilhar">
+                    <label class="config-label">TEXTO/LINK (USE [Radio] PARA NOME)</label><input type="text" id="cfgInputWaUrl" class="input-modern" placeholder="Mensagem a ser enviada">
                 </div>
             </div>
-
             <div style="margin-top: 16px; width: 100%;">
                 <button class="btn-modern btn-primary" id="saveAdminBtn" style="margin-bottom: 8px;"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M17 3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V7l-4-4zm-5 16c-1.66 0-3-1.34-3-3s1.34-3 3-3 3 1.34 3 3-1.34 3-3 3zm3-10H5V5h10v4z"></path></svg> SALVAR NA MEMÓRIA</button>
                 <button class="btn-modern btn-export" id="exportBtn" style="margin-bottom: 8px;"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"></path></svg> EXPORTAR HTML</button>
@@ -524,21 +383,13 @@
         </div>
     </div>
 
-    <!-- Elemento Audio Oculto -->
     <audio id="audioElement" crossorigin="anonymous" preload="none"></audio>
 
-    <!-- ======== JAVASCRIPT PRINCIPAL ======== -->
     <script>
         (function() {
             let fileVersion = Date.now(); 
             let localVersion = parseInt(localStorage.getItem('gospelVersion') || '0');
-            
-            if (fileVersion > localVersion) {
-                localStorage.removeItem('gospelTapes');
-                localStorage.removeItem('gospelConfig');
-                localStorage.setItem('gospelVersion', fileVersion);
-            }
-
+            if (fileVersion > localVersion) { localStorage.removeItem('gospelTapes'); localStorage.removeItem('gospelConfig'); localStorage.setItem('gospelVersion', fileVersion); }
             if (localStorage.getItem('gospelTheme') === 'light') { document.body.classList.add('light-theme'); }
 
             const audio = document.getElementById('audioElement');
@@ -571,8 +422,8 @@
             const themeBtn = document.getElementById('themeBtn'); 
             const shareBtn = document.getElementById('shareBtn'); 
             const favoriteBtn = document.getElementById('favoriteBtn'); 
+            const exitBtnTV = document.getElementById('exitBtnTV'); 
 
-            // Modal Sobre
             const aboutTriggers = document.querySelectorAll('.about-trigger');
             const aboutModal = document.getElementById('aboutModal');
             const closeAboutBtn = document.getElementById('closeAboutBtn');
@@ -592,12 +443,10 @@
             const adminModal = document.getElementById('adminModal');
             const adminStationsList = document.getElementById('adminStationsList');
             const backAdminBtn = document.getElementById('backAdminBtn'); 
-            
             const btnTabRanking = document.getElementById('btnTabRanking');
             const btnTabConfig = document.getElementById('btnTabConfig');
             const tabRankingContent = document.getElementById('tabRankingContent');
             const tabConfigContent = document.getElementById('tabConfigContent');
-            
             const saveAdminBtn = document.getElementById('saveAdminBtn');
             const exportBtn = document.getElementById('exportBtn'); 
             const cancelAdminBtn = document.getElementById('cancelAdminBtn');
@@ -629,34 +478,18 @@
             
             let tapes = JSON.parse(localStorage.getItem('gospelTapes')) || defaultTapes;
             let appConfig = JSON.parse(localStorage.getItem('gospelConfig')) || defaultAppConfig;
-            
             let selectedTapeIndex = 0;
             let savedFav = localStorage.getItem('gospelFavoriteIndex');
-            if (savedFav !== null) {
-                let parsedFav = parseInt(savedFav);
-                if (parsedFav >= 0 && parsedFav < tapes.length) {
-                    selectedTapeIndex = parsedFav;
-                }
-            }
+            if (savedFav !== null) { let parsedFav = parseInt(savedFav); if (parsedFav >= 0 && parsedFav < tapes.length) selectedTapeIndex = parsedFav; }
 
             let currentStreamUrl = tapes[selectedTapeIndex].url;
-            let isPlaying = false;
-            let isPaused = false;
-            let animationFrame = null;
-            let hlsPlayer = null; 
-            let sortableInstance = null;
+            let isPlaying = false; let isPaused = false; let animationFrame = null; let hlsPlayer = null; let sortableInstance = null;
             
-            // ===== SISTEMA DO VU METER DE ALTA RESOLUÇÃO (29 LEDs) =====
-            const TOTAL_VU_SEGMENTS = 29;
-            const vuSegments = [];
-
+            const TOTAL_VU_SEGMENTS = 29; const vuSegments = [];
             function createVUMeter() {
                 vuMeter.innerHTML = '';
                 for (let i = 0; i < TOTAL_VU_SEGMENTS; i++) {
-                    let segment = document.createElement('div');
-                    segment.className = 'vu-segment';
-                    
-                    // Definição Simétrica das Cores com 14 LEDs de cada lado + 1 Central
+                    let segment = document.createElement('div'); segment.className = 'vu-segment';
                     if (i === 14) segment.classList.add('center-seg'); 
                     else if (i >= 0 && i <= 3) segment.classList.add('red-seg'); 
                     else if (i >= 4 && i <= 7) segment.classList.add('orange-seg'); 
@@ -664,90 +497,62 @@
                     else if (i >= 15 && i <= 20) segment.classList.add('green-seg'); 
                     else if (i >= 21 && i <= 24) segment.classList.add('orange-seg'); 
                     else if (i >= 25 && i <= 28) segment.classList.add('red-seg'); 
-                    
-                    vuMeter.appendChild(segment);
-                    vuSegments.push(segment);
+                    vuMeter.appendChild(segment); vuSegments.push(segment);
                 }
             }
             createVUMeter();
 
             function applyAppConfigUI() {
-                document.getElementById('cfgBtnLeft').href = appConfig.btnLeftUrl;
-                document.getElementById('cfgBtnLeft').title = appConfig.btnLeftHover;
-                document.getElementById('cfgImgLeft').src = appConfig.btnLeftImage || "Sint.jpg";
-                document.getElementById('shareBtn').title = appConfig.waHover;
+                document.getElementById('cfgBtnLeft').href = appConfig.btnLeftUrl; document.getElementById('cfgBtnLeft').title = appConfig.btnLeftHover;
+                document.getElementById('cfgImgLeft').src = appConfig.btnLeftImage || "Sint.jpg"; document.getElementById('shareBtn').title = appConfig.waHover;
             }
             applyAppConfigUI();
             
             function updateFavoriteUI(index) {
                 let currentFav = localStorage.getItem('gospelFavoriteIndex');
-                if (currentFav !== null && parseInt(currentFav) === index) {
-                    favoriteBtn.classList.add('active');
-                } else {
-                    favoriteBtn.classList.remove('active');
-                }
+                if (currentFav !== null && parseInt(currentFav) === index) favoriteBtn.classList.add('active'); else favoriteBtn.classList.remove('active');
             }
 
             favoriteBtn.addEventListener('click', () => {
                 let currentFav = localStorage.getItem('gospelFavoriteIndex');
-                if (currentFav !== null && parseInt(currentFav) === selectedTapeIndex) {
-                    localStorage.removeItem('gospelFavoriteIndex');
-                } else {
-                    localStorage.setItem('gospelFavoriteIndex', selectedTapeIndex);
-                }
+                if (currentFav !== null && parseInt(currentFav) === selectedTapeIndex) localStorage.removeItem('gospelFavoriteIndex'); else localStorage.setItem('gospelFavoriteIndex', selectedTapeIndex);
                 updateFavoriteUI(selectedTapeIndex);
             });
 
             fullscreenBtn.addEventListener('click', () => {
-                if (!document.fullscreenElement) { document.documentElement.requestFullscreen().catch(() => alert("Tela cheia não suportada.")); } 
-                else { document.exitFullscreen(); }
+                if (!document.fullscreenElement) { document.documentElement.requestFullscreen().catch(() => alert("Tela cheia não suportada.")); } else { document.exitFullscreen(); }
             });
-
-            themeBtn.addEventListener('click', () => {
-                document.body.classList.toggle('light-theme');
-                localStorage.setItem('gospelTheme', document.body.classList.contains('light-theme') ? 'light' : 'dark');
-            });
-
+            themeBtn.addEventListener('click', () => { document.body.classList.toggle('light-theme'); localStorage.setItem('gospelTheme', document.body.classList.contains('light-theme') ? 'light' : 'dark'); });
+            
             shareBtn.addEventListener('click', () => {
                 const radioName = tapes[selectedTapeIndex].name;
                 let userMsg = appConfig.waUrl.replace('[Radio]', radioName);
                 window.open(`https://wa.me/?text=${encodeURIComponent(userMsg)}`, '_blank');
             });
+            
+            if (exitBtnTV) {
+                exitBtnTV.addEventListener('click', () => {
+                    if(confirm("Deseja sair do aplicativo?")) window.close(); 
+                });
+            }
 
-            // Lógica do Modal "Sobre"
-            aboutTriggers.forEach(btn => {
-                btn.addEventListener('click', () => { aboutModal.style.display = 'flex'; });
-            });
+            aboutTriggers.forEach(btn => { btn.addEventListener('click', () => { aboutModal.style.display = 'flex'; }); });
             closeAboutBtn.addEventListener('click', () => { aboutModal.style.display = 'none'; });
 
             function changeStation(index) {
                 document.querySelectorAll('.station-item').forEach(el => el.classList.remove('selected'));
-                const items = document.querySelectorAll('.station-item');
-                if(items[index]) items[index].classList.add('selected');
-                
-                selectedTapeIndex = index;
-                currentStreamUrl = tapes[selectedTapeIndex].url;
-                stationName.textContent = tapes[selectedTapeIndex].name;
-                runningBanner.textContent = tapes[selectedTapeIndex].banner; 
-                
-                topBadgeImg.src = `Top${index + 1}.png`;
-                albumArtImage.src = tapes[selectedTapeIndex].image ? tapes[selectedTapeIndex].image : "Sint.jpg";
-                
-                let stateFile = tapes[selectedTapeIndex].state || 'CE.png';
-                if (!stateFile.startsWith('estados/')) { stateFile = 'estados/' + stateFile; }
-                stateBadgeImg.src = stateFile;
-
+                const items = document.querySelectorAll('.station-item'); if(items[index]) items[index].classList.add('selected');
+                selectedTapeIndex = index; currentStreamUrl = tapes[selectedTapeIndex].url; stationName.textContent = tapes[selectedTapeIndex].name; runningBanner.textContent = tapes[selectedTapeIndex].banner; 
+                topBadgeImg.src = `Top${index + 1}.png`; albumArtImage.src = tapes[selectedTapeIndex].image ? tapes[selectedTapeIndex].image : "Sint.jpg";
+                let stateFile = tapes[selectedTapeIndex].state || 'CE.png'; if (!stateFile.startsWith('estados/')) { stateFile = 'estados/' + stateFile; } stateBadgeImg.src = stateFile;
                 updateFavoriteUI(index);
-
-                if (isPlaying && !isPaused) { playStream(currentStreamUrl); } 
-                else { if(hlsPlayer) { hlsPlayer.destroy(); hlsPlayer = null; } audio.src = currentStreamUrl; }
+                if (isPlaying && !isPaused) { playStream(currentStreamUrl); } else { if(hlsPlayer) { hlsPlayer.destroy(); hlsPlayer = null; } audio.src = currentStreamUrl; }
             }
 
             function createStationsList() {
                 stationsList.innerHTML = '';
                 tapes.forEach((tape, index) => {
-                    const item = document.createElement('div');
-                    item.className = `station-item ${index === selectedTapeIndex ? 'selected' : ''}`;
+                    const item = document.createElement('div'); item.className = `station-item ${index === selectedTapeIndex ? 'selected' : ''}`;
                     item.innerHTML = `<div class="circle-number">${index + 1}</div><div class="station-item-name">${tape.name}</div>`;
                     item.addEventListener('click', () => { stationModal.style.display = 'none'; changeStation(index); });
                     stationsList.appendChild(item);
@@ -757,313 +562,101 @@
             function createAdminTapes() {
                 adminStationsList.innerHTML = '';
                 tapes.forEach((tape, index) => {
-                    const item = document.createElement('div');
-                    item.className = 'admin-tape-item';
-                    
-                    const header = document.createElement('div');
-                    header.className = 'tape-header';
-                    header.innerHTML = `
-                        <div class="tape-header-left">
-                            <span class="tape-rank">${index + 1}</span>
-                            <span class="tape-title">${tape.name || "Slot Vazio"}</span>
-                        </div>
-                        <div class="tape-header-right">
-                            <div class="drag-handle" title="Arraste para reordenar">
-                                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M3 15h18v-2H3v2zm0 4h18v-2H3v2zm0-8h18V9H3v2zm0-6v2h18V5H3z"/></svg>
-                            </div>
-                            <svg class="chevron-icon" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"/></svg>
-                        </div>
-                    `;
-
-                    const body = document.createElement('div');
-                    body.className = 'tape-body';
-                    body.innerHTML = `
-                        <label>NOME DA RÁDIO</label>
-                        <input type="text" class="input-modern tape-name-input" placeholder="Ex: Sintonize Gospel" value="${tape.name}">
-                        <label>LINK DO STREAM (URL)</label>
-                        <input type="text" class="input-modern tape-url-input" placeholder="http://..." value="${tape.url}">
-                        <label>ARQUIVO DE IMAGEM DA RÁDIO</label>
-                        <input type="text" class="input-modern tape-image-input" placeholder="Ex: logo-radio.png" value="${tape.image || ''}">
-                        <label>ARQUIVO DO ESTADO (EX: CE.png)</label>
-                        <input type="text" class="input-modern tape-state-input" placeholder="Ex: CE.png" value="${tape.state || ''}">
-                        <label>TEXTO DO BANNER</label>
-                        <input type="text" class="input-modern tape-banner-input" placeholder="Mensagem rolando" style="margin-bottom:0;" value="${tape.banner}">
-                    `;
-
+                    const item = document.createElement('div'); item.className = 'admin-tape-item';
+                    const header = document.createElement('div'); header.className = 'tape-header';
+                    header.innerHTML = `<div class="tape-header-left"><span class="tape-rank">${index + 1}</span><span class="tape-title">${tape.name || "Slot Vazio"}</span></div><div class="tape-header-right"><div class="drag-handle" title="Arraste para reordenar"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M3 15h18v-2H3v2zm0 4h18v-2H3v2zm0-8h18V9H3v2zm0-6v2h18V5H3z"/></svg></div><svg class="chevron-icon" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"/></svg></div>`;
+                    const body = document.createElement('div'); body.className = 'tape-body';
+                    body.innerHTML = `<label>NOME DA RÁDIO</label><input type="text" class="input-modern tape-name-input" placeholder="Ex: Sintonize Gospel" value="${tape.name}"><label>LINK DO STREAM (URL)</label><input type="text" class="input-modern tape-url-input" placeholder="http://..." value="${tape.url}"><label>ARQUIVO DE IMAGEM DA RÁDIO</label><input type="text" class="input-modern tape-image-input" placeholder="Ex: logo-radio.png" value="${tape.image || ''}"><label>ARQUIVO DO ESTADO (EX: CE.png)</label><input type="text" class="input-modern tape-state-input" placeholder="Ex: CE.png" value="${tape.state || ''}"><label>TEXTO DO BANNER</label><input type="text" class="input-modern tape-banner-input" placeholder="Mensagem rolando" style="margin-bottom:0;" value="${tape.banner}">`;
                     header.addEventListener('click', (e) => {
-                        if(e.target.closest('.drag-handle')) return; 
-                        const isExpanded = body.classList.contains('expanded');
-                        document.querySelectorAll('.tape-body').forEach(b => b.classList.remove('expanded'));
-                        document.querySelectorAll('.chevron-icon').forEach(c => c.style.transform = 'rotate(0deg)');
-                        if(!isExpanded) {
-                            body.classList.add('expanded');
-                            header.querySelector('.chevron-icon').style.transform = 'rotate(180deg)';
-                        }
+                        if(e.target.closest('.drag-handle')) return; const isExpanded = body.classList.contains('expanded');
+                        document.querySelectorAll('.tape-body').forEach(b => b.classList.remove('expanded')); document.querySelectorAll('.chevron-icon').forEach(c => c.style.transform = 'rotate(0deg)');
+                        if(!isExpanded) { body.classList.add('expanded'); header.querySelector('.chevron-icon').style.transform = 'rotate(180deg)'; }
                     });
-
-                    const nameInput = body.querySelector('.tape-name-input');
-                    const titleDisplay = header.querySelector('.tape-title');
-                    nameInput.addEventListener('input', (e) => { titleDisplay.textContent = e.target.value || `Rádio ${index + 1}`; });
-
-                    item.appendChild(header);
-                    item.appendChild(body);
-                    adminStationsList.appendChild(item);
+                    const nameInput = body.querySelector('.tape-name-input'); const titleDisplay = header.querySelector('.tape-title'); nameInput.addEventListener('input', (e) => { titleDisplay.textContent = e.target.value || `Rádio ${index + 1}`; });
+                    item.appendChild(header); item.appendChild(body); adminStationsList.appendChild(item);
                 });
-
                 if (sortableInstance) sortableInstance.destroy();
-                sortableInstance = new Sortable(adminStationsList, {
-                    handle: '.drag-handle', 
-                    animation: 150, 
-                    ghostClass: 'sortable-ghost',
-                    onEnd: function () {
-                        const allRanks = adminStationsList.querySelectorAll('.tape-rank');
-                        allRanks.forEach((rank, idx) => { rank.textContent = idx + 1; });
-                    }
-                });
-                
-                document.getElementById('cfgInputLeftImage').value = appConfig.btnLeftImage;
-                document.getElementById('cfgInputLeftHover').value = appConfig.btnLeftHover;
-                document.getElementById('cfgInputLeftUrl').value = appConfig.btnLeftUrl;
-                document.getElementById('cfgInputWaHover').value = appConfig.waHover;
-                document.getElementById('cfgInputWaUrl').value = appConfig.waUrl;
+                sortableInstance = new Sortable(adminStationsList, { handle: '.drag-handle', animation: 150, ghostClass: 'sortable-ghost', onEnd: function () { const allRanks = adminStationsList.querySelectorAll('.tape-rank'); allRanks.forEach((rank, idx) => { rank.textContent = idx + 1; }); } });
+                document.getElementById('cfgInputLeftImage').value = appConfig.btnLeftImage; document.getElementById('cfgInputLeftHover').value = appConfig.btnLeftHover; document.getElementById('cfgInputLeftUrl').value = appConfig.btnLeftUrl; document.getElementById('cfgInputWaHover').value = appConfig.waHover; document.getElementById('cfgInputWaUrl').value = appConfig.waUrl;
             }
             
-            btnTabRanking.addEventListener('click', () => {
-                btnTabConfig.classList.remove('active');
-                tabConfigContent.classList.remove('active');
-                btnTabRanking.classList.add('active');
-                tabRankingContent.classList.add('active');
-            });
-            btnTabConfig.addEventListener('click', () => {
-                btnTabRanking.classList.remove('active');
-                tabRankingContent.classList.remove('active');
-                btnTabConfig.classList.add('active');
-                tabConfigContent.classList.add('active');
-            });
+            btnTabRanking.addEventListener('click', () => { btnTabConfig.classList.remove('active'); tabConfigContent.classList.remove('active'); btnTabRanking.classList.add('active'); tabRankingContent.classList.add('active'); });
+            btnTabConfig.addEventListener('click', () => { btnTabRanking.classList.remove('active'); tabRankingContent.classList.remove('active'); btnTabConfig.classList.add('active'); tabConfigContent.classList.add('active'); });
             
-            volumeBtn.addEventListener('click', (e) => { e.stopPropagation(); volumePopup.classList.toggle('show'); });
-            document.addEventListener('click', (e) => { if (!volumePopup.contains(e.target) && !volumeBtn.contains(e.target)) volumePopup.classList.remove('show'); });
+            volumeBtn.addEventListener('click', (e) => { e.stopPropagation(); volumePopup.classList.toggle('show'); }); document.addEventListener('click', (e) => { if (!volumePopup.contains(e.target) && !volumeBtn.contains(e.target)) volumePopup.classList.remove('show'); });
 
             function setVolume(percent) {
-                let vol = Math.max(0, Math.min(1, percent / 100));
-                audio.volume = vol;
-                volumeFill.style.height = (vol * 100) + '%';
-                volumeKnob.style.bottom = (vol * 100) + '%';
-                volumeValueDisplay.textContent = Math.round(vol * 10); 
+                let vol = Math.max(0, Math.min(1, percent / 100)); audio.volume = vol; volumeFill.style.height = (vol * 100) + '%'; volumeKnob.style.bottom = (vol * 100) + '%'; volumeValueDisplay.textContent = Math.round(vol * 10); 
             }
-            
-            function handleVolumeDrag(e) {
-                e.preventDefault();
-                const clientY = e.touches ? e.touches[0].clientY : e.clientY;
-                const rect = volumeSlider.getBoundingClientRect();
-                let percent = (1 - ((clientY - rect.top) / rect.height)) * 100;
-                setVolume(percent);
-            }
-
-            volumeSlider.addEventListener('mousedown', (e) => {
-                handleVolumeDrag(e);
-                const onMouseMove = (ev) => handleVolumeDrag(ev);
-                const onMouseUp = () => { document.removeEventListener('mousemove', onMouseMove); document.removeEventListener('mouseup', onMouseUp); };
-                document.addEventListener('mousemove', onMouseMove); document.addEventListener('mouseup', onMouseUp);
-            });
-            
-            volumeSlider.addEventListener('touchstart', (e) => {
-                handleVolumeDrag(e);
-                const onTouchMove = (ev) => handleVolumeDrag(ev);
-                const onTouchEnd = () => { document.removeEventListener('touchmove', onTouchMove); document.removeEventListener('touchend', onTouchEnd); };
-                document.addEventListener('touchmove', onTouchMove, {passive: false}); document.addEventListener('touchend', onTouchEnd);
-            }, {passive: false});
+            function handleVolumeDrag(e) { e.preventDefault(); const clientY = e.touches ? e.touches[0].clientY : e.clientY; const rect = volumeSlider.getBoundingClientRect(); let percent = (1 - ((clientY - rect.top) / rect.height)) * 100; setVolume(percent); }
+            volumeSlider.addEventListener('mousedown', (e) => { handleVolumeDrag(e); const onMouseMove = (ev) => handleVolumeDrag(ev); const onMouseUp = () => { document.removeEventListener('mousemove', onMouseMove); document.removeEventListener('mouseup', onMouseUp); }; document.addEventListener('mousemove', onMouseMove); document.addEventListener('mouseup', onMouseUp); });
+            volumeSlider.addEventListener('touchstart', (e) => { handleVolumeDrag(e); const onTouchMove = (ev) => handleVolumeDrag(ev); const onTouchEnd = () => { document.removeEventListener('touchmove', onTouchMove); document.removeEventListener('touchend', onTouchEnd); }; document.addEventListener('touchmove', onTouchMove, {passive: false}); document.addEventListener('touchend', onTouchEnd); }, {passive: false});
             
             function updateStatusUI(state) {
-                if (state === 'playing') {
-                    statusBadge.classList.add('active'); statusText.textContent = 'LIVE';
-                    mainIcon.classList.add('playing'); playIconSVG.innerHTML = iconPause;
-                } else {
-                    statusBadge.classList.remove('active'); statusText.textContent = 'OFF';
-                    mainIcon.classList.remove('playing'); playIconSVG.innerHTML = iconPlay;
-                    vuSegments.forEach(seg => seg.classList.remove('lit', 'half-lit'));
-                }
+                if (state === 'playing') { statusBadge.classList.add('active'); statusText.textContent = 'LIVE'; mainIcon.classList.add('playing'); playIconSVG.innerHTML = iconPause; } else { statusBadge.classList.remove('active'); statusText.textContent = 'OFF'; mainIcon.classList.remove('playing'); playIconSVG.innerHTML = iconPlay; vuSegments.forEach(seg => seg.classList.remove('lit', 'half-lit')); }
             }
             
             async function playStream(url) {
                 if (!url) { alert("Este slot está vazio. Adicione um link válido."); return; }
                 try {
-                    loadingIndicator.style.display = 'block';
-                    if(hlsPlayer) { hlsPlayer.destroy(); hlsPlayer = null; }
-
-                    if (url.includes('.m3u8') && Hls.isSupported()) {
-                        hlsPlayer = new Hls(); hlsPlayer.loadSource(url); hlsPlayer.attachMedia(audio);
-                        await new Promise((resolve) => { hlsPlayer.on(Hls.Events.MANIFEST_PARSED, resolve); });
-                        await audio.play();
-                    } else { audio.src = url; audio.load(); await audio.play(); }
-                    
-                    if (!window.audioCtx) {
-                        window.audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-                        window.source = window.audioCtx.createMediaElementSource(audio);
-                        window.analyser = window.audioCtx.createAnalyser();
-                        window.analyser.fftSize = 64; window.source.connect(window.analyser); window.analyser.connect(window.audioCtx.destination);
-                        window.dataArray = new Uint8Array(window.analyser.frequencyBinCount);
-                    } else if (window.audioCtx.state === 'suspended') { await window.audioCtx.resume(); }
-                    
+                    loadingIndicator.style.display = 'block'; if(hlsPlayer) { hlsPlayer.destroy(); hlsPlayer = null; }
+                    if (url.includes('.m3u8') && Hls.isSupported()) { hlsPlayer = new Hls(); hlsPlayer.loadSource(url); hlsPlayer.attachMedia(audio); await new Promise((resolve) => { hlsPlayer.on(Hls.Events.MANIFEST_PARSED, resolve); }); await audio.play(); } else { audio.src = url; audio.load(); await audio.play(); }
+                    if (!window.audioCtx) { window.audioCtx = new (window.AudioContext || window.webkitAudioContext)(); window.source = window.audioCtx.createMediaElementSource(audio); window.analyser = window.audioCtx.createAnalyser(); window.analyser.fftSize = 64; window.source.connect(window.analyser); window.analyser.connect(window.audioCtx.destination); window.dataArray = new Uint8Array(window.analyser.frequencyBinCount); } else if (window.audioCtx.state === 'suspended') { await window.audioCtx.resume(); }
                     isPlaying = true; isPaused = false; loadingIndicator.style.display = 'none'; updateStatusUI('playing');
-                    
-                    // Renderização Matemática do VU de 29 LEDs com Meio Brilho Suave
                     function renderRealEQ() {
                         if (!isPlaying || isPaused) { animationFrame = requestAnimationFrame(renderRealEQ); return; }
                         try {
-                            window.analyser.getByteFrequencyData(window.dataArray);
-                            let sum = 0; for (let i = 0; i < window.dataArray.length; i++) sum += window.dataArray[i];
-                            let avg = sum / window.dataArray.length;
-                            
-                            // Calcula quantos dos 14 LEDs laterais devem acender com base no volume médio
-                            let litLevel = (avg / 240) * 14; 
-                            if (litLevel > 14) litLevel = 14; 
-                            
-                            let fullLeds = Math.floor(litLevel);
-                            
+                            window.analyser.getByteFrequencyData(window.dataArray); let sum = 0; for (let i = 0; i < window.dataArray.length; i++) sum += window.dataArray[i]; let avg = sum / window.dataArray.length;
+                            let litLevel = (avg / 240) * 14; if (litLevel > 14) litLevel = 14; let fullLeds = Math.floor(litLevel);
                             vuSegments.forEach(seg => seg.classList.remove('lit', 'half-lit'));
-                            
                             if (avg > 2) { 
-                                vuSegments[14].classList.add('lit'); // LED Branco Central fixo quando há som
-                                for (let j = 1; j <= 14; j++) {
-                                    if (j <= fullLeds) {
-                                        vuSegments[14 - j].classList.add('lit'); 
-                                        vuSegments[14 + j].classList.add('lit'); 
-                                    } else if (j === fullLeds + 1) {
-                                        vuSegments[14 - j].classList.add('half-lit'); 
-                                        vuSegments[14 + j].classList.add('half-lit'); 
-                                    }
-                                }
+                                vuSegments[14].classList.add('lit'); 
+                                for (let j = 1; j <= 14; j++) { if (j <= fullLeds) { vuSegments[14 - j].classList.add('lit'); vuSegments[14 + j].classList.add('lit'); } else if (j === fullLeds + 1) { vuSegments[14 - j].classList.add('half-lit'); vuSegments[14 + j].classList.add('half-lit'); } }
                             }
                         } catch (error) {}
                         animationFrame = requestAnimationFrame(renderRealEQ);
                     }
-                    if (animationFrame) cancelAnimationFrame(animationFrame);
-                    animationFrame = requestAnimationFrame(renderRealEQ);
-                } catch (error) { 
-                    if (error.name === 'AbortError' || error.message.includes('interrupted')) { return; }
-                    loadingIndicator.style.display = 'none'; 
-                    updateStatusUI('off'); 
-                    alert("Erro ao conectar à rádio. O link pode estar offline ou inválido."); 
-                }
+                    if (animationFrame) cancelAnimationFrame(animationFrame); animationFrame = requestAnimationFrame(renderRealEQ);
+                } catch (error) { if (error.name === 'AbortError' || error.message.includes('interrupted')) { return; } loadingIndicator.style.display = 'none'; updateStatusUI('off'); alert("Erro ao conectar à rádio. O link pode estar offline ou inválido."); }
             }
             
-            mainPlayBtn.addEventListener('click', () => {
-                if (!isPlaying) playStream(currentStreamUrl);
-                else if (isPlaying && !isPaused) { audio.pause(); isPaused = true; updateStatusUI('off'); }
-                else if (isPaused) { audio.play().then(() => { isPaused = false; updateStatusUI('playing'); }).catch(() => playStream(currentStreamUrl)); }
-            });
-
+            mainPlayBtn.addEventListener('click', () => { if (!isPlaying) playStream(currentStreamUrl); else if (isPlaying && !isPaused) { audio.pause(); isPaused = true; updateStatusUI('off'); } else if (isPaused) { audio.play().then(() => { isPaused = false; updateStatusUI('playing'); }).catch(() => playStream(currentStreamUrl)); } });
             prevBtn.addEventListener('click', () => changeStation((selectedTapeIndex - 1 + tapes.length) % tapes.length));
             nextBtn.addEventListener('click', () => changeStation((selectedTapeIndex + 1) % tapes.length));
-            
             listBtn.addEventListener('click', () => stationModal.style.display = 'flex');
-            
-            closeStationModal.addEventListener('click', () => stationModal.style.display = 'none');
-            backStationBtn.addEventListener('click', () => stationModal.style.display = 'none');
-            cancelAdminBtn.addEventListener('click', () => adminModal.style.display = 'none');
-            backAdminBtn.addEventListener('click', () => adminModal.style.display = 'none');
+            closeStationModal.addEventListener('click', () => stationModal.style.display = 'none'); backStationBtn.addEventListener('click', () => stationModal.style.display = 'none'); cancelAdminBtn.addEventListener('click', () => adminModal.style.display = 'none'); backAdminBtn.addEventListener('click', () => adminModal.style.display = 'none');
             
             adminBtn.addEventListener('click', () => { adminPassword.value = ''; passwordError.style.display = 'none'; passwordModal.style.display = 'flex'; });
-            enterAdminBtn.addEventListener('click', () => {
-                if (adminPassword.value === ADMIN_PASSWORD) { passwordModal.style.display = 'none'; createAdminTapes(); adminModal.style.display = 'flex'; }
-                else { passwordError.style.display = 'block'; adminPassword.focus(); }
-            });
-            cancelPasswordBtn.addEventListener('click', () => passwordModal.style.display = 'none');
-            adminPassword.addEventListener('keypress', (e) => { if (e.key === 'Enter') enterAdminBtn.click(); });
+            enterAdminBtn.addEventListener('click', () => { if (adminPassword.value === ADMIN_PASSWORD) { passwordModal.style.display = 'none'; createAdminTapes(); adminModal.style.display = 'flex'; } else { passwordError.style.display = 'block'; adminPassword.focus(); } });
+            cancelPasswordBtn.addEventListener('click', () => passwordModal.style.display = 'none'); adminPassword.addEventListener('keypress', (e) => { if (e.key === 'Enter') enterAdminBtn.click(); });
             
             const memorySaveHandler = () => {
-                const nameInputs = document.querySelectorAll('.tape-name-input');
-                const urlInputs = document.querySelectorAll('.tape-url-input');
-                const imageInputs = document.querySelectorAll('.tape-image-input');
-                const bannerInputs = document.querySelectorAll('.tape-banner-input');
-                const stateInputs = document.querySelectorAll('.tape-state-input');
-                const newTapes = [];
-                
-                for (let i = 0; i < 10; i++) {
-                    if (nameInputs[i]) {
-                        newTapes.push({ 
-                            name: nameInputs[i].value, 
-                            url: urlInputs[i].value, 
-                            image: imageInputs[i].value,
-                            banner: bannerInputs[i].value,
-                            state: stateInputs[i] ? stateInputs[i].value : '' 
-                        });
-                    }
-                }
-                
-                appConfig = {
-                    btnLeftImage: document.getElementById('cfgInputLeftImage').value,
-                    btnLeftHover: document.getElementById('cfgInputLeftHover').value,
-                    btnLeftUrl: document.getElementById('cfgInputLeftUrl').value,
-                    waHover: document.getElementById('cfgInputWaHover').value,
-                    waUrl: document.getElementById('cfgInputWaUrl').value
-                };
-                
-                const playingUrl = tapes[selectedTapeIndex].url;
-                tapes = newTapes;
-                
-                localStorage.setItem('gospelTapes', JSON.stringify(tapes));
-                localStorage.setItem('gospelConfig', JSON.stringify(appConfig));
-                
-                let newIndex = tapes.findIndex(t => t.url === playingUrl && t.url !== "");
-                if (newIndex !== -1) { selectedTapeIndex = newIndex; }
-                
-                createStationsList(); 
-                changeStation(selectedTapeIndex); 
-                applyAppConfigUI();
+                const nameInputs = document.querySelectorAll('.tape-name-input'); const urlInputs = document.querySelectorAll('.tape-url-input'); const imageInputs = document.querySelectorAll('.tape-image-input'); const bannerInputs = document.querySelectorAll('.tape-banner-input'); const stateInputs = document.querySelectorAll('.tape-state-input'); const newTapes = [];
+                for (let i = 0; i < 10; i++) { if (nameInputs[i]) { newTapes.push({ name: nameInputs[i].value, url: urlInputs[i].value, image: imageInputs[i].value, banner: bannerInputs[i].value, state: stateInputs[i] ? stateInputs[i].value : '' }); } }
+                appConfig = { btnLeftImage: document.getElementById('cfgInputLeftImage').value, btnLeftHover: document.getElementById('cfgInputLeftHover').value, btnLeftUrl: document.getElementById('cfgInputLeftUrl').value, waHover: document.getElementById('cfgInputWaHover').value, waUrl: document.getElementById('cfgInputWaUrl').value };
+                const playingUrl = tapes[selectedTapeIndex].url; tapes = newTapes; localStorage.setItem('gospelTapes', JSON.stringify(tapes)); localStorage.setItem('gospelConfig', JSON.stringify(appConfig));
+                let newIndex = tapes.findIndex(t => t.url === playingUrl && t.url !== ""); if (newIndex !== -1) { selectedTapeIndex = newIndex; }
+                createStationsList(); changeStation(selectedTapeIndex); applyAppConfigUI();
             };
 
             saveAdminBtn.addEventListener('click', () => { memorySaveHandler(); adminModal.style.display = 'none'; });
 
             exportBtn.addEventListener('click', () => {
-                memorySaveHandler();
-                document.querySelectorAll('.modal-overlay').forEach(modal => { modal.style.display = 'none'; });
-
-                const currentVersion = Date.now();
-                localStorage.setItem('gospelVersion', currentVersion);
-
+                memorySaveHandler(); document.querySelectorAll('.modal-overlay').forEach(modal => { modal.style.display = 'none'; });
+                const currentVersion = Date.now(); localStorage.setItem('gospelVersion', currentVersion);
                 let htmlContent = "<!DOCTYPE html>\n" + document.documentElement.outerHTML;
-                const tapesRegex = /let\s+defaultTapes\s*=\s*\[[\s\S]*?\];/;
-                const newTapesString = 'let defaultTapes = ' + JSON.stringify(tapes, null, 4) + ';';
-                htmlContent = htmlContent.replace(tapesRegex, newTapesString);
-                
-                const configRegex = /let\s+defaultAppConfig\s*=\s*\{[\s\S]*?\};/;
-                const newConfigString = 'let defaultAppConfig = ' + JSON.stringify(appConfig, null, 4) + ';';
-                htmlContent = htmlContent.replace(configRegex, newConfigString);
-                
-                const versionRegex = /let\s+fileVersion\s*=\s*\d+;/;
-                const newVersionString = 'let fileVersion = ' + currentVersion + ';';
-                htmlContent = htmlContent.replace(versionRegex, newVersionString);
-                
-                const blob = new Blob([htmlContent], { type: 'text/html;charset=utf-8' });
-                const url = URL.createObjectURL(blob);
-                const a = document.createElement('a');
-                a.href = url; a.download = 'index.html';
-                document.body.appendChild(a); a.click(); document.body.removeChild(a); URL.revokeObjectURL(url);
+                const tapesRegex = /let\s+defaultTapes\s*=\s*\[[\s\S]*?\];/; const newTapesString = 'let defaultTapes = ' + JSON.stringify(tapes, null, 4) + ';'; htmlContent = htmlContent.replace(tapesRegex, newTapesString);
+                const configRegex = /let\s+defaultAppConfig\s*=\s*\{[\s\S]*?\};/; const newConfigString = 'let defaultAppConfig = ' + JSON.stringify(appConfig, null, 4) + ';'; htmlContent = htmlContent.replace(configRegex, newConfigString);
+                const versionRegex = /let\s+fileVersion\s*=\s*\d+;/; const newVersionString = 'let fileVersion = ' + currentVersion + ';'; htmlContent = htmlContent.replace(versionRegex, newVersionString);
+                const blob = new Blob([htmlContent], { type: 'text/html;charset=utf-8' }); const url = URL.createObjectURL(blob); const a = document.createElement('a'); a.href = url; a.download = 'index.html'; document.body.appendChild(a); a.click(); document.body.removeChild(a); URL.revokeObjectURL(url);
             });
             
-            [stationModal, passwordModal, adminModal, aboutModal].forEach(modal => { 
-                modal.addEventListener('click', (e) => { if (e.target === modal) modal.style.display = 'none'; }); 
-            });
+            [stationModal, passwordModal, adminModal, aboutModal].forEach(modal => { modal.addEventListener('click', (e) => { if (e.target === modal) modal.style.display = 'none'; }); });
+            audio.addEventListener('waiting', () => { loadingIndicator.style.display = 'block'; loadingIndicator.textContent = 'Carregando...'; }); audio.addEventListener('canplay', () => loadingIndicator.style.display = 'none'); audio.addEventListener('playing', () => loadingIndicator.style.display = 'none');
             
-            audio.addEventListener('waiting', () => { loadingIndicator.style.display = 'block'; loadingIndicator.textContent = 'Carregando...'; });
-            audio.addEventListener('canplay', () => loadingIndicator.style.display = 'none');
-            audio.addEventListener('playing', () => loadingIndicator.style.display = 'none');
-            
-            setVolume(50);
-            createStationsList();
-            
-            stationName.textContent = tapes[selectedTapeIndex].name;
-            topBadgeImg.src = `Top${selectedTapeIndex + 1}.png`; 
-            let initialImage = tapes[selectedTapeIndex].state || 'CE.png';
-            if (!initialImage.startsWith('estados/')) initialImage = 'estados/' + initialImage;
-            stateBadgeImg.src = initialImage;
-            runningBanner.textContent = tapes[selectedTapeIndex].banner;
-            albumArtImage.src = tapes[selectedTapeIndex].image ? tapes[selectedTapeIndex].image : "Sint.jpg";
-            
-            updateFavoriteUI(selectedTapeIndex); 
-            updateStatusUI('off');
+            setVolume(50); createStationsList();
+            stationName.textContent = tapes[selectedTapeIndex].name; topBadgeImg.src = `Top${selectedTapeIndex + 1}.png`; let initialImage = tapes[selectedTapeIndex].state || 'CE.png'; if (!initialImage.startsWith('estados/')) initialImage = 'estados/' + initialImage; stateBadgeImg.src = initialImage; runningBanner.textContent = tapes[selectedTapeIndex].banner; albumArtImage.src = tapes[selectedTapeIndex].image ? tapes[selectedTapeIndex].image : "Sint.jpg";
+            updateFavoriteUI(selectedTapeIndex); updateStatusUI('off');
         })();
     </script>
 </body>
