@@ -4,14 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     
-    <!-- Título Oficial: Este é o nome que o Android usará sob o ícone -->
     <title>Sintonize Gospel</title>
     
-    <!-- Ícone Padrão para navegadores e Android -->
     <link rel="icon" type="image/png" sizes="192x192" href="icon192.png">
-    
-    <!-- Ícone para dispositivos Apple (iOS) -->
     <link rel="apple-touch-icon" href="icon192.png">
+    
+    <!-- TAG PWA: Prepara o app para ser instalado no Android -->
+    <link rel="manifest" href="manifest.json">
     
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -28,13 +27,13 @@
         :root {
             --bg-base: #020617; --surface: #0f172a; --surface-hover: #1e293b; 
             --accent: #10b981; --accent-glow: rgba(16, 185, 129, 0.4);
-            --text-main: #f8fafc; --text-muted: #94a3b8; --border-color: #1e293b; --hub-btn-bg: #1e293b;
+            --text-main: #f8fafc; --text-muted: #94a3b8; --border-color: #1e293b;
         }
 
         .light-theme {
             --bg-base: #e0f2fe; --surface: #bae6fd; --surface-hover: #7dd3fc; 
             --accent: #059669; --accent-glow: rgba(5, 150, 105, 0.4);
-            --text-main: #0f172a; --text-muted: #334155; --border-color: #7dd3fc; --hub-btn-bg: #f0f9ff;
+            --text-main: #0f172a; --text-muted: #334155; --border-color: #7dd3fc;
         }
         
         body { background-color: var(--bg-base); color: var(--text-main); font-family: 'Inter', sans-serif; height: 100dvh; display: flex; justify-content: center; align-items: center; overflow: hidden; padding: 8px; transition: background-color 0.3s ease, color 0.3s ease; }
@@ -49,53 +48,51 @@
         .admin-gear:hover { color: var(--text-main); transform: scale(1.1); }
 
         .menu-drawer { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(2, 6, 23, 0.8); backdrop-filter: blur(8px); z-index: 1100; justify-content: flex-start; }
-        .menu-drawer-content { background: var(--surface); border: 1px solid var(--border-color); border-top-right-radius: 24px; border-bottom-right-radius: 24px; width: 280px; height: auto; max-height: 90vh; margin-top: 15px; padding: 20px; display: flex; flex-direction: column; gap: 12px; box-shadow: 10px 0 30px rgba(0,0,0,0.5); overflow-y: auto; }
-        .menu-item { background: var(--surface-hover); border: 1px solid var(--border-color); color: var(--text-main); padding: 12px 16px; border-radius: 12px; font-weight: 600; font-size: 14px; cursor: pointer; transition: all 0.2s; text-align: left; display: flex; align-items: center; gap: 10px; text-decoration: none; }
-        .menu-item:hover { border-color: var(--accent); color: var(--accent); background: var(--bg-base); }
+        .menu-drawer-content { background: var(--surface); border: 1px solid var(--border-color); border-top-right-radius: 24px; border-bottom-right-radius: 24px; width: 290px; height: auto; max-height: 90vh; margin-top: 15px; padding: 20px; display: flex; flex-direction: column; gap: 12px; box-shadow: 10px 0 30px rgba(0,0,0,0.5); overflow-y: auto; }
+        .menu-item { background: var(--surface-hover); border: 1px solid var(--border-color); color: var(--text-main); padding: 12px 16px; border-radius: 12px; font-weight: 600; font-size: 14px; cursor: pointer; transition: all 0.2s; text-align: left; display: flex; align-items: center; justify-content: space-between; text-decoration: none; width: 100%; }
+        .menu-item:hover { border-color: var(--accent); background: var(--bg-base); }
+        .menu-item-left { display: flex; align-items: center; gap: 10px; }
 
+        .switch { position: relative; display: inline-block; width: 44px; height: 24px; }
+        .switch input { opacity: 0; width: 0; height: 0; }
+        .slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: var(--bg-base); transition: .4s; border-radius: 34px; border: 1px solid var(--border-color); }
+        .slider:before { position: absolute; content: ""; height: 16px; width: 16px; left: 3px; bottom: 3px; background-color: var(--text-muted); transition: .4s; border-radius: 50%; }
+        input:checked + .slider { background-color: var(--accent); border-color: var(--accent); }
+        input:checked + .slider:before { transform: translateX(20px); background-color: #fff; }
+
+        /* --- NOVO DESIGN LIMPO DO CENTRO E SOLUÇÃO DO SELO (LIVE/OFF) --- */
+        .station-display { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 10px 16px; text-align: center; position: relative; }
+        
+        .main-art-container { display: flex; flex-direction: column; align-items: center; gap: 0; position: relative; margin: 0 auto 16px auto; }
+        
+        /* A cápsula invisível que resolve o corte do selo */
+        .icon-wrapper { position: relative; display: flex; justify-content: center; width: 190px; height: 190px; margin-bottom: 0; z-index: 5; }
+        
+        .station-icon { width: 100%; height: 100%; border-radius: 20px; box-shadow: 0 15px 35px rgba(0,0,0,0.4); border: 4px solid var(--surface); transition: box-shadow 0.3s ease, border-color 0.3s ease; overflow: hidden; background-color: var(--surface); display: flex; align-items: center; justify-content: center; }
+        .station-icon img { width: 100%; height: 100%; object-fit: cover; }
+        .station-icon.playing { box-shadow: 0 0 40px var(--accent-glow); border-color: var(--accent); }
+
+        /* Selo perfeitamente alinhado por fora da imagem */
         .status-badge { position: absolute; top: -14px; left: 50%; transform: translateX(-50%); z-index: 20; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; padding: 4px 12px; border-radius: 20px; background: var(--surface); color: var(--text-muted); display: inline-flex; align-items: center; gap: 6px; box-shadow: 0 4px 10px rgba(0,0,0,0.3);}
         .status-dot { width: 8px; height: 8px; border-radius: 50%; background: #ef4444; }
         .status-badge.active .status-dot { background: var(--accent); box-shadow: 0 0 8px var(--accent); }
         .status-badge.active { color: var(--accent); background: rgba(16, 185, 129, 0.15); border: 1px solid rgba(16, 185, 129, 0.3); }
 
-        .station-display { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 10px 16px; text-align: center; position: relative; }
-        .hub-container { position: relative; width: 250px; height: 250px; margin: 0 auto 16px auto; display: flex; align-items: center; justify-content: center; }
-        
-        .fav-btn { position: absolute; right: -24px; top: 50%; transform: translateY(-50%); background: var(--surface); border: 1px solid var(--border-color); border-radius: 50%; width: 48px; height: 48px; display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 6px 16px rgba(0,0,0,0.3); z-index: 50; transition: all 0.3s ease; color: var(--text-muted); }
-        .fav-btn:hover { transform: translateY(-50%) scale(1.1); color: var(--text-main); }
-        .fav-btn.active { color: #ef4444; border-color: rgba(239, 68, 68, 0.4); box-shadow: 0 0 15px rgba(239, 68, 68, 0.3); }
-        .fav-btn svg { width: 24px; height: 24px; fill: currentColor; }
-
-        .theme-btn { position: absolute; left: -24px; top: 50%; transform: translateY(-50%); background: var(--surface); border: 1px solid var(--border-color); border-radius: 50%; width: 48px; height: 48px; display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 6px 16px rgba(0,0,0,0.3); z-index: 50; transition: all 0.3s ease; color: var(--text-muted); }
-        .theme-btn:hover { transform: translateY(-50%) scale(1.1); color: var(--text-main); }
-        .theme-btn svg { width: 24px; height: 24px; fill: currentColor; }
-
-        .station-icon { width: 175px; height: 175px; border-radius: 20px; box-shadow: 0 15px 35px rgba(0,0,0,0.4); border: 4px solid var(--surface); transition: box-shadow 0.3s ease, border-color 0.3s ease; overflow: hidden; background-color: var(--surface); display: flex; align-items: center; justify-content: center; z-index: 5; }
-        .station-icon img { width: 100%; height: 100%; object-fit: cover; }
-        .station-icon.playing { box-shadow: 0 0 40px var(--accent-glow); border-color: var(--accent); }
-
-        .hub-satellite { position: absolute; width: 68px; height: 68px; background: var(--hub-btn-bg); border: 2px solid var(--border-color); border-radius: 18px; display: flex; align-items: center; justify-content: center; box-shadow: 0 6px 16px rgba(0,0,0,0.3); transition: transform 0.2s ease, background 0.3s ease; cursor: pointer; text-decoration: none; color: var(--text-main); z-index: 10; }
-        .hub-satellite:hover { transform: scale(1.05); border-color: var(--accent); }
-
-        .sat-tl { top: -4px; left: -4px; overflow: hidden; padding: 4px; }
-        .sat-tl img { width: 100%; height: 100%; object-fit: cover; border-radius: 12px; }
-        .sat-tr { top: -4px; right: -4px; padding: 4px; overflow: hidden; }
-        .sat-tr img { width: 100%; height: 100%; object-fit: cover; border-radius: 12px; }
-        .sat-bl { bottom: -4px; left: -4px; padding: 4px; overflow: hidden; cursor: default; }
-        .sat-bl:hover { transform: none !important; border-color: var(--border-color) !important; }
-        .sat-bl img { width: 100%; height: 100%; object-fit: contain; border-radius: 12px; }
-        .sat-br { bottom: -4px; right: -4px; color: #25D366; }
-        .sat-br svg { width: 32px; height: 32px; fill: currentColor; }
+        .docked-controls { display: flex; gap: 12px; margin-top: 0; padding-top: 6px; z-index: 10; }
+        .docked-btn { width: 52px; height: 52px; border-radius: 14px; background: var(--surface); border: 2px solid var(--border-color); display: flex; align-items: center; justify-content: center; box-shadow: 0 6px 16px rgba(0,0,0,0.3); cursor: pointer; transition: transform 0.2s, border-color 0.2s; overflow: hidden; color: var(--text-muted); text-decoration: none; }
+        .docked-btn:hover { transform: scale(1.05); border-color: var(--accent); color: var(--text-main); }
+        .docked-btn img { width: 100%; height: 100%; object-fit: cover; border-radius: 10px; padding: 2px;}
+        .docked-btn svg { width: 24px; height: 24px; fill: currentColor; }
+        .docked-btn.active { color: #ef4444; border-color: rgba(239, 68, 68, 0.4); box-shadow: 0 0 15px rgba(239, 68, 68, 0.3); }
 
         #stationName { font-size: 22px; font-weight: 700; color: var(--text-main); margin-bottom: 8px; }
 
         .vu-meter { display: flex; justify-content: center; align-items: center; gap: 2px; height: 16px; margin: 10px 0 16px 0; padding: 0 16px; width: 100%; }
         .vu-segment { flex: 1; height: 100%; border-radius: 2px; background: var(--surface-hover); opacity: 0.2; transition: opacity 0.05s ease; }
-        
-        .vu-segment.red-seg.lit { background: #ef4444; box-shadow: 0 0 5px #ef4444; opacity: 1; }
-        .vu-segment.orange-seg.lit { background: #f59e0b; box-shadow: 0 0 5px #f59e0b; opacity: 1; }
-        .vu-segment.green-seg.lit { background: #10b981; box-shadow: 0 0 5px #10b981; opacity: 1; }
-        .vu-segment.center-seg.lit { background: #ffffff; box-shadow: 0 0 8px #ffffff; opacity: 1; }
+        .vu-segment.red-seg.lit { background: #ef4444; opacity: 1; }
+        .vu-segment.orange-seg.lit { background: #f59e0b; opacity: 1; }
+        .vu-segment.green-seg.lit { background: #10b981; opacity: 1; }
+        .vu-segment.center-seg.lit { background: #ffffff; opacity: 1; }
         
         .banner-container { width: 100%; background: var(--surface); padding: 12px 0; overflow: hidden; white-space: nowrap; border-radius: 16px; border: 1px solid var(--border-color); }
         .banner-text { display: inline-block; font-size: 14px; font-weight: 600; color: var(--text-muted); animation: scrollBanner 24s linear infinite; }
@@ -106,7 +103,6 @@
         .control-btn svg { width: 28px; height: 28px; fill: currentColor; }
         .control-btn:hover { color: var(--accent); transform: scale(1.1); }
         .control-btn.play-btn { width: 70px; height: 70px; background: var(--accent); color: #fff; border-radius: 20px; box-shadow: 0 10px 20px var(--accent-glow); }
-        .control-btn.play-btn:hover { transform: scale(1.05); background: #0ea5e9; color: #fff; }
         
         .nav-btn { width: 48px; height: 48px; background: var(--surface); border-radius: 14px; color: var(--text-main); border: 1px solid var(--border-color); flex-shrink: 0; }
         .playback-group { display: flex; align-items: center; gap: 16px; }
@@ -115,8 +111,7 @@
         .volume-popup { position: absolute; bottom: 70px; left: -10px; background: var(--surface); border: 1px solid var(--border-color); border-radius: 16px; padding: 16px 12px; box-shadow: 0 15px 35px rgba(0,0,0,0.8); display: none; flex-direction: column; align-items: center; z-index: 100; height: 290px;}
         .volume-popup.show { display: flex; }
         .volume-slider { width: 24px; height: 220px; background: var(--bg-base); border-radius: 4px; position: relative; cursor: pointer; border: 1px solid var(--border-color); overflow: hidden; margin-bottom: 8px;}
-        .volume-slider::before { content: ''; position: absolute; top:0; left:0; right:0; bottom:0; background: repeating-linear-gradient(0deg, var(--surface-hover), var(--surface-hover) 2px, transparent 2px, transparent 8px); pointer-events: none;}
-        .volume-fill { position: absolute; bottom: 0; left: 0; width: 100%; background: var(--accent); border-radius: 2px; pointer-events: none; opacity: 0.8;}
+        .volume-fill { position: absolute; bottom: 0; left: 0; width: 100%; background: var(--accent); border-radius: 2px; opacity: 0.8;}
         .volume-knob { position: absolute; left: 50%; transform: translate(-50%, 50%); width: 16px; height: 16px; background: #fff; border-radius: 50%; box-shadow: 0 2px 5px rgba(0,0,0,0.5); pointer-events: none; }
 
         .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(2, 6, 23, 0.8); backdrop-filter: blur(8px); z-index: 1000; justify-content: center; align-items: center; padding: 20px; }
@@ -124,8 +119,6 @@
         .modal-header { display: flex; align-items: center; justify-content: center; position: relative; font-size: 18px; font-weight: 700; margin-bottom: 20px; color: var(--text-main); min-height: 36px; width: 100%; }
         
         .back-btn-top { position: absolute; left: 16px; top: 16px; background: var(--surface-hover); border: 1px solid var(--border-color); color: var(--text-muted); cursor: pointer; display: flex; align-items: center; justify-content: center; border-radius: 10px; width: 40px; height: 40px; transition: all 0.2s; z-index: 10; }
-        .back-btn-top:hover { color: var(--accent); border-color: var(--accent); }
-        .back-btn-top svg { width: 24px; height: 24px; fill: currentColor; }
         
         .btn-modern { width: 100%; padding: 14px; border-radius: 12px; font-family: 'Inter', sans-serif; font-weight: 600; font-size: 14px; cursor: pointer; transition: all 0.2s; border: none; text-align: center; display: flex; align-items: center; justify-content: center; gap: 8px;}
         .btn-primary { background: var(--accent); color: #fff; }
@@ -133,7 +126,6 @@
         .btn-danger { background: rgba(239, 68, 68, 0.1); color: #ef4444; border: 1px solid rgba(239, 68, 68, 0.2); margin-top: 8px; }
         .btn-export { background: #3b82f6; color: #fff; margin-top: 8px; border: 1px solid #2563eb; } 
         .input-modern { width: 100%; padding: 12px; background: var(--bg-base); border: 1px solid var(--border-color); border-radius: 12px; color: var(--text-main); margin-bottom: 12px; outline: none; font-size: 14px; }
-        .input-modern:focus { border-color: var(--accent); }
 
         #aboutContent { padding-top: 56px; max-width: 360px; }
         .about-grid-wrapper { display: flex; flex-direction: column; width: 100%; }
@@ -143,15 +135,14 @@
 
         .sub-tabs-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 16px; width: 100%; }
         .sub-tab-btn { padding: 10px; border-radius: 10px; font-weight: 600; font-size: 12px; color: var(--text-muted); background: var(--bg-base); border: 1px solid var(--border-color); cursor: pointer; text-align: center; transition: 0.2s; }
-        .sub-tab-btn.active { background: var(--surface-hover); color: var(--accent); border-color: var(--accent); box-shadow: 0 2px 4px rgba(0,0,0,0.2); }
+        .sub-tab-btn.active { background: var(--surface-hover); color: var(--accent); border-color: var(--accent); }
         .sub-tab-content { display: none; flex: 1; overflow-y: auto; width: 100%; }
         .sub-tab-content.active { display: block; }
 
         .stations-list { display: flex; flex-direction: column; gap: 12px; margin-bottom: 24px; width: 100%; }
         .station-item { background: var(--bg-base); border: 1px solid var(--border-color); padding: 12px 16px; border-radius: 16px; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; gap: 16px; }
-        .station-item:hover { border-color: var(--accent); }
         .station-item.selected { border-color: var(--accent); background: var(--surface-hover); }
-        .circle-number { width: 36px; height: 36px; background: var(--surface); color: var(--text-main); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 16px; border: 2px solid transparent; }
+        .circle-number { width: 36px; height: 36px; background: var(--surface); color: var(--text-main); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 16px; }
         .station-item.selected .circle-number { background: var(--accent); border-color: #fff; color: #fff; }
         .station-item-name { font-weight: 600; font-size: 15px; color: var(--text-main); }
         
@@ -160,119 +151,72 @@
         .tape-rank { font-size: 16px; font-weight: 800; color: var(--accent); width: 24px; text-align: center;}
         .tape-title { font-weight: 600; font-size: 14px; color: var(--text-main); }
         .drag-handle { cursor: grab; color: var(--text-muted); padding: 4px; }
-        .chevron-icon { transition: transform 0.3s ease; color: var(--text-muted); }
         .tape-body { display: none; padding: 14px; border-top: 1px solid var(--border-color); }
         .tape-body.expanded { display: block; }
         .config-label { display: block; font-size: 11px; margin-bottom: 4px; font-weight: 700; color: var(--accent); text-transform: uppercase;}
-        .sortable-ghost { opacity: 0.4; background: var(--surface-hover); }
+        
         #loadingIndicator { position: absolute; top: 24px; left: 50%; transform: translateX(-50%); background: var(--accent); color: #fff; padding: 6px 16px; border-radius: 20px; font-size: 12px; font-weight: 600; display: none; z-index: 50; }
         
         .tv-only { display: none !important; }
         .mobile-only { display: flex !important; }
 
         .partners-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; width: 100%; margin-top: 10px; }
-        
-        .partner-card { 
-            background: var(--bg-base); 
-            border: 1px solid var(--border-color); 
-            border-radius: 16px; 
-            padding: 0; 
-            display: flex; 
-            align-items: center; 
-            justify-content: center; 
-            text-decoration: none; 
-            transition: transform 0.2s, border-color 0.2s; 
-            overflow: hidden; 
-            aspect-ratio: 1 / 1; 
-        }
-        
-        .partner-card:hover { transform: scale(1.05); border-color: var(--accent); }
-        
-        .partner-card img { 
-            width: 100%; 
-            height: 100%; 
-            object-fit: cover; 
-            background: var(--surface); 
-        }
-/* ================= ESTILOS PAISAGEM (CELULARES) ================= */
+        .partner-card { background: var(--bg-base); border: 1px solid var(--border-color); border-radius: 16px; padding: 0; display: flex; align-items: center; justify-content: center; text-decoration: none; overflow: hidden; aspect-ratio: 1 / 1; }
+        .partner-card img { width: 100%; height: 100%; object-fit: cover; background: var(--surface); }
+
+        /* ================= ESTILOS PAISAGEM (CELULARES) ================= */
         @media (max-width: 899px) and (orientation: landscape) {
             body { padding: 0; }
             #app-container {
-                max-width: 100%; max-height: 100dvh; width: 100%; height: 100%;
-                border-radius: 0; border: none;
-                display: grid;
-                /* Grade reduzida para caber perfeitamente na altura do celular */
+                max-width: 100%; max-height: 100dvh; border-radius: 0; border: none; display: grid;
                 grid-template-columns: 60px 60px 16px 140px 16px 48px 16px 48px 16px 48px;
                 grid-template-rows: auto 48px 16px 48px 16px 48px 16px auto;
                 justify-content: center; align-content: center; row-gap: 0;
             }
 
-            /* Desagrupa os elementos para caírem direto na grade (Mesma técnica da TV) */
-            .station-display, .hub-container, .controls-container, .playback-group, .volume-wrapper { display: contents !important; }
+            .station-display, .main-art-container, .docked-controls, .controls-container, .playback-group, .volume-wrapper { display: contents !important; }
             .mobile-only { display: none !important; }
-            .tv-only { display: none !important; } /* Esconde o botão SAIR no celular */
+            .tv-only { display: none !important; } 
 
-            .app-header { 
-                grid-row: 1 / 2; grid-column: 1 / 11; 
-                padding: 0 16px; margin-bottom: 8px; 
-                display: flex; align-items: center; justify-content: space-between; 
-            }
+            .app-header { grid-row: 1 / 2; grid-column: 1 / 11; padding: 0 16px; margin-bottom: 8px; display: flex; align-items: center; justify-content: space-between; }
             .app-header h1 { display: flex !important; font-size: 15px; font-weight: 700; color: var(--accent); position: absolute; left: 50%; transform: translateX(-50%); gap: 6px; }
-			/* ---> COLA A CORREÇÃO NESTE ESPAÇO EXATO <--- */
-        .app-header #menuToggleBtn {
-            width: 44px !important;
-            height: 44px !important;
-            background: transparent !important;
-            border: none !important;
-            justify-content: flex-start !important;
-            margin-right: auto !important;
-        }
+            
+            .app-header #menuToggleBtn { width: 44px !important; height: 44px !important; background: transparent !important; border: none !important; justify-content: flex-start !important; margin-right: auto !important; margin-left: 0 !important; }
             .header-controls { display: flex !important; }
             
             #stationName { display: none; }
 
-            /* Bloco de Play na Esquerda */
             #mainPlayBtn { grid-row: 2 / 5; grid-column: 1 / 3; width: 100%; height: 100%; margin: 0; border-radius: 16px; align-self: start; background: var(--accent); }
             #prevBtn { grid-row: 6 / 7; grid-column: 1 / 2; width: 100%; height: 100%; margin: 0; border-radius: 12px; }
             #nextBtn { grid-row: 6 / 7; grid-column: 2 / 3; width: 100%; height: 100%; margin: 0; border-radius: 12px; }
 
-            /* Ícone Central Reduzido */
-            #mainIcon { grid-row: 2 / 5; grid-column: 4 / 5; width: 140px; height: 140px; margin: 0; border: 3px solid var(--border-color); box-shadow: 0 12px 24px rgba(0,0,0,0.4); border-radius: 20px; align-self: start; justify-self: center; position: relative; top: 0; transform: none; }
-            #statusBadge { grid-row: 6 / 7; grid-column: 4 / 5; height: 22px; padding: 0 12px; font-size: 10px; margin: 0; align-self: end; justify-self: center; position: relative; top: 0; transform: none; }
+            /* Cápsula ajustada para paisagem */
+            .icon-wrapper { grid-row: 2 / 5; grid-column: 4 / 5; width: 140px; height: 140px; margin: 0; align-self: start; justify-self: center; }
+            .station-icon { border-width: 3px; }
 
-            /* Formatando todos os botões redondos/quadrados para a grade lateral */
-            .hub-satellite, .fav-btn, .theme-btn, .control-btn, .nav-btn, .admin-gear, #menuToggleBtn {
-                position: relative !important; top: auto !important; left: auto !important; right: auto !important; bottom: auto !important;
-                transform: none !important; margin: 0 !important; width: 100% !important; height: 100% !important;
+            .docked-btn, .control-btn, .nav-btn, .admin-gear {
+                position: relative !important; margin: 0 !important; width: 100% !important; height: 100% !important;
                 border-radius: 12px !important; background: var(--surface-hover); border: 1px solid var(--border-color);
                 align-self: center; justify-self: center;
             }
-
-            .hub-satellite svg, .fav-btn svg, .theme-btn svg, .control-btn svg, .admin-gear svg { width: 22px !important; height: 22px !important; }
+            .docked-btn svg, .control-btn svg, .admin-gear svg { width: 22px !important; height: 22px !important; }
             
-            /* Distribuição dos botões na direita */
-            .sat-tr     { grid-row: 2 / 3; grid-column: 6 / 7; }
-            #cfgBtnLeft { grid-row: 2 / 3; grid-column: 8 / 9; }
-            #shareBtn   { grid-row: 2 / 3; grid-column: 10 / 11; display: flex !important; }
+            #topWrapper { grid-row: 2 / 3; grid-column: 6 / 7; }
+            #favoriteBtn { grid-row: 4 / 5; grid-column: 6 / 7; }
+            #stateWrapper { grid-row: 6 / 7; grid-column: 6 / 7; }
             
-            #favoriteBtn{ grid-row: 4 / 5; grid-column: 6 / 7; }
             #volumeBtn  { grid-row: 4 / 5; grid-column: 8 / 9; }
-            #fullscreenBtn { grid-row: 4 / 5; grid-column: 10 / 11; display: flex !important; }
-            
-            .sat-bl     { grid-row: 6 / 7; grid-column: 6 / 7; }
             #listBtn    { grid-row: 6 / 7; grid-column: 8 / 9; }
-            #themeBtn   { grid-row: 6 / 7; grid-column: 10 / 11; }
+            #fullscreenBtn { grid-row: 4 / 5; grid-column: 10 / 11; display: flex !important; }
 
-            /* Barra de VU e Letreiro de LED */
             #vuMeter { grid-row: 7 / 8; grid-column: 1 / 11; margin: 10px 0 6px 0; padding: 0 20px; height: 12px; }
             .banner-container { grid-row: 8 / 9; grid-column: 1 / 11; margin-top: 2px; padding: 6px 0; }
-            
-            /* Ajuste do Pop-up de Volume */
             .volume-popup { position: fixed; bottom: 70px; left: 50%; transform: translateX(-50%); z-index: 1000; height: 160px; }
             .volume-slider { height: 100px; }
         }
-        /* ================= ESTILOS DESKTOP / TV ================= */
-        @media (min-width: 768px) and (orientation: landscape) {
+
+        /* ================= ESTILOS DESKTOP / TV (RESTAURADO) ================= */
+        @media (min-width: 900px) and (orientation: landscape) {
             #aboutContent { max-width: 650px; padding: 32px; padding-top: 40px; flex-direction: column; }
             #aboutContent .back-btn-top { top: 24px; left: 24px; }
             .about-grid-wrapper { display: grid; grid-template-columns: 1fr auto 1fr; gap: 16px; margin-top: 24px; align-items: center; }
@@ -289,73 +233,56 @@
                 justify-content: center; align-content: center; row-gap: 0;
             }
             
-            .station-display, .hub-container, .controls-container, .playback-group, .volume-wrapper { display: contents !important; }
+            .station-display, .main-art-container, .docked-controls, .controls-container, .playback-group, .volume-wrapper { display: contents !important; }
             .tv-only { display: flex !important; }
             .mobile-only { display: none !important; }
 
-            .app-header { 
-                grid-row: 1 / 2; grid-column: 1 / 11; 
-                padding: 0; margin-bottom: 24px; 
-                display: flex; align-items: center; justify-content: space-between; 
-                position: relative; 
-            }
-            
-            .app-header h1 { 
-                display: flex !important; 
-                position: absolute; left: 50%; transform: translateX(-50%); 
-                font-size: 24px; font-weight: 700; color: var(--accent); align-items: center; gap: 8px; 
-            }
+            .app-header { grid-row: 1 / 2; grid-column: 1 / 11; padding: 0; margin-bottom: 24px; display: flex; align-items: center; justify-content: space-between; }
+            .app-header h1 { display: flex !important; position: absolute; left: 50%; transform: translateX(-50%); font-size: 24px; font-weight: 700; color: var(--accent); }
             
             .header-controls { display: flex !important; }
-            
             #stationName { display: none; }
 
-            #mainPlayBtn { grid-row: 2 / 5; grid-column: 1 / 3; width: 100%; height: 100%; margin: 0; border-radius: 20px; align-self: start; }
+            #mainPlayBtn { grid-row: 2 / 5; grid-column: 1 / 3; width: 100%; height: 100%; margin: 0; border-radius: 20px; align-self: start; background: var(--accent); }
             #prevBtn { grid-row: 6 / 7; grid-column: 1 / 2; width: 100%; height: 100%; margin: 0; border-radius: 16px; }
             #nextBtn { grid-row: 6 / 7; grid-column: 2 / 3; width: 100%; height: 100%; margin: 0; border-radius: 16px; }
 
-            #mainIcon { grid-row: 2 / 5; grid-column: 4 / 5; width: 196px; height: 196px; margin: 0; border: 4px solid var(--border-color); box-shadow: 0 12px 30px rgba(0,0,0,0.5); border-radius: 24px; align-self: start; justify-self: center; position: relative; top: 0; transform: none; }
-            #statusBadge { grid-row: 6 / 7; grid-column: 4 / 5; height: 28px; padding: 0 16px; margin: 0; align-self: end; justify-self: center; position: relative; top: 0; left: 0; transform: none; }
+            /* Cápsula restaurada para TV */
+            .icon-wrapper { grid-row: 2 / 5; grid-column: 4 / 5; width: 196px; height: 196px; margin: 0; align-self: start; justify-self: center; }
+            .station-icon { border-width: 4px; border-radius: 24px; border-color: var(--border-color); }
 
-            #fullscreenBtn {
-                width: 64px !important; height: 64px !important; border-radius: 16px !important; 
-                background: var(--surface-hover); border: 1px solid var(--border-color);
-                display: flex; align-items: center; justify-content: center; margin: 0;
-            }
+            #fullscreenBtn { width: 64px !important; height: 64px !important; border-radius: 16px !important; background: var(--surface-hover); border: 1px solid var(--border-color); display: flex; align-items: center; justify-content: center; margin: 0; }
 
-            .hub-satellite, .fav-btn, .theme-btn, .control-btn, .nav-btn, .admin-gear, #exitBtnTV, #menuToggleBtn {
-                position: relative !important; top: auto !important; left: auto !important; right: auto !important; bottom: auto !important;
-                transform: none !important; margin: 0 !important; width: 100% !important; height: 100% !important;
+            /* Restaura a formatação quadrada para TODOS os botões da grade (incluindo os tv-only que voltaram) */
+            .docked-btn, .control-btn, .nav-btn, .admin-gear, #exitBtnTV, #menuToggleBtn {
+                position: relative !important; margin: 0 !important; width: 100% !important; height: 100% !important;
                 border-radius: 16px !important; background: var(--surface-hover); border: 1px solid var(--border-color);
                 align-self: center; justify-self: center;
             }
             
-            #mainPlayBtn { background: var(--accent); }
-            .hub-satellite svg, .fav-btn svg, .theme-btn svg, .control-btn svg, .admin-gear svg { width: 28px !important; height: 28px !important; }
-            .hub-satellite:hover, .fav-btn:hover, .theme-btn:hover, .control-btn:hover, .admin-gear:hover, #fullscreenBtn:hover { border-color: var(--accent); box-shadow: 0 0 15px var(--accent-glow); background: #334155; transform: scale(1.05) !important; }
+            .docked-btn svg, .control-btn svg, .admin-gear svg { width: 28px !important; height: 28px !important; }
+            .docked-btn:hover, .control-btn:hover, .admin-gear:hover, #fullscreenBtn:hover { border-color: var(--accent); box-shadow: 0 0 15px var(--accent-glow); background: #334155; transform: scale(1.05) !important; }
             
             #exitBtnTV:hover { border-color: #ef4444; box-shadow: 0 0 15px rgba(239, 68, 68, 0.4); color: #fff !important; background: #ef4444 !important; transform: scale(1.05) !important; }
 
             #menuToggleBtn { width: 64px !important; height: 64px !important; }
             
-            .sat-tr     { grid-row: 2 / 3; grid-column: 6 / 7; }
+            /* MAPA DE POSICIONAMENTO DA GRADE DA TV (Restaurado exatamente como era) */
+            #topWrapper { grid-row: 2 / 3; grid-column: 6 / 7; }
             #cfgBtnLeft { grid-row: 2 / 3; grid-column: 8 / 9; }
             #exitBtnTV  { grid-row: 2 / 3; grid-column: 10 / 11; }
-            #shareBtn   { display: none !important; }
             
             #favoriteBtn{ grid-row: 4 / 5; grid-column: 6 / 7; }
             #volumeBtn  { grid-row: 4 / 5; grid-column: 8 / 9; }
             #aboutBtnTV { grid-row: 4 / 5; grid-column: 10 / 11; }
-            .sat-bl     { grid-row: 6 / 7; grid-column: 6 / 7; }
+            
+            #stateWrapper{ grid-row: 6 / 7; grid-column: 6 / 7; }
             #listBtn    { grid-row: 6 / 7; grid-column: 8 / 9; }
             #themeBtn   { grid-row: 6 / 7; grid-column: 10 / 11; }
 
             #vuMeter { grid-row: 7 / 8; grid-column: 1 / 11; margin: 16px 0 16px 0; padding: 0 10px; height: 22px; gap: 3px; }
-            
             .banner-container { grid-row: 8 / 9; grid-column: 1 / 11; margin-top: 12px;}
-            
             .volume-popup { position: fixed; bottom: 100px; left: 50%; transform: translateX(-50%); z-index: 1000; }
-            button:focus, a:focus, input:focus { outline: 3px solid var(--accent); outline-offset: 4px; background-color: var(--surface-hover); transition: all 0.2s ease; }
         }
     </style>
 </head>
@@ -376,35 +303,73 @@
             </div>
         </div>
 
+        <!-- MENU LATERAL -->
         <div class="menu-drawer" id="menuDrawer">
             <div class="menu-drawer-content">
                 <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 4px;">
                     <span style="font-weight: 700; font-size: 15px; color: var(--accent); display: flex; align-items: center; gap: 6px;">
-                        Top 10 Gospel Brasil <img src="https://cdnjs.cloudflare.com/ajax/libs/twemoji/14.0.2/svg/1f1e7-1f1f7.svg" alt="Bandeira" class="w-4 h-4">
+                        Opções <img src="https://cdnjs.cloudflare.com/ajax/libs/twemoji/14.0.2/svg/1f1e7-1f1f7.svg" alt="Bandeira" class="w-4 h-4">
                     </span>
                     <button class="admin-gear" id="closeMenuBtn"><svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg></button>
                 </div>
-                <button class="menu-item" id="menuEval">⭐ Avalie!</button>
-                <button class="menu-item" id="menuContact">✉️ Fale Conosco</button>
-                <button class="menu-item" id="menuPartners">🤝 Parceiros</button>
-                <button class="menu-item" id="menuAdmin">⚙️ Adm</button>
-                <button class="menu-item" id="menuAbout">ℹ️ Sobre</button>
+                
+                <div class="menu-item" style="cursor: default;">
+                    <div class="menu-item-left"><span>🌗</span> Modo Claro</div>
+                    <label class="switch">
+                        <input type="checkbox" id="themeToggleBtn">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+
+                <a href="#" target="_blank" class="menu-item" id="cfgMenuLeftUrl">
+                    <div class="menu-item-left"><span>📺</span> <span id="cfgMenuLeftHover">Sintonize Gospel</span></div>
+                </a>
+                
+                <button class="menu-item" id="shareMenuBtn" style="border:none; width: 100%;">
+                    <div class="menu-item-left"><span>💬</span> Compartilhe!</div>
+                </button>
+
+                <div style="height: 1px; background: var(--border-color); margin: 4px 0;"></div>
+
+                <button class="menu-item" id="menuEval"><div class="menu-item-left"><span>⭐</span> Avalie!</div></button>
+                <button class="menu-item" id="menuContact"><div class="menu-item-left"><span>✉️</span> Fale Conosco</div></button>
+                <button class="menu-item" id="menuPartners"><div class="menu-item-left"><span>🤝</span> Parceiros</div></button>
+                <button class="menu-item" id="menuAdmin"><div class="menu-item-left"><span>⚙️</span> Adm</div></button>
+                <button class="menu-item" id="menuAbout"><div class="menu-item-left"><span>ℹ️</span> Sobre</div></button>
             </div>
         </div>
 
         <div class="station-display">
-            <div class="hub-container">
-                <button id="themeBtn" class="theme-btn" title="Alternar Tema"><svg viewBox="0 0 24 24"><path d="M12 21c-4.97 0-9-4.03-9-9s4.03-9 9-9 9 4.03 9 9-4.03 9-9 9zm0-16c-3.86 0-7 3.14-7 7s3.14 7 7 7 7-3.14 7-7-3.14-7-7-7zm0 13c-3.31 0-6-2.69-6-6s2.69-6 6-6v12z"></path></svg></button>
-                <button id="favoriteBtn" class="fav-btn" title="Favorito"><svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg></button>
-
-                <div class="status-badge" id="statusBadge"><div class="status-dot"></div><span id="statusText">OFF</span></div>
-                <a href="#" target="_blank" class="hub-satellite sat-tl" id="cfgBtnLeft"><img id="cfgImgLeft" src="Sint.jpg" alt="Logo"></a>
-                <div class="hub-satellite sat-tr" title="Ranking"><img id="topBadgeImg" src="Top1.png" alt="Top Ranking"></div>
-                <div class="station-icon" id="mainIcon"><img id="albumArtImage" src="Sint.jpg" alt="Arte" onerror="this.src='Sint.jpg'"></div>
-                <div class="hub-satellite sat-bl" title="Estado"><img id="stateBadgeImg" src="estados/CE.png" alt="Estado" onerror="this.src='Sint.jpg'"></div>
+            <!-- NOVO CENTRO LIMPO (com cápsula do ícone resolvida) -->
+            <div class="main-art-container">
+                <div class="icon-wrapper">
+                    <div class="status-badge" id="statusBadge"><div class="status-dot"></div><span id="statusText">OFF</span></div>
+                    <div class="station-icon" id="mainIcon">
+                        <img id="albumArtImage" src="Sint.jpg" alt="Arte" onerror="this.src='Sint.jpg'">
+                    </div>
+                </div>
                 
-                <button class="hub-satellite sat-br" id="shareBtn" title="WhatsApp"><svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.888-.788-1.489-1.761-1.663-2.06-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"></path></svg></button>
+                <div class="docked-controls">
+                    <div class="docked-btn" id="stateWrapper" title="Estado">
+                        <img id="stateBadgeImg" src="estados/CE.png" alt="Estado" onerror="this.src='Sint.jpg'">
+                    </div>
+                    <div class="docked-btn" id="topWrapper" title="Ranking">
+                        <img id="topBadgeImg" src="Top1.png" alt="Top Ranking">
+                    </div>
+                    <button class="docked-btn" id="favoriteBtn" title="Favorito">
+                        <svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+                    </button>
+
+                    <!-- Botões devolvidos para o DOM (invisíveis no mobile, usados na TV) -->
+                    <a href="#" target="_blank" class="docked-btn tv-only" id="cfgBtnLeft" title="Sintonize Gospel">
+                        <img id="cfgImgLeft" src="Sint.jpg" alt="Logo">
+                    </a>
+                    <button id="themeBtn" class="docked-btn tv-only" title="Alternar Tema">
+                        <svg viewBox="0 0 24 24"><path d="M12 21c-4.97 0-9-4.03-9-9s4.03-9 9-9 9 4.03 9 9-4.03 9-9 9zm0-16c-3.86 0-7 3.14-7 7s3.14 7 7 7 7-3.14 7-7-3.14-7-7-7zm0 13c-3.31 0-6-2.69-6-6s2.69-6 6-6v12z"></path></svg>
+                    </button>
+                </div>
             </div>
+            
             <div id="stationName">Carregando...</div>
         </div>
 
@@ -497,7 +462,7 @@
         </div>
     </div>
 
-    <!-- PAINEL ADMIN ROBUSTO COM SUB-ABAS (2 linhas x 2 abas) -->
+    <!-- PAINEL ADMIN ROBUSTO -->
     <div class="modal-overlay" id="adminModal">
         <div class="modal-content" style="max-width: 600px;">
             <div class="modal-header"><button class="back-btn-top" id="backAdminBtn" title="Voltar"><svg viewBox="0 0 24 24"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"></path></svg></button> Configurações Administrativas</div>
@@ -509,14 +474,12 @@
                 <button class="sub-tab-btn" id="subTab4Btn">4. Sistema</button>
             </div>
             
-            <div id="subTab1Content" class="sub-tab-content active">
-                <div id="adminStationsList"></div>
-            </div>
+            <div id="subTab1Content" class="sub-tab-content active"><div id="adminStationsList"></div></div>
             
             <div id="subTab2Content" class="sub-tab-content">
                 <div class="admin-tape-item" style="padding: 16px;">
-                    <div style="font-weight: 700; color: var(--accent); margin-bottom: 12px; font-size: 14px;">Botão Superior (Logo Principal / YouTube)</div>
-                    <label class="config-label">ARQUIVO DA IMAGEM</label><input type="text" id="cfgInputLeftImage" class="input-modern" placeholder="Ex: Sint.jpg">
+                    <div style="font-weight: 700; color: var(--accent); margin-bottom: 12px; font-size: 14px;">Menu: Link Sintonize Gospel</div>
+                    <label class="config-label">ARQUIVO DA IMAGEM (TV)</label><input type="text" id="cfgInputLeftImage" class="input-modern" placeholder="Ex: Sint.jpg">
                     <label class="config-label">TEXTO AO PASSAR O MOUSE</label><input type="text" id="cfgInputLeftHover" class="input-modern" placeholder="Ex: Canal YouTube">
                     <label class="config-label">LINK (URL)</label><input type="text" id="cfgInputLeftUrl" class="input-modern" placeholder="https://...">
 
@@ -555,19 +518,12 @@
             /*__APP_DATA_VERSION_END__*/
             let localVersion = parseInt(localStorage.getItem('gospelVersion') || '0');
             if (isNaN(localVersion)) localVersion = 0;
-            if (localVersion > 100000) {
-                // Versão legada (timestamp Date.now()): preserva os dados do usuário e apenas normaliza a versão
-                localStorage.setItem('gospelVersion', APP_DATA_VERSION);
-            } else if (APP_DATA_VERSION > localVersion) {
+            if (APP_DATA_VERSION > localVersion) {
                 localStorage.removeItem('gospelTapes'); localStorage.removeItem('gospelConfig'); localStorage.setItem('gospelVersion', APP_DATA_VERSION);
             }
             if (localStorage.getItem('gospelTheme') === 'light') { document.body.classList.add('light-theme'); }
 
-            function esc(s) {
-                return String(s === null || s === undefined ? '' : s).replace(/[&<>"']/g, function(c) {
-                    return ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[c];
-                });
-            }
+            function esc(s) { return String(s === null || s === undefined ? '' : s).replace(/[&<>"']/g, function(c) { return ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[c]; }); }
 
             const audio = document.getElementById('audioElement');
             const stationName = document.getElementById('stationName');
@@ -596,8 +552,6 @@
             const volumeValueDisplay = document.getElementById('volumeValueDisplay');
             
             const fullscreenBtn = document.getElementById('fullscreenBtn');
-            const themeBtn = document.getElementById('themeBtn'); 
-            const shareBtn = document.getElementById('shareBtn'); 
             const favoriteBtn = document.getElementById('favoriteBtn'); 
             const exitBtnTV = document.getElementById('exitBtnTV'); 
             const aboutBtnTV = document.getElementById('aboutBtnTV'); 
@@ -605,6 +559,10 @@
             const menuToggleBtn = document.getElementById('menuToggleBtn');
             const menuDrawer = document.getElementById('menuDrawer');
             const closeMenuBtn = document.getElementById('closeMenuBtn');
+            
+            const themeToggleBtn = document.getElementById('themeToggleBtn');
+            const shareMenuBtn = document.getElementById('shareMenuBtn');
+            
             const menuEval = document.getElementById('menuEval');
             const menuContact = document.getElementById('menuContact');
             const menuPartners = document.getElementById('menuPartners');
@@ -711,16 +669,51 @@
             createVUMeter();
 
             function applyAppConfigUI() {
-                document.getElementById('cfgBtnLeft').href = appConfig.btnLeftUrl; 
-                document.getElementById('cfgBtnLeft').title = appConfig.btnLeftHover;
-                document.getElementById('cfgImgLeft').src = appConfig.btnLeftImage || "Sint.jpg"; 
-                document.getElementById('shareBtn').title = appConfig.waHover;
+                // Atualiza o Menu
+                document.getElementById('cfgMenuLeftUrl').href = appConfig.btnLeftUrl; 
+                document.getElementById('cfgMenuLeftHover').textContent = appConfig.btnLeftHover;
+                // Atualiza a Grade da TV
+                const tvBtn = document.getElementById('cfgBtnLeft');
+                if (tvBtn) {
+                    tvBtn.href = appConfig.btnLeftUrl;
+                    tvBtn.title = appConfig.btnLeftHover;
+                    const tvImg = document.getElementById('cfgImgLeft');
+                    if(tvImg) tvImg.src = appConfig.btnLeftImage || "Sint.jpg";
+                }
             }
             applyAppConfigUI();
             
+            // Lógica do Menu Drawer
             menuToggleBtn.addEventListener('click', () => { menuDrawer.style.display = 'flex'; });
             closeMenuBtn.addEventListener('click', () => { menuDrawer.style.display = 'none'; });
             menuDrawer.addEventListener('click', (e) => { if (e.target === menuDrawer) menuDrawer.style.display = 'none'; });
+
+            // Lógica do Switch de Tema (Menu Lateral)
+            themeToggleBtn.checked = document.body.classList.contains('light-theme');
+            themeToggleBtn.addEventListener('change', function() {
+                const isLight = this.checked;
+                if (isLight) document.body.classList.add('light-theme');
+                else document.body.classList.remove('light-theme');
+                localStorage.setItem('gospelTheme', isLight ? 'light' : 'dark');
+            });
+
+            // Lógica do Botão Tema (Grade TV)
+            const themeBtnTV = document.getElementById('themeBtn');
+            if (themeBtnTV) {
+                themeBtnTV.addEventListener('click', () => {
+                    document.body.classList.toggle('light-theme');
+                    const isLight = document.body.classList.contains('light-theme');
+                    themeToggleBtn.checked = isLight;
+                    localStorage.setItem('gospelTheme', isLight ? 'light' : 'dark');
+                });
+            }
+
+            shareMenuBtn.addEventListener('click', () => {
+                menuDrawer.style.display = 'none';
+                const radioName = tapes[selectedTapeIndex].name;
+                let userMsg = appConfig.waUrl.replace('[Radio]', radioName);
+                window.open(`https://wa.me/?text=${encodeURIComponent(userMsg)}`, '_blank');
+            });
 
             menuEval.addEventListener('click', () => {
                 menuDrawer.style.display = 'none';
@@ -751,29 +744,15 @@
                 aboutModal.style.display = 'flex';
             });
             
-            if(aboutBtnTV) {
-                aboutBtnTV.addEventListener('click', () => {
-                    aboutModal.style.display = 'flex';
-                });
-            }
+            if(aboutBtnTV) { aboutBtnTV.addEventListener('click', () => { aboutModal.style.display = 'flex'; }); }
 
             function renderPartnersModal() {
                 partnersGridContainer.innerHTML = '';
                 appConfig.partners.forEach((partner, idx) => {
-                    const card = document.createElement('a');
-                    card.className = 'partner-card';
-                    card.href = partner.url && partner.url !== "#" ? partner.url : "#";
-                    card.target = "_blank";
-                    
-                    card.title = partner.name || 'Parceiro ' + (idx + 1);
-                    
-                    card.innerHTML = `
-                        <img src="${esc(partner.image || 'Sint.jpg')}" alt="${esc(partner.name || 'Parceiro')}" onerror="this.src='Sint.jpg'">
-                    `;
-                    
-                    card.addEventListener('click', (e) => {
-                        if(!partner.url || partner.url === "#") { e.preventDefault(); alert("Este parceiro ainda não possui um link configurado."); }
-                    });
+                    const card = document.createElement('a'); card.className = 'partner-card';
+                    card.href = partner.url && partner.url !== "#" ? partner.url : "#"; card.target = "_blank"; card.title = partner.name || 'Parceiro ' + (idx + 1);
+                    card.innerHTML = `<img src="${esc(partner.image || 'Sint.jpg')}" alt="${esc(partner.name || 'Parceiro')}" onerror="this.src='Sint.jpg'">`;
+                    card.addEventListener('click', (e) => { if(!partner.url || partner.url === "#") { e.preventDefault(); alert("Este parceiro ainda não possui link configurado."); } });
                     partnersGridContainer.appendChild(card);
                 });
             }
@@ -792,19 +771,8 @@
             fullscreenBtn.addEventListener('click', () => {
                 if (!document.fullscreenElement) { document.documentElement.requestFullscreen().catch(() => alert("Tela cheia não suportada.")); } else { document.exitFullscreen(); }
             });
-            themeBtn.addEventListener('click', () => { document.body.classList.toggle('light-theme'); localStorage.setItem('gospelTheme', document.body.classList.contains('light-theme') ? 'light' : 'dark'); });
             
-            shareBtn.addEventListener('click', () => {
-                const radioName = tapes[selectedTapeIndex].name;
-                let userMsg = appConfig.waUrl.replace('[Radio]', radioName);
-                window.open(`https://wa.me/?text=${encodeURIComponent(userMsg)}`, '_blank');
-            });
-            
-            if (exitBtnTV) {
-                exitBtnTV.addEventListener('click', () => {
-                    if(confirm("Deseja sair do aplicativo?")) window.close(); 
-                });
-            }
+            if (exitBtnTV) { exitBtnTV.addEventListener('click', () => { if(confirm("Deseja sair do aplicativo?")) window.close(); }); }
 
             closeAboutBtn.addEventListener('click', () => { aboutModal.style.display = 'none'; });
 
@@ -838,8 +806,8 @@
                     body.innerHTML = `<label class="config-label">Nome</label><input type="text" class="input-modern tape-name-input" value="${esc(tape.name)}"><label class="config-label">Stream URL</label><input type="text" class="input-modern tape-url-input" value="${esc(tape.url)}"><label class="config-label">Imagem</label><input type="text" class="input-modern tape-image-input" value="${esc(tape.image || '')}"><label class="config-label">Estado</label><input type="text" class="input-modern tape-state-input" value="${esc(tape.state || '')}"><label class="config-label">Banner</label><input type="text" class="input-modern tape-banner-input" value="${esc(tape.banner)}">`;
                     header.addEventListener('click', (e) => {
                         if(e.target.closest('.drag-handle')) return; const isExpanded = body.classList.contains('expanded');
-                        document.querySelectorAll('.tape-body').forEach(b => b.classList.remove('expanded')); document.querySelectorAll('.chevron-icon').forEach(c => c.style.transform = 'rotate(0deg)');
-                        if(!isExpanded) { body.classList.add('expanded'); header.querySelector('.chevron-icon').style.transform = 'rotate(180deg)'; }
+                        document.querySelectorAll('.tape-body').forEach(b => b.classList.remove('expanded')); 
+                        if(!isExpanded) { body.classList.add('expanded'); }
                     });
                     const nameInput = body.querySelector('.tape-name-input'); const titleDisplay = header.querySelector('.tape-title'); nameInput.addEventListener('input', (e) => { titleDisplay.textContent = e.target.value || `Rádio ${index + 1}`; });
                     item.appendChild(header); item.appendChild(body); adminStationsList.appendChild(item);
@@ -847,7 +815,7 @@
                 if (sortableInstance) sortableInstance.destroy();
                 sortableInstance = new Sortable(adminStationsList, { handle: '.drag-handle', animation: 150, ghostClass: 'sortable-ghost', onEnd: function () { const allRanks = adminStationsList.querySelectorAll('.tape-rank'); allRanks.forEach((rank, idx) => { rank.textContent = idx + 1; }); } });
                 
-                document.getElementById('cfgInputLeftImage').value = appConfig.btnLeftImage; 
+                document.getElementById('cfgInputLeftImage').value = appConfig.btnLeftImage || "Sint.jpg";
                 document.getElementById('cfgInputLeftHover').value = appConfig.btnLeftHover; 
                 document.getElementById('cfgInputLeftUrl').value = appConfig.btnLeftUrl;
                 document.getElementById('cfgInputEval').value = appConfig.evalUrl || '';
@@ -872,8 +840,7 @@
             function switchSubTab(targetTab) {
                 [subTab1Btn, subTab2Btn, subTab3Btn, subTab4Btn].forEach(b => b.classList.remove('active'));
                 [subTab1Content, subTab2Content, subTab3Content, subTab4Content].forEach(c => c.classList.remove('active'));
-                targetTab.btn.classList.add('active');
-                targetTab.content.classList.add('active');
+                targetTab.btn.classList.add('active'); targetTab.content.classList.add('active');
             }
 
             subTab1Btn.addEventListener('click', () => switchSubTab({ btn: subTab1Btn, content: subTab1Content }));
@@ -883,9 +850,7 @@
 
             volumeBtn.addEventListener('click', (e) => { e.stopPropagation(); volumePopup.classList.toggle('show'); }); document.addEventListener('click', (e) => { if (!volumePopup.contains(e.target) && !volumeBtn.contains(e.target)) volumePopup.classList.remove('show'); });
 
-            function setVolume(percent) {
-                let vol = Math.max(0, Math.min(1, percent / 100)); audio.volume = vol; volumeFill.style.height = (vol * 100) + '%'; volumeKnob.style.bottom = (vol * 100) + '%'; volumeValueDisplay.textContent = Math.round(vol * 10); 
-            }
+            function setVolume(percent) { let vol = Math.max(0, Math.min(1, percent / 100)); audio.volume = vol; volumeFill.style.height = (vol * 100) + '%'; volumeKnob.style.bottom = (vol * 100) + '%'; volumeValueDisplay.textContent = Math.round(vol * 10); }
             function handleVolumeDrag(e) { e.preventDefault(); const clientY = e.touches ? e.touches[0].clientY : e.clientY; const rect = volumeSlider.getBoundingClientRect(); let percent = (1 - ((clientY - rect.top) / rect.height)) * 100; setVolume(percent); }
             volumeSlider.addEventListener('mousedown', (e) => { handleVolumeDrag(e); const onMouseMove = (ev) => handleVolumeDrag(ev); const onMouseUp = () => { document.removeEventListener('mousemove', onMouseMove); document.removeEventListener('mouseup', onMouseUp); }; document.addEventListener('mousemove', onMouseMove); document.addEventListener('mouseup', onMouseUp); });
             volumeSlider.addEventListener('touchstart', (e) => { handleVolumeDrag(e); const onTouchMove = (ev) => handleVolumeDrag(ev); const onTouchEnd = () => { document.removeEventListener('touchmove', onTouchMove); document.removeEventListener('touchend', onTouchEnd); }; document.addEventListener('touchmove', onTouchMove, {passive: false}); document.addEventListener('touchend', onTouchEnd); }, {passive: false});
@@ -931,17 +896,8 @@
                 const nameInputs = document.querySelectorAll('.tape-name-input'); const urlInputs = document.querySelectorAll('.tape-url-input'); const imageInputs = document.querySelectorAll('.tape-image-input'); const bannerInputs = document.querySelectorAll('.tape-banner-input'); const stateInputs = document.querySelectorAll('.tape-state-input'); const newTapes = [];
                 for (let i = 0; i < nameInputs.length; i++) { newTapes.push({ name: nameInputs[i].value, url: urlInputs[i] ? urlInputs[i].value : '', image: imageInputs[i] ? imageInputs[i].value : '', banner: bannerInputs[i] ? bannerInputs[i].value : '', state: stateInputs[i] ? stateInputs[i].value : '' }); }
                 
-                const pNames = document.querySelectorAll('.p-name');
-                const pImages = document.querySelectorAll('.p-image');
-                const pUrls = document.querySelectorAll('.p-url');
-                const updatedPartners = [];
-                for(let i = 0; i < pNames.length; i++) {
-                    updatedPartners.push({
-                        name: pNames[i].value,
-                        image: pImages[i] ? pImages[i].value : 'Sint.jpg',
-                        url: pUrls[i] ? pUrls[i].value : '#'
-                    });
-                }
+                const pNames = document.querySelectorAll('.p-name'); const pImages = document.querySelectorAll('.p-image'); const pUrls = document.querySelectorAll('.p-url'); const updatedPartners = [];
+                for(let i = 0; i < pNames.length; i++) { updatedPartners.push({ name: pNames[i].value, image: pImages[i] ? pImages[i].value : 'Sint.jpg', url: pUrls[i] ? pUrls[i].value : '#' }); }
 
                 appConfig = {
                     btnLeftImage: document.getElementById('cfgInputLeftImage').value,
@@ -950,8 +906,8 @@
                     evalUrl: document.getElementById('cfgInputEval').value,
                     contactUrl: document.getElementById('cfgInputContact').value,
                     partners: updatedPartners,
-                    waHover: document.getElementById('cfgInputWaHover') ? document.getElementById('cfgInputWaHover').value : defaultAppConfig.waHover,
-                    waUrl: document.getElementById('cfgInputWaUrl') ? document.getElementById('cfgInputWaUrl').value : defaultAppConfig.waUrl
+                    waHover: defaultAppConfig.waHover,
+                    waUrl: defaultAppConfig.waUrl
                 };
                 
                 const playingUrl = tapes[selectedTapeIndex].url; tapes = newTapes; localStorage.setItem('gospelTapes', JSON.stringify(tapes)); localStorage.setItem('gospelConfig', JSON.stringify(appConfig));
@@ -963,41 +919,32 @@
 
             exportBtn.addEventListener('click', () => {
                 memorySaveHandler();
-
-                // Limpa estados transitórios do DOM antes de serializar
                 document.querySelectorAll('.modal-overlay').forEach(modal => { modal.style.display = 'none'; });
-                menuDrawer.style.display = 'none';
-                volumePopup.classList.remove('show');
-                loadingIndicator.style.display = 'none';
-                vuSegments.forEach(seg => seg.classList.remove('lit', 'half-lit'));
-                document.querySelectorAll('.station-item').forEach(el => el.classList.remove('selected'));
-                document.querySelectorAll('.tape-body').forEach(b => b.classList.remove('expanded'));
-                document.querySelectorAll('.chevron-icon').forEach(c => { c.style.transform = ''; });
-                updateStatusUI('off');
+                menuDrawer.style.display = 'none'; volumePopup.classList.remove('show'); loadingIndicator.style.display = 'none';
+                vuSegments.forEach(seg => seg.classList.remove('lit', 'half-lit')); document.querySelectorAll('.station-item').forEach(el => el.classList.remove('selected'));
+                document.querySelectorAll('.tape-body').forEach(b => b.classList.remove('expanded')); updateStatusUI('off');
 
                 localStorage.setItem('gospelVersion', APP_DATA_VERSION);
                 let htmlContent = "<!DOCTYPE html>\n" + document.documentElement.outerHTML;
 
                 function replaceBetween(content, startMarker, endMarker, replacement) {
-                    const startIdx = content.indexOf(startMarker);
-                    const endIdx = content.indexOf(endMarker);
+                    const startIdx = content.indexOf(startMarker); const endIdx = content.indexOf(endMarker);
                     if (startIdx === -1 || endIdx === -1 || endIdx < startIdx) return null;
                     return content.slice(0, startIdx + startMarker.length) + '\n            ' + replacement + '\n            ' + content.slice(endIdx);
                 }
 
-                // Impede que uma tag de fechamento de script dentro dos dados encerre prematuramente o bloco no arquivo exportado
                 function safeJson(obj) { return JSON.stringify(obj, null, 4).replace(/<\//g, '<\\/'); }
 
                 const tapesBlock = replaceBetween(htmlContent, '/*__DEFAULT_TAPES_START__*/', '/*__DEFAULT_TAPES_END__*/', 'let defaultTapes = ' + safeJson(tapes) + ';');
-                if (tapesBlock === null) { alert('Erro ao exportar: marcador de estações não encontrado no HTML.'); return; }
+                if (tapesBlock === null) { alert('Erro: marcador de estações não encontrado.'); return; }
                 htmlContent = tapesBlock;
 
                 const configBlock = replaceBetween(htmlContent, '/*__DEFAULT_APP_CONFIG_START__*/', '/*__DEFAULT_APP_CONFIG_END__*/', 'let defaultAppConfig = ' + safeJson(appConfig) + ';');
-                if (configBlock === null) { alert('Erro ao exportar: marcador de configurações não encontrado no HTML.'); return; }
+                if (configBlock === null) { alert('Erro: marcador de configurações não encontrado.'); return; }
                 htmlContent = configBlock;
 
                 const versionBlock = replaceBetween(htmlContent, '/*__APP_DATA_VERSION_START__*/', '/*__APP_DATA_VERSION_END__*/', 'const APP_DATA_VERSION = ' + APP_DATA_VERSION + ';');
-                if (versionBlock === null) { alert('Erro ao exportar: marcador de versão não encontrado no HTML.'); return; }
+                if (versionBlock === null) { alert('Erro: marcador de versão não encontrado.'); return; }
                 htmlContent = versionBlock;
 
                 const blob = new Blob([htmlContent], { type: 'text/html;charset=utf-8' }); const url = URL.createObjectURL(blob); const a = document.createElement('a'); a.href = url; a.download = 'index.html'; document.body.appendChild(a); a.click(); document.body.removeChild(a); URL.revokeObjectURL(url);
@@ -1010,6 +957,17 @@
             stationName.textContent = tapes[selectedTapeIndex].name; topBadgeImg.src = `Top${selectedTapeIndex + 1}.png`; let initialImage = tapes[selectedTapeIndex].state || 'CE.png'; if (!initialImage.startsWith('estados/')) initialImage = 'estados/' + initialImage; stateBadgeImg.src = initialImage; runningBanner.textContent = tapes[selectedTapeIndex].banner; albumArtImage.src = tapes[selectedTapeIndex].image ? tapes[selectedTapeIndex].image : "Sint.jpg";
             updateFavoriteUI(selectedTapeIndex); updateStatusUI('off');
         })();
+    </script>
+
+    <!-- INSTRUÇÃO DO PWA: Ativa a instalação do App -->
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('sw.js').catch(err => {
+                    console.log('Erro no Service Worker: ', err);
+                });
+            });
+        }
     </script>
 </body>
 </html>
