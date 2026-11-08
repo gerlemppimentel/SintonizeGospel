@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="pt-br"><head>
+<html lang="pt-br">
+<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     
@@ -59,20 +60,19 @@
         input:checked + .slider { background-color: var(--accent); border-color: var(--accent); }
         input:checked + .slider:before { transform: translateX(20px); background-color: #fff; }
 
-        /* --- NOVO DESIGN LIMPO DO CENTRO E SOLUÇÃO DO SELO (LIVE/OFF) --- */
-        .station-display { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 10px 16px; text-align: center; position: relative; }
+        /* --- DESIGN CENTRO E LED LIVE/OFF CORRIGIDO --- */
+        .station-display { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 10px 16px; text-align: center; position: relative; margin-top: 20px; }
         
         .main-art-container { display: flex; flex-direction: column; align-items: center; gap: 0; position: relative; margin: 0 auto 16px auto; }
         
-        /* A cápsula invisível que resolve o corte do selo */
         .icon-wrapper { position: relative; display: flex; justify-content: center; width: 190px; height: 190px; margin-bottom: 0; z-index: 5; }
         
         .station-icon { width: 100%; height: 100%; border-radius: 20px; box-shadow: 0 15px 35px rgba(0,0,0,0.4); border: 4px solid var(--surface); transition: box-shadow 0.3s ease, border-color 0.3s ease; overflow: hidden; background-color: var(--surface); display: flex; align-items: center; justify-content: center; }
         .station-icon img { width: 100%; height: 100%; object-fit: cover; }
         .station-icon.playing { box-shadow: 0 0 40px var(--accent-glow); border-color: var(--accent); }
 
-        /* Selo perfeitamente alinhado por fora da imagem */
-        .status-badge { position: absolute; top: -14px; left: 50%; transform: translateX(-50%); z-index: 20; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; padding: 4px 12px; border-radius: 20px; background: var(--surface); color: var(--text-muted); display: inline-flex; align-items: center; gap: 6px; box-shadow: 0 4px 10px rgba(0,0,0,0.3);}
+        /* Selo LIVE/OFF posicionado bem acima, fora do logo */
+        .status-badge { position: absolute; top: -38px; left: 50%; transform: translateX(-50%); z-index: 20; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; padding: 4px 12px; border-radius: 20px; background: var(--surface); color: var(--text-muted); display: inline-flex; align-items: center; gap: 6px; box-shadow: 0 4px 10px rgba(0,0,0,0.3);}
         .status-dot { width: 8px; height: 8px; border-radius: 50%; background: #ef4444; }
         .status-badge.active .status-dot { background: var(--accent); box-shadow: 0 0 8px var(--accent); }
         .status-badge.active { color: var(--accent); background: rgba(16, 185, 129, 0.15); border: 1px solid rgba(16, 185, 129, 0.3); }
@@ -189,7 +189,6 @@
             #prevBtn { grid-row: 6 / 7; grid-column: 1 / 2; width: 100%; height: 100%; margin: 0; border-radius: 12px; }
             #nextBtn { grid-row: 6 / 7; grid-column: 2 / 3; width: 100%; height: 100%; margin: 0; border-radius: 12px; }
 
-            /* Cápsula ajustada para paisagem */
             .icon-wrapper { grid-row: 2 / 5; grid-column: 4 / 5; width: 140px; height: 140px; margin: 0; align-self: start; justify-self: center; }
             .station-icon { border-width: 3px; }
 
@@ -246,13 +245,11 @@
             #prevBtn { grid-row: 6 / 7; grid-column: 1 / 2; width: 100%; height: 100%; margin: 0; border-radius: 16px; }
             #nextBtn { grid-row: 6 / 7; grid-column: 2 / 3; width: 100%; height: 100%; margin: 0; border-radius: 16px; }
 
-            /* Cápsula restaurada para TV */
             .icon-wrapper { grid-row: 2 / 5; grid-column: 4 / 5; width: 196px; height: 196px; margin: 0; align-self: start; justify-self: center; }
             .station-icon { border-width: 4px; border-radius: 24px; border-color: var(--border-color); }
 
             #fullscreenBtn { width: 64px !important; height: 64px !important; border-radius: 16px !important; background: var(--surface-hover); border: 1px solid var(--border-color); display: flex; align-items: center; justify-content: center; margin: 0; }
 
-            /* Restaura a formatação quadrada para TODOS os botões da grade (incluindo os tv-only que voltaram) */
             .docked-btn, .control-btn, .nav-btn, .admin-gear, #exitBtnTV, #menuToggleBtn {
                 position: relative !important; margin: 0 !important; width: 100% !important; height: 100% !important;
                 border-radius: 16px !important; background: var(--surface-hover); border: 1px solid var(--border-color);
@@ -266,7 +263,6 @@
 
             #menuToggleBtn { width: 64px !important; height: 64px !important; }
             
-            /* MAPA DE POSICIONAMENTO DA GRADE DA TV (Restaurado exatamente como era) */
             #topWrapper { grid-row: 2 / 3; grid-column: 6 / 7; }
             #cfgBtnLeft { grid-row: 2 / 3; grid-column: 8 / 9; }
             #exitBtnTV  { grid-row: 2 / 3; grid-column: 10 / 11; }
@@ -284,15 +280,15 @@
             .volume-popup { position: fixed; bottom: 100px; left: 50%; transform: translateX(-50%); z-index: 1000; }
         }
     </style>
-<style>*, ::before, ::after{--tw-border-spacing-x:0;--tw-border-spacing-y:0;--tw-translate-x:0;--tw-translate-y:0;--tw-rotate:0;--tw-skew-x:0;--tw-skew-y:0;--tw-scale-x:1;--tw-scale-y:1;--tw-pan-x: ;--tw-pan-y: ;--tw-pinch-zoom: ;--tw-scroll-snap-strictness:proximity;--tw-gradient-from-position: ;--tw-gradient-via-position: ;--tw-gradient-to-position: ;--tw-ordinal: ;--tw-slashed-zero: ;--tw-numeric-figure: ;--tw-numeric-spacing: ;--tw-numeric-fraction: ;--tw-ring-inset: ;--tw-ring-offset-width:0px;--tw-ring-offset-color:#fff;--tw-ring-color:rgb(59 130 246 / 0.5);--tw-ring-offset-shadow:0 0 #0000;--tw-ring-shadow:0 0 #0000;--tw-shadow:0 0 #0000;--tw-shadow-colored:0 0 #0000;--tw-blur: ;--tw-brightness: ;--tw-contrast: ;--tw-grayscale: ;--tw-hue-rotate: ;--tw-invert: ;--tw-saturate: ;--tw-sepia: ;--tw-drop-shadow: ;--tw-backdrop-blur: ;--tw-backdrop-brightness: ;--tw-backdrop-contrast: ;--tw-backdrop-grayscale: ;--tw-backdrop-hue-rotate: ;--tw-backdrop-invert: ;--tw-backdrop-opacity: ;--tw-backdrop-saturate: ;--tw-backdrop-sepia: ;--tw-contain-size: ;--tw-contain-layout: ;--tw-contain-paint: ;--tw-contain-style: }::backdrop{--tw-border-spacing-x:0;--tw-border-spacing-y:0;--tw-translate-x:0;--tw-translate-y:0;--tw-rotate:0;--tw-skew-x:0;--tw-skew-y:0;--tw-scale-x:1;--tw-scale-y:1;--tw-pan-x: ;--tw-pan-y: ;--tw-pinch-zoom: ;--tw-scroll-snap-strictness:proximity;--tw-gradient-from-position: ;--tw-gradient-via-position: ;--tw-gradient-to-position: ;--tw-ordinal: ;--tw-slashed-zero: ;--tw-numeric-figure: ;--tw-numeric-spacing: ;--tw-numeric-fraction: ;--tw-ring-inset: ;--tw-ring-offset-width:0px;--tw-ring-offset-color:#fff;--tw-ring-color:rgb(59 130 246 / 0.5);--tw-ring-offset-shadow:0 0 #0000;--tw-ring-shadow:0 0 #0000;--tw-shadow:0 0 #0000;--tw-shadow-colored:0 0 #0000;--tw-blur: ;--tw-brightness: ;--tw-contrast: ;--tw-grayscale: ;--tw-hue-rotate: ;--tw-invert: ;--tw-saturate: ;--tw-sepia: ;--tw-drop-shadow: ;--tw-backdrop-blur: ;--tw-backdrop-brightness: ;--tw-backdrop-contrast: ;--tw-backdrop-grayscale: ;--tw-backdrop-hue-rotate: ;--tw-backdrop-invert: ;--tw-backdrop-opacity: ;--tw-backdrop-saturate: ;--tw-backdrop-sepia: ;--tw-contain-size: ;--tw-contain-layout: ;--tw-contain-paint: ;--tw-contain-style: }/* ! tailwindcss v3.4.17 | MIT License | https://tailwindcss.com */*,::after,::before{box-sizing:border-box;border-width:0;border-style:solid;border-color:#e5e7eb}::after,::before{--tw-content:''}:host,html{line-height:1.5;-webkit-text-size-adjust:100%;-moz-tab-size:4;tab-size:4;font-family:ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";font-feature-settings:normal;font-variation-settings:normal;-webkit-tap-highlight-color:transparent}body{margin:0;line-height:inherit}hr{height:0;color:inherit;border-top-width:1px}abbr:where([title]){-webkit-text-decoration:underline dotted;text-decoration:underline dotted}h1,h2,h3,h4,h5,h6{font-size:inherit;font-weight:inherit}a{color:inherit;text-decoration:inherit}b,strong{font-weight:bolder}code,kbd,pre,samp{font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;font-feature-settings:normal;font-variation-settings:normal;font-size:1em}small{font-size:80%}sub,sup{font-size:75%;line-height:0;position:relative;vertical-align:baseline}sub{bottom:-.25em}sup{top:-.5em}table{text-indent:0;border-color:inherit;border-collapse:collapse}button,input,optgroup,select,textarea{font-family:inherit;font-feature-settings:inherit;font-variation-settings:inherit;font-size:100%;font-weight:inherit;line-height:inherit;letter-spacing:inherit;color:inherit;margin:0;padding:0}button,select{text-transform:none}button,input:where([type=button]),input:where([type=reset]),input:where([type=submit]){-webkit-appearance:button;background-color:transparent;background-image:none}:-moz-focusring{outline:auto}:-moz-ui-invalid{box-shadow:none}progress{vertical-align:baseline}::-webkit-inner-spin-button,::-webkit-outer-spin-button{height:auto}[type=search]{-webkit-appearance:textfield;outline-offset:-2px}::-webkit-search-decoration{-webkit-appearance:none}::-webkit-file-upload-button{-webkit-appearance:button;font:inherit}summary{display:list-item}blockquote,dd,dl,figure,h1,h2,h3,h4,h5,h6,hr,p,pre{margin:0}fieldset{margin:0;padding:0}legend{padding:0}menu,ol,ul{list-style:none;margin:0;padding:0}dialog{padding:0}textarea{resize:vertical}input::placeholder,textarea::placeholder{opacity:1;color:#9ca3af}[role=button],button{cursor:pointer}:disabled{cursor:default}audio,canvas,embed,iframe,img,object,svg,video{display:block;vertical-align:middle}img,video{max-width:100%;height:auto}[hidden]:where(:not([hidden=until-found])){display:none}.mb-1{margin-bottom:0.25rem}.mb-1\.5{margin-bottom:0.375rem}.mb-3{margin-bottom:0.75rem}.mb-4{margin-bottom:1rem}.flex{display:flex}.hidden{display:none}.h-20{height:5rem}.h-28{height:7rem}.h-4{height:1rem}.h-5{height:1.25rem}.w-28{width:7rem}.w-4{width:1rem}.w-40{width:10rem}.w-5{width:1.25rem}.items-center{align-items:center}.justify-center{justify-content:center}.gap-1\.5{gap:0.375rem}.gap-2{gap:0.5rem}.rounded-2xl{border-radius:1rem}.rounded-md{border-radius:0.375rem}.rounded-xl{border-radius:0.75rem}.border{border-width:1px}.border-2{border-width:2px}.border-\[var\(--border-color\)\]{border-color:var(--border-color)}.bg-\[var\(--surface\)\]{background-color:var(--surface)}.object-contain{object-fit:contain}.object-cover{object-fit:cover}.p-1{padding:0.25rem}.px-2{padding-left:0.5rem;padding-right:0.5rem}.py-1{padding-top:0.25rem;padding-bottom:0.25rem}.text-center{text-align:center}.text-\[11px\]{font-size:11px}.text-\[15px\]{font-size:15px}.text-sm{font-size:0.875rem;line-height:1.25rem}.text-xs{font-size:0.75rem;line-height:1rem}.font-bold{font-weight:700}.font-medium{font-weight:500}.font-semibold{font-weight:600}.uppercase{text-transform:uppercase}.tracking-wider{letter-spacing:0.05em}.tracking-widest{letter-spacing:0.1em}.text-\[var\(--accent\)\]{color:var(--accent)}.text-\[var\(--text-main\)\]{color:var(--text-main)}.text-\[var\(--text-muted\)\]{color:var(--text-muted)}.shadow{--tw-shadow:0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);--tw-shadow-colored:0 1px 3px 0 var(--tw-shadow-color), 0 1px 2px -1px var(--tw-shadow-color);box-shadow:var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow)}.shadow-lg{--tw-shadow:0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);--tw-shadow-colored:0 10px 15px -3px var(--tw-shadow-color), 0 4px 6px -4px var(--tw-shadow-color);box-shadow:var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow)}.transition-colors{transition-property:color, background-color, border-color, fill, stroke, -webkit-text-decoration-color;transition-property:color, background-color, border-color, text-decoration-color, fill, stroke;transition-property:color, background-color, border-color, text-decoration-color, fill, stroke, -webkit-text-decoration-color;transition-timing-function:cubic-bezier(0.4, 0, 0.2, 1);transition-duration:150ms}.hover\:text-\[\#34d399\]:hover{--tw-text-opacity:1;color:rgb(52 211 153 / var(--tw-text-opacity, 1))}.focus\:outline-none:focus{outline:2px solid transparent;outline-offset:2px}.focus\:ring-2:focus{--tw-ring-offset-shadow:var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color);--tw-ring-shadow:var(--tw-ring-inset) 0 0 0 calc(2px + var(--tw-ring-offset-width)) var(--tw-ring-color);box-shadow:var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow, 0 0 #0000)}.focus\:ring-\[var\(--accent\)\]:focus{--tw-ring-color:var(--accent)}@media (min-width: 768px){.md\:mb-0{margin-bottom:0px}.md\:mb-2{margin-bottom:0.5rem}.md\:mb-4{margin-bottom:1rem}.md\:mb-5{margin-bottom:1.25rem}.md\:mb-6{margin-bottom:1.5rem}.md\:inline{display:inline}.md\:hidden{display:none}.md\:h-36{height:9rem}.md\:h-5{height:1.25rem}.md\:w-36{width:9rem}.md\:w-44{width:11rem}.md\:w-5{width:1.25rem}.md\:gap-2{gap:0.5rem}.md\:rounded-3xl{border-radius:1.5rem}.md\:p-2{padding:0.5rem}.md\:text-\[11px\]{font-size:11px}.md\:text-\[16px\]{font-size:16px}.md\:text-sm{font-size:0.875rem;line-height:1.25rem}.md\:text-xs{font-size:0.75rem;line-height:1rem}.md\:font-bold{font-weight:700}.md\:leading-relaxed{line-height:1.625}}</style><style>*, ::before, ::after{--tw-border-spacing-x:0;--tw-border-spacing-y:0;--tw-translate-x:0;--tw-translate-y:0;--tw-rotate:0;--tw-skew-x:0;--tw-skew-y:0;--tw-scale-x:1;--tw-scale-y:1;--tw-pan-x: ;--tw-pan-y: ;--tw-pinch-zoom: ;--tw-scroll-snap-strictness:proximity;--tw-gradient-from-position: ;--tw-gradient-via-position: ;--tw-gradient-to-position: ;--tw-ordinal: ;--tw-slashed-zero: ;--tw-numeric-figure: ;--tw-numeric-spacing: ;--tw-numeric-fraction: ;--tw-ring-inset: ;--tw-ring-offset-width:0px;--tw-ring-offset-color:#fff;--tw-ring-color:rgb(59 130 246 / 0.5);--tw-ring-offset-shadow:0 0 #0000;--tw-ring-shadow:0 0 #0000;--tw-shadow:0 0 #0000;--tw-shadow-colored:0 0 #0000;--tw-blur: ;--tw-brightness: ;--tw-contrast: ;--tw-grayscale: ;--tw-hue-rotate: ;--tw-invert: ;--tw-saturate: ;--tw-sepia: ;--tw-drop-shadow: ;--tw-backdrop-blur: ;--tw-backdrop-brightness: ;--tw-backdrop-contrast: ;--tw-backdrop-grayscale: ;--tw-backdrop-hue-rotate: ;--tw-backdrop-invert: ;--tw-backdrop-opacity: ;--tw-backdrop-saturate: ;--tw-backdrop-sepia: ;--tw-contain-size: ;--tw-contain-layout: ;--tw-contain-paint: ;--tw-contain-style: }::backdrop{--tw-border-spacing-x:0;--tw-border-spacing-y:0;--tw-translate-x:0;--tw-translate-y:0;--tw-rotate:0;--tw-skew-x:0;--tw-skew-y:0;--tw-scale-x:1;--tw-scale-y:1;--tw-pan-x: ;--tw-pan-y: ;--tw-pinch-zoom: ;--tw-scroll-snap-strictness:proximity;--tw-gradient-from-position: ;--tw-gradient-via-position: ;--tw-gradient-to-position: ;--tw-ordinal: ;--tw-slashed-zero: ;--tw-numeric-figure: ;--tw-numeric-spacing: ;--tw-numeric-fraction: ;--tw-ring-inset: ;--tw-ring-offset-width:0px;--tw-ring-offset-color:#fff;--tw-ring-color:rgb(59 130 246 / 0.5);--tw-ring-offset-shadow:0 0 #0000;--tw-ring-shadow:0 0 #0000;--tw-shadow:0 0 #0000;--tw-shadow-colored:0 0 #0000;--tw-blur: ;--tw-brightness: ;--tw-contrast: ;--tw-grayscale: ;--tw-hue-rotate: ;--tw-invert: ;--tw-saturate: ;--tw-sepia: ;--tw-drop-shadow: ;--tw-backdrop-blur: ;--tw-backdrop-brightness: ;--tw-backdrop-contrast: ;--tw-backdrop-grayscale: ;--tw-backdrop-hue-rotate: ;--tw-backdrop-invert: ;--tw-backdrop-opacity: ;--tw-backdrop-saturate: ;--tw-backdrop-sepia: ;--tw-contain-size: ;--tw-contain-layout: ;--tw-contain-paint: ;--tw-contain-style: }/* ! tailwindcss v3.4.17 | MIT License | https://tailwindcss.com */*,::after,::before{box-sizing:border-box;border-width:0;border-style:solid;border-color:#e5e7eb}::after,::before{--tw-content:''}:host,html{line-height:1.5;-webkit-text-size-adjust:100%;-moz-tab-size:4;tab-size:4;font-family:ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";font-feature-settings:normal;font-variation-settings:normal;-webkit-tap-highlight-color:transparent}body{margin:0;line-height:inherit}hr{height:0;color:inherit;border-top-width:1px}abbr:where([title]){-webkit-text-decoration:underline dotted;text-decoration:underline dotted}h1,h2,h3,h4,h5,h6{font-size:inherit;font-weight:inherit}a{color:inherit;text-decoration:inherit}b,strong{font-weight:bolder}code,kbd,pre,samp{font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;font-feature-settings:normal;font-variation-settings:normal;font-size:1em}small{font-size:80%}sub,sup{font-size:75%;line-height:0;position:relative;vertical-align:baseline}sub{bottom:-.25em}sup{top:-.5em}table{text-indent:0;border-color:inherit;border-collapse:collapse}button,input,optgroup,select,textarea{font-family:inherit;font-feature-settings:inherit;font-variation-settings:inherit;font-size:100%;font-weight:inherit;line-height:inherit;letter-spacing:inherit;color:inherit;margin:0;padding:0}button,select{text-transform:none}button,input:where([type=button]),input:where([type=reset]),input:where([type=submit]){-webkit-appearance:button;background-color:transparent;background-image:none}:-moz-focusring{outline:auto}:-moz-ui-invalid{box-shadow:none}progress{vertical-align:baseline}::-webkit-inner-spin-button,::-webkit-outer-spin-button{height:auto}[type=search]{-webkit-appearance:textfield;outline-offset:-2px}::-webkit-search-decoration{-webkit-appearance:none}::-webkit-file-upload-button{-webkit-appearance:button;font:inherit}summary{display:list-item}blockquote,dd,dl,figure,h1,h2,h3,h4,h5,h6,hr,p,pre{margin:0}fieldset{margin:0;padding:0}legend{padding:0}menu,ol,ul{list-style:none;margin:0;padding:0}dialog{padding:0}textarea{resize:vertical}input::placeholder,textarea::placeholder{opacity:1;color:#9ca3af}[role=button],button{cursor:pointer}:disabled{cursor:default}audio,canvas,embed,iframe,img,object,svg,video{display:block;vertical-align:middle}img,video{max-width:100%;height:auto}[hidden]:where(:not([hidden=until-found])){display:none}.mb-1{margin-bottom:0.25rem}.mb-1\.5{margin-bottom:0.375rem}.mb-3{margin-bottom:0.75rem}.mb-4{margin-bottom:1rem}.flex{display:flex}.hidden{display:none}.h-20{height:5rem}.h-28{height:7rem}.h-4{height:1rem}.h-5{height:1.25rem}.w-28{width:7rem}.w-4{width:1rem}.w-40{width:10rem}.w-5{width:1.25rem}.items-center{align-items:center}.justify-center{justify-content:center}.gap-1\.5{gap:0.375rem}.gap-2{gap:0.5rem}.rounded-2xl{border-radius:1rem}.rounded-md{border-radius:0.375rem}.rounded-xl{border-radius:0.75rem}.border{border-width:1px}.border-2{border-width:2px}.border-\[var\(--border-color\)\]{border-color:var(--border-color)}.bg-\[var\(--surface\)\]{background-color:var(--surface)}.object-contain{object-fit:contain}.object-cover{object-fit:cover}.p-1{padding:0.25rem}.px-2{padding-left:0.5rem;padding-right:0.5rem}.py-1{padding-top:0.25rem;padding-bottom:0.25rem}.text-center{text-align:center}.text-\[11px\]{font-size:11px}.text-\[15px\]{font-size:15px}.text-sm{font-size:0.875rem;line-height:1.25rem}.text-xs{font-size:0.75rem;line-height:1rem}.font-bold{font-weight:700}.font-medium{font-weight:500}.font-semibold{font-weight:600}.uppercase{text-transform:uppercase}.tracking-wider{letter-spacing:0.05em}.tracking-widest{letter-spacing:0.1em}.text-\[var\(--accent\)\]{color:var(--accent)}.text-\[var\(--text-main\)\]{color:var(--text-main)}.text-\[var\(--text-muted\)\]{color:var(--text-muted)}.shadow{--tw-shadow:0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);--tw-shadow-colored:0 1px 3px 0 var(--tw-shadow-color), 0 1px 2px -1px var(--tw-shadow-color);box-shadow:var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow)}.shadow-lg{--tw-shadow:0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);--tw-shadow-colored:0 10px 15px -3px var(--tw-shadow-color), 0 4px 6px -4px var(--tw-shadow-color);box-shadow:var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow)}.transition-colors{transition-property:color, background-color, border-color, fill, stroke, -webkit-text-decoration-color;transition-property:color, background-color, border-color, text-decoration-color, fill, stroke;transition-property:color, background-color, border-color, text-decoration-color, fill, stroke, -webkit-text-decoration-color;transition-timing-function:cubic-bezier(0.4, 0, 0.2, 1);transition-duration:150ms}.hover\:text-\[\#34d399\]:hover{--tw-text-opacity:1;color:rgb(52 211 153 / var(--tw-text-opacity, 1))}.focus\:outline-none:focus{outline:2px solid transparent;outline-offset:2px}.focus\:ring-2:focus{--tw-ring-offset-shadow:var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color);--tw-ring-shadow:var(--tw-ring-inset) 0 0 0 calc(2px + var(--tw-ring-offset-width)) var(--tw-ring-color);box-shadow:var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow, 0 0 #0000)}.focus\:ring-\[var\(--accent\)\]:focus{--tw-ring-color:var(--accent)}@media (min-width: 768px){.md\:mb-0{margin-bottom:0px}.md\:mb-2{margin-bottom:0.5rem}.md\:mb-4{margin-bottom:1rem}.md\:mb-5{margin-bottom:1.25rem}.md\:mb-6{margin-bottom:1.5rem}.md\:inline{display:inline}.md\:hidden{display:none}.md\:h-36{height:9rem}.md\:h-5{height:1.25rem}.md\:w-36{width:9rem}.md\:w-44{width:11rem}.md\:w-5{width:1.25rem}.md\:gap-2{gap:0.5rem}.md\:rounded-3xl{border-radius:1.5rem}.md\:p-2{padding:0.5rem}.md\:text-\[11px\]{font-size:11px}.md\:text-\[16px\]{font-size:16px}.md\:text-sm{font-size:0.875rem;line-height:1.25rem}.md\:text-xs{font-size:0.75rem;line-height:1rem}.md\:font-bold{font-weight:700}.md\:leading-relaxed{line-height:1.625}}</style></head>
+</head>
 <body>
     
     <div id="app-container">
-        <div id="loadingIndicator" style="display: none;">Carregando...</div>
+        <div id="loadingIndicator">Carregando...</div>
         
         <div class="app-header">
             <button class="admin-gear" id="menuToggleBtn" title="Menu Principal">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"></path></svg>
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/></svg>
             </button>
             
             <h1>Top 10 Gospel Brasil <img src="https://cdnjs.cloudflare.com/ajax/libs/twemoji/14.0.2/svg/1f1e7-1f1f7.svg" alt="Bandeira do Brasil" class="w-5 h-5"></h1>
@@ -303,13 +299,13 @@
         </div>
 
         <!-- MENU LATERAL -->
-        <div class="menu-drawer" id="menuDrawer" style="display: none;">
+        <div class="menu-drawer" id="menuDrawer">
             <div class="menu-drawer-content">
                 <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 4px;">
                     <span style="font-weight: 700; font-size: 15px; color: var(--accent); display: flex; align-items: center; gap: 6px;">
                         Opções <img src="https://cdnjs.cloudflare.com/ajax/libs/twemoji/14.0.2/svg/1f1e7-1f1f7.svg" alt="Bandeira" class="w-4 h-4">
                     </span>
-                    <button class="admin-gear" id="closeMenuBtn"><svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"></path></svg></button>
+                    <button class="admin-gear" id="closeMenuBtn"><svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg></button>
                 </div>
                 
                 <div class="menu-item" style="cursor: default;">
@@ -320,8 +316,8 @@
                     </label>
                 </div>
 
-                <a href="https://www.youtube.com/@sintonizegospel" target="_blank" class="menu-item" id="cfgMenuLeftUrl">
-                    <div class="menu-item-left"><span>📺</span> <span id="cfgMenuLeftHover">Canal YouTube</span></div>
+                <a href="#" target="_blank" class="menu-item" id="cfgMenuLeftUrl">
+                    <div class="menu-item-left"><span>📺</span> <span id="cfgMenuLeftHover">Sintonize Gospel</span></div>
                 </a>
                 
                 <button class="menu-item" id="shareMenuBtn" style="border:none; width: 100%;">
@@ -339,28 +335,26 @@
         </div>
 
         <div class="station-display">
-            <!-- NOVO CENTRO LIMPO (com cápsula do ícone resolvida) -->
             <div class="main-art-container">
                 <div class="icon-wrapper">
                     <div class="status-badge" id="statusBadge"><div class="status-dot"></div><span id="statusText">OFF</span></div>
                     <div class="station-icon" id="mainIcon">
-                        <img id="albumArtImage" src="92.3.png" alt="Arte" onerror="this.src='Sint.jpg'">
+                        <img id="albumArtImage" src="Sint.png" alt="Arte" onerror="this.src='Sint.png'">
                     </div>
                 </div>
                 
                 <div class="docked-controls">
                     <div class="docked-btn" id="stateWrapper" title="Estado">
-                        <img id="stateBadgeImg" src="estados/MS.png" alt="Estado" onerror="this.src='Sint.jpg'">
+                        <img id="stateBadgeImg" src="Sint.png" alt="Estado" onerror="this.src='Sint.png'">
                     </div>
                     <div class="docked-btn" id="topWrapper" title="Ranking">
-                        <img id="topBadgeImg" src="Top5.png" alt="Top Ranking">
+                        <img id="topBadgeImg" src="Top1.png" alt="Top Ranking">
                     </div>
                     <button class="docked-btn" id="favoriteBtn" title="Favorito">
-                        <svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"></path></svg>
+                        <svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
                     </button>
 
-                    <!-- Botões devolvidos para o DOM (invisíveis no mobile, usados na TV) -->
-                    <a href="https://www.youtube.com/@sintonizegospel" target="_blank" class="docked-btn tv-only" id="cfgBtnLeft" title="Canal YouTube">
+                    <a href="#" target="_blank" class="docked-btn tv-only" id="cfgBtnLeft" title="Sintonize Gospel">
                         <img id="cfgImgLeft" src="Sint.jpg" alt="Logo">
                     </a>
                     <button id="themeBtn" class="docked-btn tv-only" title="Alternar Tema">
@@ -369,12 +363,12 @@
                 </div>
             </div>
             
-            <div id="stationName">Rádio Hora FM 92.3</div>
+            <div id="stationName">Carregando...</div>
         </div>
 
-        <div class="vu-meter" id="vuMeter"><div class="vu-segment red-seg"></div><div class="vu-segment red-seg"></div><div class="vu-segment red-seg"></div><div class="vu-segment red-seg"></div><div class="vu-segment orange-seg"></div><div class="vu-segment orange-seg"></div><div class="vu-segment orange-seg"></div><div class="vu-segment orange-seg"></div><div class="vu-segment green-seg"></div><div class="vu-segment green-seg"></div><div class="vu-segment green-seg"></div><div class="vu-segment green-seg"></div><div class="vu-segment green-seg"></div><div class="vu-segment green-seg"></div><div class="vu-segment center-seg"></div><div class="vu-segment green-seg"></div><div class="vu-segment green-seg"></div><div class="vu-segment green-seg"></div><div class="vu-segment green-seg"></div><div class="vu-segment green-seg"></div><div class="vu-segment green-seg"></div><div class="vu-segment orange-seg"></div><div class="vu-segment orange-seg"></div><div class="vu-segment orange-seg"></div><div class="vu-segment orange-seg"></div><div class="vu-segment red-seg"></div><div class="vu-segment red-seg"></div><div class="vu-segment red-seg"></div><div class="vu-segment red-seg"></div></div>
+        <div class="vu-meter" id="vuMeter"></div>
 
-        <div class="banner-container"><div class="banner-text" id="runningBanner">Radio Hora 92.3 FM Ao Vivo - Campo Grande - Mato Grosso do Sul - Brasil</div></div>
+        <div class="banner-container"><div class="banner-text" id="runningBanner"></div></div>
 
         <div class="controls-container">
             <div class="volume-wrapper">
@@ -405,7 +399,7 @@
     </div>
 
     <!-- MODAL PARCEIROS -->
-    <div class="modal-overlay" id="partnersModal" style="display: none;">
+    <div class="modal-overlay" id="partnersModal">
         <div class="modal-content">
             <div class="modal-header">
                 <button class="back-btn-top" id="backPartnersBtn" title="Voltar"><svg viewBox="0 0 24 24"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"></path></svg></button>
@@ -416,7 +410,7 @@
     </div>
 
     <!-- MODAL SOBRE HÍBRIDO -->
-    <div class="modal-overlay" id="aboutModal" style="display: none;">
+    <div class="modal-overlay" id="aboutModal">
         <div class="modal-content" id="aboutContent">
             <button class="back-btn-top" id="closeAboutBtn" title="Voltar"><svg viewBox="0 0 24 24"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"></path></svg></button>
             <div class="about-grid-wrapper">
@@ -442,16 +436,16 @@
     </div>
 
     <!-- MODAL LISTA DE RÁDIOS -->
-    <div class="modal-overlay" id="stationModal" style="display: none;">
+    <div class="modal-overlay" id="stationModal">
         <div class="modal-content">
             <div class="modal-header"><button class="back-btn-top" id="backStationBtn" title="Voltar"><svg viewBox="0 0 24 24"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"></path></svg></button> Selecione uma Rádio</div>
-            <div class="stations-list" id="stationsList"><div class="station-item"><div class="circle-number">1</div><div class="station-item-name">Radio Canaã 93.5</div></div><div class="station-item"><div class="circle-number">2</div><div class="station-item-name">Radio Melodia</div></div><div class="station-item"><div class="circle-number">3</div><div class="station-item-name">Radio 107.5</div></div><div class="station-item"><div class="circle-number">4</div><div class="station-item-name">Boas Novas</div></div><div class="station-item"><div class="circle-number">5</div><div class="station-item-name">Rádio Hora FM 92.3</div></div><div class="station-item"><div class="circle-number">6</div><div class="station-item-name">Radio Feliz FM</div></div><div class="station-item"><div class="circle-number">7</div><div class="station-item-name">Rádio Novas de Paz</div></div><div class="station-item"><div class="circle-number">8</div><div class="station-item-name">Paz FM 89.5</div></div><div class="station-item"><div class="circle-number">9</div><div class="station-item-name">Mais FM 102.9</div></div><div class="station-item"><div class="circle-number">10</div><div class="station-item-name">Rádio Rede Aleluia</div></div></div>
+            <div class="stations-list" id="stationsList"></div>
             <button class="btn-modern btn-secondary" id="closeStationModal">FECHAR</button>
         </div>
     </div>
 
     <!-- MODAL SENHA ADMIN -->
-    <div class="modal-overlay" id="passwordModal" style="display: none;">
+    <div class="modal-overlay" id="passwordModal">
         <div class="modal-content">
             <div class="modal-header">Área Restrita</div><p style="text-align:center; font-size: 14px; color: var(--text-muted); margin-bottom: 16px;">Digite a senha de administrador</p>
             <input type="tel" inputmode="numeric" id="adminPassword" class="input-modern" style="-webkit-text-security:disc;" placeholder="••••••" maxlength="20">
@@ -462,18 +456,18 @@
     </div>
 
     <!-- PAINEL ADMIN ROBUSTO -->
-    <div class="modal-overlay" id="adminModal" style="display: none;">
+    <div class="modal-overlay" id="adminModal">
         <div class="modal-content" style="max-width: 600px;">
             <div class="modal-header"><button class="back-btn-top" id="backAdminBtn" title="Voltar"><svg viewBox="0 0 24 24"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"></path></svg></button> Configurações Administrativas</div>
             
             <div class="sub-tabs-grid">
-                <button class="sub-tab-btn" id="subTab1Btn">1. Ranking</button>
-                <button class="sub-tab-btn" id="subTab2Btn">2. Atalhos &amp; Forms</button>
+                <button class="sub-tab-btn active" id="subTab1Btn">1. Ranking</button>
+                <button class="sub-tab-btn" id="subTab2Btn">2. Atalhos & Forms</button>
                 <button class="sub-tab-btn" id="subTab3Btn">3. Parceiros (6)</button>
-                <button class="sub-tab-btn active" id="subTab4Btn">4. Sistema</button>
+                <button class="sub-tab-btn" id="subTab4Btn">4. Sistema</button>
             </div>
             
-            <div id="subTab1Content" class="sub-tab-content"><div id="adminStationsList"><div class="admin-tape-item"><div class="tape-header"><div style="display:flex; align-items:center; gap:10px;"><div class="drag-handle" title="Arraste"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M3 15h18v-2H3v2zm0 4h18v-2H3v2zm0-8h18V9H3v2zm0-6v2h18V5H3z"></path></svg></div><span class="tape-rank">1</span><span class="tape-title">Radio Canaã 93.5</span></div><svg class="chevron-icon" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"></path></svg></div><div class="tape-body"><label class="config-label">Nome</label><input type="text" class="input-modern tape-name-input" value="Radio Canaã 93.5"><label class="config-label">Stream URL</label><input type="text" class="input-modern tape-url-input" value="https://stream1.svrdedicado.org/8006/stream"><label class="config-label">Imagem</label><input type="text" class="input-modern tape-image-input" value="93.5.png"><label class="config-label">Estado</label><input type="text" class="input-modern tape-state-input" value="CE.png"><label class="config-label">Banner</label><input type="text" class="input-modern tape-banner-input" value="Rádio Canaã FM 93.5  - Fortaleza - Ceará - Brasil"></div></div><div class="admin-tape-item"><div class="tape-header"><div style="display:flex; align-items:center; gap:10px;"><div class="drag-handle" title="Arraste"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M3 15h18v-2H3v2zm0 4h18v-2H3v2zm0-8h18V9H3v2zm0-6v2h18V5H3z"></path></svg></div><span class="tape-rank">2</span><span class="tape-title">Radio Melodia</span></div><svg class="chevron-icon" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"></path></svg></div><div class="tape-body"><label class="config-label">Nome</label><input type="text" class="input-modern tape-name-input" value="Radio Melodia"><label class="config-label">Stream URL</label><input type="text" class="input-modern tape-url-input" value="https://24223.live.streamtheworld.com/MELODIAFMAAC.aac"><label class="config-label">Imagem</label><input type="text" class="input-modern tape-image-input" value="97.5.png"><label class="config-label">Estado</label><input type="text" class="input-modern tape-state-input" value="RJ.png"><label class="config-label">Banner</label><input type="text" class="input-modern tape-banner-input" value="Radio Melodia FM - Rio de Janeiro - Brasil"></div></div><div class="admin-tape-item"><div class="tape-header"><div style="display:flex; align-items:center; gap:10px;"><div class="drag-handle" title="Arraste"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M3 15h18v-2H3v2zm0 4h18v-2H3v2zm0-8h18V9H3v2zm0-6v2h18V5H3z"></path></svg></div><span class="tape-rank">3</span><span class="tape-title">Radio 107.5</span></div><svg class="chevron-icon" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"></path></svg></div><div class="tape-body"><label class="config-label">Nome</label><input type="text" class="input-modern tape-name-input" value="Radio 107.5"><label class="config-label">Stream URL</label><input type="text" class="input-modern tape-url-input" value="https://cast2.youngtech.radio.br/radio/8290/radio"><label class="config-label">Imagem</label><input type="text" class="input-modern tape-image-input" value="107-5.png"><label class="config-label">Estado</label><input type="text" class="input-modern tape-state-input" value="SC.png"><label class="config-label">Banner</label><input type="text" class="input-modern tape-banner-input" value="Simplesmente Diferente - Joinville - Santa Catarina Brasil"></div></div><div class="admin-tape-item"><div class="tape-header"><div style="display:flex; align-items:center; gap:10px;"><div class="drag-handle" title="Arraste"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M3 15h18v-2H3v2zm0 4h18v-2H3v2zm0-8h18V9H3v2zm0-6v2h18V5H3z"></path></svg></div><span class="tape-rank">4</span><span class="tape-title">Boas Novas</span></div><svg class="chevron-icon" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"></path></svg></div><div class="tape-body"><label class="config-label">Nome</label><input type="text" class="input-modern tape-name-input" value="Boas Novas"><label class="config-label">Stream URL</label><input type="text" class="input-modern tape-url-input" value="https://boasnovasaac.jmvstream.com/stream"><label class="config-label">Imagem</label><input type="text" class="input-modern tape-image-input" value="91.9.png"><label class="config-label">Estado</label><input type="text" class="input-modern tape-state-input" value="PA.png"><label class="config-label">Banner</label><input type="text" class="input-modern tape-banner-input" value="Bem-vindo à Top 10 Gospel Radio!"></div></div><div class="admin-tape-item"><div class="tape-header"><div style="display:flex; align-items:center; gap:10px;"><div class="drag-handle" title="Arraste"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M3 15h18v-2H3v2zm0 4h18v-2H3v2zm0-8h18V9H3v2zm0-6v2h18V5H3z"></path></svg></div><span class="tape-rank">5</span><span class="tape-title">Rádio Hora FM 92.3</span></div><svg class="chevron-icon" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"></path></svg></div><div class="tape-body"><label class="config-label">Nome</label><input type="text" class="input-modern tape-name-input" value="Rádio Hora FM 92.3"><label class="config-label">Stream URL</label><input type="text" class="input-modern tape-url-input" value="https://srvradio.indioweb.com.br/listen/radio_hora/radiohora.mp3"><label class="config-label">Imagem</label><input type="text" class="input-modern tape-image-input" value="92.3.png"><label class="config-label">Estado</label><input type="text" class="input-modern tape-state-input" value="MS.png"><label class="config-label">Banner</label><input type="text" class="input-modern tape-banner-input" value="Radio Hora 92.3 FM Ao Vivo - Campo Grande - Mato Grosso do Sul - Brasil"></div></div><div class="admin-tape-item"><div class="tape-header"><div style="display:flex; align-items:center; gap:10px;"><div class="drag-handle" title="Arraste"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M3 15h18v-2H3v2zm0 4h18v-2H3v2zm0-8h18V9H3v2zm0-6v2h18V5H3z"></path></svg></div><span class="tape-rank">6</span><span class="tape-title">Radio Feliz FM</span></div><svg class="chevron-icon" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"></path></svg></div><div class="tape-body"><label class="config-label">Nome</label><input type="text" class="input-modern tape-name-input" value="Radio Feliz FM"><label class="config-label">Stream URL</label><input type="text" class="input-modern tape-url-input" value="https://cloud1.cdnseguro.com:5520/stream/"><label class="config-label">Imagem</label><input type="text" class="input-modern tape-image-input" value="92.1.png"><label class="config-label">Estado</label><input type="text" class="input-modern tape-state-input" value="SP.png"><label class="config-label">Banner</label><input type="text" class="input-modern tape-banner-input" value="Rádio Feliz - São Paulo - Brasil"></div></div><div class="admin-tape-item"><div class="tape-header"><div style="display:flex; align-items:center; gap:10px;"><div class="drag-handle" title="Arraste"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M3 15h18v-2H3v2zm0 4h18v-2H3v2zm0-8h18V9H3v2zm0-6v2h18V5H3z"></path></svg></div><span class="tape-rank">7</span><span class="tape-title">Rádio Novas de Paz</span></div><svg class="chevron-icon" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"></path></svg></div><div class="tape-body"><label class="config-label">Nome</label><input type="text" class="input-modern tape-name-input" value="Rádio Novas de Paz"><label class="config-label">Stream URL</label><input type="text" class="input-modern tape-url-input" value="https://radio.saopaulo01.com.br/8304/stream"><label class="config-label">Imagem</label><input type="text" class="input-modern tape-image-input" value="88.1.png"><label class="config-label">Estado</label><input type="text" class="input-modern tape-state-input" value="PE.png"><label class="config-label">Banner</label><input type="text" class="input-modern tape-banner-input" value="Rádio Novas de Paz FM 88.1 - Pernambuco - Brasil"></div></div><div class="admin-tape-item"><div class="tape-header"><div style="display:flex; align-items:center; gap:10px;"><div class="drag-handle" title="Arraste"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M3 15h18v-2H3v2zm0 4h18v-2H3v2zm0-8h18V9H3v2zm0-6v2h18V5H3z"></path></svg></div><span class="tape-rank">8</span><span class="tape-title">Paz FM 89.5</span></div><svg class="chevron-icon" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"></path></svg></div><div class="tape-body"><label class="config-label">Nome</label><input type="text" class="input-modern tape-name-input" value="Paz FM 89.5"><label class="config-label">Stream URL</label><input type="text" class="input-modern tape-url-input" value="https://digital.umhost.com.br/9978/stream"><label class="config-label">Imagem</label><input type="text" class="input-modern tape-image-input" value="89.5.png"><label class="config-label">Estado</label><input type="text" class="input-modern tape-state-input" value="GO.png"><label class="config-label">Banner</label><input type="text" class="input-modern tape-banner-input" value="Rádio Paz FM 89.5 - Goiânia - Goiás - Brasil"></div></div><div class="admin-tape-item"><div class="tape-header"><div style="display:flex; align-items:center; gap:10px;"><div class="drag-handle" title="Arraste"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M3 15h18v-2H3v2zm0 4h18v-2H3v2zm0-8h18V9H3v2zm0-6v2h18V5H3z"></path></svg></div><span class="tape-rank">9</span><span class="tape-title">Mais FM 102.9</span></div><svg class="chevron-icon" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"></path></svg></div><div class="tape-body"><label class="config-label">Nome</label><input type="text" class="input-modern tape-name-input" value="Mais FM 102.9"><label class="config-label">Stream URL</label><input type="text" class="input-modern tape-url-input" value="https://8313.brasilstream.com.br/stream"><label class="config-label">Imagem</label><input type="text" class="input-modern tape-image-input" value="102.9.png"><label class="config-label">Estado</label><input type="text" class="input-modern tape-state-input" value="SP.png"><label class="config-label">Banner</label><input type="text" class="input-modern tape-banner-input" value="Rádio 102.9 FM - Essa Rádio é d+ São Paulo -Brasil"></div></div><div class="admin-tape-item"><div class="tape-header"><div style="display:flex; align-items:center; gap:10px;"><div class="drag-handle" title="Arraste"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M3 15h18v-2H3v2zm0 4h18v-2H3v2zm0-8h18V9H3v2zm0-6v2h18V5H3z"></path></svg></div><span class="tape-rank">10</span><span class="tape-title">Rádio Rede Aleluia</span></div><svg class="chevron-icon" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"></path></svg></div><div class="tape-body"><label class="config-label">Nome</label><input type="text" class="input-modern tape-name-input" value="Rádio Rede Aleluia"><label class="config-label">Stream URL</label><input type="text" class="input-modern tape-url-input" value="https://station.azrmcsoftbroadcast.com.br/listen/radio_porto_alegre/rd_portoalegre"><label class="config-label">Imagem</label><input type="text" class="input-modern tape-image-input" value="rede.png"><label class="config-label">Estado</label><input type="text" class="input-modern tape-state-input" value="RS.png"><label class="config-label">Banner</label><input type="text" class="input-modern tape-banner-input" value="Rádio Rede Aleluia Porto Alegre - Rio Grande do Sul - Brasil"></div></div></div></div>
+            <div id="subTab1Content" class="sub-tab-content active"><div id="adminStationsList"></div></div>
             
             <div id="subTab2Content" class="sub-tab-content">
                 <div class="admin-tape-item" style="padding: 16px;">
@@ -489,40 +483,12 @@
             </div>
 
             <div id="subTab3Content" class="sub-tab-content">
-                <div class="admin-tape-item" style="padding: 16px;" id="adminPartnersContainer"><div style="font-weight: 700; color: var(--accent); margin-bottom: 12px; font-size: 14px;">Gerenciamento dos 6 Parceiros</div><div style="background: var(--bg-base); padding: 12px; border-radius: 12px; border: 1px solid var(--border-color); margin-bottom: 10px;">
-                        <div style="font-weight:700; margin-bottom:8px; font-size:13px; color:var(--text-main);">Parceiro 1</div>
-                        <label class="config-label">Nome</label><input type="text" class="input-modern p-name" value="Parceiro 1" placeholder="Nome">
-                        <label class="config-label">Imagem</label><input type="text" class="input-modern p-image" value="Sint.jpg" placeholder="imagem.png">
-                        <label class="config-label">URL Link</label><input type="text" class="input-modern p-url" value="#" placeholder="https://...">
-                    </div><div style="background: var(--bg-base); padding: 12px; border-radius: 12px; border: 1px solid var(--border-color); margin-bottom: 10px;">
-                        <div style="font-weight:700; margin-bottom:8px; font-size:13px; color:var(--text-main);">Parceiro 2</div>
-                        <label class="config-label">Nome</label><input type="text" class="input-modern p-name" value="Parceiro 2" placeholder="Nome">
-                        <label class="config-label">Imagem</label><input type="text" class="input-modern p-image" value="Sint.jpg" placeholder="imagem.png">
-                        <label class="config-label">URL Link</label><input type="text" class="input-modern p-url" value="#" placeholder="https://...">
-                    </div><div style="background: var(--bg-base); padding: 12px; border-radius: 12px; border: 1px solid var(--border-color); margin-bottom: 10px;">
-                        <div style="font-weight:700; margin-bottom:8px; font-size:13px; color:var(--text-main);">Parceiro 3</div>
-                        <label class="config-label">Nome</label><input type="text" class="input-modern p-name" value="Parceiro 3" placeholder="Nome">
-                        <label class="config-label">Imagem</label><input type="text" class="input-modern p-image" value="Sint.jpg" placeholder="imagem.png">
-                        <label class="config-label">URL Link</label><input type="text" class="input-modern p-url" value="#" placeholder="https://...">
-                    </div><div style="background: var(--bg-base); padding: 12px; border-radius: 12px; border: 1px solid var(--border-color); margin-bottom: 10px;">
-                        <div style="font-weight:700; margin-bottom:8px; font-size:13px; color:var(--text-main);">Parceiro 4</div>
-                        <label class="config-label">Nome</label><input type="text" class="input-modern p-name" value="Parceiro 4" placeholder="Nome">
-                        <label class="config-label">Imagem</label><input type="text" class="input-modern p-image" value="Sint.jpg" placeholder="imagem.png">
-                        <label class="config-label">URL Link</label><input type="text" class="input-modern p-url" value="#" placeholder="https://...">
-                    </div><div style="background: var(--bg-base); padding: 12px; border-radius: 12px; border: 1px solid var(--border-color); margin-bottom: 10px;">
-                        <div style="font-weight:700; margin-bottom:8px; font-size:13px; color:var(--text-main);">Parceiro 5</div>
-                        <label class="config-label">Nome</label><input type="text" class="input-modern p-name" value="Parceiro 5" placeholder="Nome">
-                        <label class="config-label">Imagem</label><input type="text" class="input-modern p-image" value="Sint.jpg" placeholder="imagem.png">
-                        <label class="config-label">URL Link</label><input type="text" class="input-modern p-url" value="#" placeholder="https://...">
-                    </div><div style="background: var(--bg-base); padding: 12px; border-radius: 12px; border: 1px solid var(--border-color); margin-bottom: 10px;">
-                        <div style="font-weight:700; margin-bottom:8px; font-size:13px; color:var(--text-main);">Parceiro 6</div>
-                        <label class="config-label">Nome</label><input type="text" class="input-modern p-name" value="Parceiro 6" placeholder="Nome">
-                        <label class="config-label">Imagem</label><input type="text" class="input-modern p-image" value="Sint.jpg" placeholder="imagem.png">
-                        <label class="config-label">URL Link</label><input type="text" class="input-modern p-url" value="#" placeholder="https://...">
-                    </div></div>
+                <div class="admin-tape-item" style="padding: 16px;" id="adminPartnersContainer">
+                    <div style="font-weight: 700; color: var(--accent); margin-bottom: 12px; font-size: 14px;">Gerenciamento dos 6 Parceiros</div>
+                </div>
             </div>
 
-            <div id="subTab4Content" class="sub-tab-content active">
+            <div id="subTab4Content" class="sub-tab-content">
                 <div class="admin-tape-item" style="padding: 16px; text-align: center;">
                     <div style="font-weight: 700; color: var(--accent); margin-bottom: 12px; font-size: 14px;">Opções de Sistema e Exportação</div>
                     <button class="btn-modern btn-primary" id="saveAdminBtn" style="margin-bottom: 8px;"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M17 3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V7l-4-4zm-5 16c-1.66 0-3-1.34-3-3s1.34-3 3-3 3 1.34 3 3-1.34 3-3 3zm3-10H5V5h10v4z"></path></svg> SALVAR NA MEMÓRIA</button>
@@ -536,12 +502,12 @@
         </div>
     </div>
 
-    <audio id="audioElement" crossorigin="anonymous" preload="none" src="https://srvradio.indioweb.com.br/listen/radio_hora/radiohora.mp3"></audio>
+    <audio id="audioElement" crossorigin="anonymous" preload="none"></audio>
 
     <script>
         (function() {
             /*__APP_DATA_VERSION_START__*/
-            const APP_DATA_VERSION = 2;
+            const APP_DATA_VERSION = 3;
             /*__APP_DATA_VERSION_END__*/
             let localVersion = parseInt(localStorage.getItem('gospelVersion') || '0');
             if (isNaN(localVersion)) localVersion = 0;
@@ -636,128 +602,78 @@
             
             /*__DEFAULT_TAPES_START__*/
             let defaultTapes = [
-    {
-        "name": "Radio Canaã 93.5",
-        "url": "https://stream1.svrdedicado.org/8006/stream",
-        "image": "93.5.png",
-        "banner": "Rádio Canaã FM 93.5  - Fortaleza - Ceará - Brasil",
-        "state": "CE.png"
-    },
-    {
-        "name": "Radio Melodia",
-        "url": "https://24223.live.streamtheworld.com/MELODIAFMAAC.aac",
-        "image": "97.5.png",
-        "banner": "Radio Melodia FM - Rio de Janeiro - Brasil",
-        "state": "RJ.png"
-    },
-    {
-        "name": "Radio 107.5",
-        "url": "https://cast2.youngtech.radio.br/radio/8290/radio",
-        "image": "107-5.png",
-        "banner": "Simplesmente Diferente - Joinville - Santa Catarina Brasil",
-        "state": "SC.png"
-    },
-    {
-        "name": "Boas Novas",
-        "url": "https://boasnovasaac.jmvstream.com/stream",
-        "image": "91.9.png",
-        "banner": "Bem-vindo à Top 10 Gospel Radio!",
-        "state": "PA.png"
-    },
-    {
-        "name": "Rádio Hora FM 92.3",
-        "url": "https://srvradio.indioweb.com.br/listen/radio_hora/radiohora.mp3",
-        "image": "92.3.png",
-        "banner": "Radio Hora 92.3 FM Ao Vivo - Campo Grande - Mato Grosso do Sul - Brasil",
-        "state": "MS.png"
-    },
-    {
-        "name": "Radio Feliz FM",
-        "url": "https://cloud1.cdnseguro.com:5520/stream/",
-        "image": "92.1.png",
-        "banner": "Rádio Feliz - São Paulo - Brasil",
-        "state": "SP.png"
-    },
-    {
-        "name": "Rádio Novas de Paz",
-        "url": "https://radio.saopaulo01.com.br/8304/stream",
-        "image": "88.1.png",
-        "banner": "Rádio Novas de Paz FM 88.1 - Pernambuco - Brasil",
-        "state": "PE.png"
-    },
-    {
-        "name": "Paz FM 89.5",
-        "url": "https://digital.umhost.com.br/9978/stream",
-        "image": "89.5.png",
-        "banner": "Rádio Paz FM 89.5 - Goiânia - Goiás - Brasil",
-        "state": "GO.png"
-    },
-    {
-        "name": "Mais FM 102.9",
-        "url": "https://8313.brasilstream.com.br/stream",
-        "image": "102.9.png",
-        "banner": "Rádio 102.9 FM - Essa Rádio é d+ São Paulo -Brasil",
-        "state": "SP.png"
-    },
-    {
-        "name": "Rádio Rede Aleluia",
-        "url": "https://station.azrmcsoftbroadcast.com.br/listen/radio_porto_alegre/rd_portoalegre",
-        "image": "rede.png",
-        "banner": "Rádio Rede Aleluia Porto Alegre - Rio Grande do Sul - Brasil",
-        "state": "RS.png"
-    }
-];
+                { "name": "Radio Canaã 93.5", "url": "https://stream1.svrdedicado.org/8006/stream", "image": "93.5.png", "banner": "Rádio Canaã FM 93.5  - Fortaleza - Ceará - Brasil", "state": "CE.png", "active": true },
+                { "name": "Radio Melodia", "url": "https://24223.live.streamtheworld.com/MELODIAFMAAC.aac", "image": "97.5.png", "banner": "Radio Melodia FM - Rio de Janeiro - Brasil", "state": "RJ.png", "active": true },
+                { "name": "Radio 107.5", "url": "https://cast2.youngtech.radio.br/radio/8290/radio", "image": "107-5.png", "banner": "Simplesmente Diferente - Joinville - Santa Catarina Brasil", "state": "SC.png", "active": true },
+                { "name": "Boas Novas", "url": "https://boasnovasaac.jmvstream.com/stream", "image": "91.9.png", "banner": "Bem-vindo à Top 10 Gospel Radio!", "state": "PA.png", "active": true },
+                { "name": "Rádio Hora FM 92.3", "url": "https://srvradio.indioweb.com.br/listen/radio_hora/radiohora.mp3", "image": "92.3.png", "banner": "Radio Hora 92.3 FM Ao Vivo - Campo Grande - Mato Grosso do Sul - Brasil", "state": "MS.png", "active": true },
+                { "name": "Radio Feliz FM", "url": "https://cloud1.cdnseguro.com:5520/stream/", "image": "92.1.png", "banner": "Rádio Feliz - São Paulo - Brasil", "state": "SP.png", "active": true },
+                { "name": "Rádio Novas de Paz", "url": "https://radio.saopaulo01.com.br/8304/stream", "image": "88.1.png", "banner": "Rádio Novas de Paz FM 88.1 - Pernambuco - Brasil", "state": "PE.png", "active": true },
+                { "name": "Paz FM 89.5", "url": "https://digital.umhost.com.br/9978/stream", "image": "89.5.png", "banner": "Rádio Paz FM 89.5 - Goiânia - Goiás - Brasil", "state": "GO.png", "active": true },
+                { "name": "Mais FM 102.9", "url": "https://8313.brasilstream.com.br/stream", "image": "102.9.png", "banner": "Rádio 102.9 FM - Essa Rádio é d+ São Paulo -Brasil", "state": "SP.png", "active": true },
+                { "name": "Rádio Rede Aleluia", "url": "https://station.azrmcsoftbroadcast.com.br/listen/radio_porto_alegre/rd_portoalegre", "image": "rede.png", "banner": "Rádio Rede Aleluia Porto Alegre - Rio Grande do Sul - Brasil", "state": "RS.png", "active": true },
+                // 17 Slots Inativos adicionais (totalizando 27 slots)
+                { "name": "Slot 11", "url": "", "image": "Sint.png", "banner": "Sintonize Gospel", "state": "Sint.png", "active": false },
+                { "name": "Slot 12", "url": "", "image": "Sint.png", "banner": "Sintonize Gospel", "state": "Sint.png", "active": false },
+                { "name": "Slot 13", "url": "", "image": "Sint.png", "banner": "Sintonize Gospel", "state": "Sint.png", "active": false },
+                { "name": "Slot 14", "url": "", "image": "Sint.png", "banner": "Sintonize Gospel", "state": "Sint.png", "active": false },
+                { "name": "Slot 15", "url": "", "image": "Sint.png", "banner": "Sintonize Gospel", "state": "Sint.png", "active": false },
+                { "name": "Slot 16", "url": "", "image": "Sint.png", "banner": "Sintonize Gospel", "state": "Sint.png", "active": false },
+                { "name": "Slot 17", "url": "", "image": "Sint.png", "banner": "Sintonize Gospel", "state": "Sint.png", "active": false },
+                { "name": "Slot 18", "url": "", "image": "Sint.png", "banner": "Sintonize Gospel", "state": "Sint.png", "active": false },
+                { "name": "Slot 19", "url": "", "image": "Sint.png", "banner": "Sintonize Gospel", "state": "Sint.png", "active": false },
+                { "name": "Slot 20", "url": "", "image": "Sint.png", "banner": "Sintonize Gospel", "state": "Sint.png", "active": false },
+                { "name": "Slot 21", "url": "", "image": "Sint.png", "banner": "Sintonize Gospel", "state": "Sint.png", "active": false },
+                { "name": "Slot 22", "url": "", "image": "Sint.png", "banner": "Sintonize Gospel", "state": "Sint.png", "active": false },
+                { "name": "Slot 23", "url": "", "image": "Sint.png", "banner": "Sintonize Gospel", "state": "Sint.png", "active": false },
+                { "name": "Slot 24", "url": "", "image": "Sint.png", "banner": "Sintonize Gospel", "state": "Sint.png", "active": false },
+                { "name": "Slot 25", "url": "", "image": "Sint.png", "banner": "Sintonize Gospel", "state": "Sint.png", "active": false },
+                { "name": "Slot 26", "url": "", "image": "Sint.png", "banner": "Sintonize Gospel", "state": "Sint.png", "active": false },
+                { "name": "Slot 27", "url": "", "image": "Sint.png", "banner": "Sintonize Gospel", "state": "Sint.png", "active": false }
+            ];
             /*__DEFAULT_TAPES_END__*/
 
             /*__DEFAULT_APP_CONFIG_START__*/
             let defaultAppConfig = {
-    "btnLeftImage": "Sint.jpg",
-    "btnLeftHover": "Canal YouTube",
-    "btnLeftUrl": "https://www.youtube.com/@sintonizegospel",
-    "evalUrl": "https://forms.gle/h6Byih3xKLawQkkk6",
-    "contactUrl": "https://forms.gle/uKJ2ub6LRLEYPEPn7",
-    "partners": [
-        {
-            "name": "Parceiro 1",
-            "image": "Sint.jpg",
-            "url": "#"
-        },
-        {
-            "name": "Parceiro 2",
-            "image": "Sint.jpg",
-            "url": "#"
-        },
-        {
-            "name": "Parceiro 3",
-            "image": "Sint.jpg",
-            "url": "#"
-        },
-        {
-            "name": "Parceiro 4",
-            "image": "Sint.jpg",
-            "url": "#"
-        },
-        {
-            "name": "Parceiro 5",
-            "image": "Sint.jpg",
-            "url": "#"
-        },
-        {
-            "name": "Parceiro 6",
-            "image": "Sint.jpg",
-            "url": "#"
-        }
-    ],
-    "waHover": "Compartilhar no WhatsApp",
-    "waUrl": "Estou ouvindo a [Radio] no Top 10 Gospel Radio! Acesse também: https://gerlemppimentel.github.io/SintonizeGospel/"
-};
+                btnLeftImage: "Sint.jpg",
+                btnLeftHover: "Canal YouTube",
+                btnLeftUrl: "https://www.youtube.com/@sintonizegospel",
+                evalUrl: "",
+                contactUrl: "",
+                partners: [
+                    { name: "Parceiro 1", image: "Sint.jpg", url: "#" },
+                    { name: "Parceiro 2", image: "Sint.jpg", url: "#" },
+                    { name: "Parceiro 3", image: "Sint.jpg", url: "#" },
+                    { name: "Parceiro 4", image: "Sint.jpg", url: "#" },
+                    { name: "Parceiro 5", image: "Sint.jpg", url: "#" },
+                    { name: "Parceiro 6", image: "Sint.jpg", url: "#" }
+                ],
+                waHover: "Compartilhar no WhatsApp",
+                waUrl: "Estou ouvindo a [Radio] no Top 10 Gospel Radio! Acesse também: https://gerlemppimentel.github.io/SintonizeGospel/"
+            };
             /*__DEFAULT_APP_CONFIG_END__*/
             
             let tapes = JSON.parse(localStorage.getItem('gospelTapes')) || defaultTapes;
             let appConfig = JSON.parse(localStorage.getItem('gospelConfig')) || defaultAppConfig;
-            let selectedTapeIndex = 0;
+
+            // Helper para obter apenas rádios ativas
+            function getActiveTapes() {
+                return tapes.map((t, idx) => ({ ...t, originalIndex: idx })).filter(t => t.active !== false);
+            }
+
+            let activeTapes = getActiveTapes();
+            let selectedActivePos = 0;
+            let selectedTapeIndex = activeTapes.length > 0 ? activeTapes[0].originalIndex : 0;
+
             let savedFav = localStorage.getItem('gospelFavoriteIndex');
-            if (savedFav !== null) { let parsedFav = parseInt(savedFav); if (parsedFav >= 0 && parsedFav < tapes.length) selectedTapeIndex = parsedFav; }
+            if (savedFav !== null) { 
+                let parsedFav = parseInt(savedFav); 
+                let foundActive = activeTapes.find(t => t.originalIndex === parsedFav);
+                if (foundActive) {
+                    selectedTapeIndex = parsedFav;
+                    selectedActivePos = activeTapes.findIndex(t => t.originalIndex === parsedFav);
+                }
+            }
 
             let currentStreamUrl = tapes[selectedTapeIndex].url;
             let isPlaying = false; let isPaused = false; let animationFrame = null; let hlsPlayer = null; let sortableInstance = null;
@@ -780,10 +696,8 @@
             createVUMeter();
 
             function applyAppConfigUI() {
-                // Atualiza o Menu
                 document.getElementById('cfgMenuLeftUrl').href = appConfig.btnLeftUrl; 
                 document.getElementById('cfgMenuLeftHover').textContent = appConfig.btnLeftHover;
-                // Atualiza a Grade da TV
                 const tvBtn = document.getElementById('cfgBtnLeft');
                 if (tvBtn) {
                     tvBtn.href = appConfig.btnLeftUrl;
@@ -794,12 +708,10 @@
             }
             applyAppConfigUI();
             
-            // Lógica do Menu Drawer
             menuToggleBtn.addEventListener('click', () => { menuDrawer.style.display = 'flex'; });
             closeMenuBtn.addEventListener('click', () => { menuDrawer.style.display = 'none'; });
             menuDrawer.addEventListener('click', (e) => { if (e.target === menuDrawer) menuDrawer.style.display = 'none'; });
 
-            // Lógica do Switch de Tema (Menu Lateral)
             themeToggleBtn.checked = document.body.classList.contains('light-theme');
             themeToggleBtn.addEventListener('change', function() {
                 const isLight = this.checked;
@@ -808,7 +720,6 @@
                 localStorage.setItem('gospelTheme', isLight ? 'light' : 'dark');
             });
 
-            // Lógica do Botão Tema (Grade TV)
             const themeBtnTV = document.getElementById('themeBtn');
             if (themeBtnTV) {
                 themeBtnTV.addEventListener('click', () => {
@@ -888,21 +799,52 @@
             closeAboutBtn.addEventListener('click', () => { aboutModal.style.display = 'none'; });
 
             function changeStation(index) {
-                document.querySelectorAll('.station-item').forEach(el => el.classList.remove('selected'));
-                const items = document.querySelectorAll('.station-item'); if(items[index]) items[index].classList.add('selected');
-                selectedTapeIndex = index; currentStreamUrl = tapes[selectedTapeIndex].url; stationName.textContent = tapes[selectedTapeIndex].name; runningBanner.textContent = tapes[selectedTapeIndex].banner; 
-                topBadgeImg.src = `Top${index + 1}.png`; albumArtImage.src = tapes[selectedTapeIndex].image ? tapes[selectedTapeIndex].image : "Sint.jpg";
-                let stateFile = tapes[selectedTapeIndex].state || 'CE.png'; if (!stateFile.startsWith('estados/')) { stateFile = 'estados/' + stateFile; } stateBadgeImg.src = stateFile;
+                if (tapes[index] && tapes[index].active === false) return;
+                selectedTapeIndex = index;
+                activeTapes = getActiveTapes();
+                let pos = activeTapes.findIndex(t => t.originalIndex === index);
+                if (pos !== -1) selectedActivePos = pos;
+
+                currentStreamUrl = tapes[selectedTapeIndex].url; 
+                stationName.textContent = tapes[selectedTapeIndex].name; 
+                runningBanner.textContent = tapes[selectedTapeIndex].banner; 
+                
+                topBadgeImg.src = `Top${index + 1}.png`; 
+                topBadgeImg.onerror = () => { topBadgeImg.src = 'Top1.png'; };
+
+                // Fallback para Sint.png se não houver imagem ou se falhar
+                let imgFile = tapes[selectedTapeIndex].image;
+                if (!imgFile) {
+                    albumArtImage.src = 'Sint.png';
+                } else {
+                    albumArtImage.src = imgFile;
+                    albumArtImage.onerror = () => { albumArtImage.src = 'Sint.png'; };
+                }
+
+                // Fallback para Sint.png se não houver estado ou se falhar
+                let stateFile = tapes[selectedTapeIndex].state;
+                if (!stateFile) {
+                    stateBadgeImg.src = 'Sint.png';
+                } else {
+                    if (!stateFile.startsWith('estados/') && stateFile !== 'Sint.png') {
+                        stateFile = 'estados/' + stateFile;
+                    }
+                    stateBadgeImg.src = stateFile;
+                    stateBadgeImg.onerror = () => { stateBadgeImg.src = 'Sint.png'; };
+                }
+
                 updateFavoriteUI(index);
                 if (isPlaying && !isPaused) { playStream(currentStreamUrl); } else { if(hlsPlayer) { hlsPlayer.destroy(); hlsPlayer = null; } audio.src = currentStreamUrl; audio.load(); }
             }
 
             function createStationsList() {
                 stationsList.innerHTML = '';
-                tapes.forEach((tape, index) => {
-                    const item = document.createElement('div'); item.className = `station-item ${index === selectedTapeIndex ? 'selected' : ''}`;
-                    item.innerHTML = `<div class="circle-number">${index + 1}</div><div class="station-item-name">${esc(tape.name)}</div>`;
-                    item.addEventListener('click', () => { stationModal.style.display = 'none'; changeStation(index); });
+                activeTapes = getActiveTapes();
+                activeTapes.forEach((tape, pos) => {
+                    const item = document.createElement('div'); 
+                    item.className = `station-item ${tape.originalIndex === selectedTapeIndex ? 'selected' : ''}`;
+                    item.innerHTML = `<div class="circle-number">${tape.originalIndex + 1}</div><div class="station-item-name">${esc(tape.name)}</div>`;
+                    item.addEventListener('click', () => { stationModal.style.display = 'none'; changeStation(tape.originalIndex); });
                     stationsList.appendChild(item);
                 });
             }
@@ -914,7 +856,19 @@
                     const header = document.createElement('div'); header.className = 'tape-header';
                     header.innerHTML = `<div style="display:flex; align-items:center; gap:10px;"><div class="drag-handle" title="Arraste"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M3 15h18v-2H3v2zm0 4h18v-2H3v2zm0-8h18V9H3v2zm0-6v2h18V5H3z"/></svg></div><span class="tape-rank">${index + 1}</span><span class="tape-title">${esc(tape.name || "Slot Vazio")}</span></div><svg class="chevron-icon" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"/></svg>`;
                     const body = document.createElement('div'); body.className = 'tape-body';
-                    body.innerHTML = `<label class="config-label">Nome</label><input type="text" class="input-modern tape-name-input" value="${esc(tape.name)}"><label class="config-label">Stream URL</label><input type="text" class="input-modern tape-url-input" value="${esc(tape.url)}"><label class="config-label">Imagem</label><input type="text" class="input-modern tape-image-input" value="${esc(tape.image || '')}"><label class="config-label">Estado</label><input type="text" class="input-modern tape-state-input" value="${esc(tape.state || '')}"><label class="config-label">Banner</label><input type="text" class="input-modern tape-banner-input" value="${esc(tape.banner)}">`;
+                    
+                    let isActiveChecked = tape.active !== false ? 'checked' : '';
+                    body.innerHTML = `
+                        <div style="margin-bottom: 12px; display: flex; align-items: center; gap: 8px; background: var(--bg-base); padding: 8px 12px; border-radius: 8px; border: 1px solid var(--border-color);">
+                            <input type="checkbox" class="tape-active-input" ${isActiveChecked} id="active_${index}" style="width: 18px; height: 18px; accent-color: var(--accent); cursor: pointer;">
+                            <label for="active_${index}" style="font-weight: 700; font-size: 13px; color: var(--text-main); cursor: pointer;">Rádio Ativa (Visível para o usuário)</label>
+                        </div>
+                        <label class="config-label">Nome</label><input type="text" class="input-modern tape-name-input" value="${esc(tape.name)}">
+                        <label class="config-label">Stream URL</label><input type="text" class="input-modern tape-url-input" value="${esc(tape.url)}">
+                        <label class="config-label">Imagem</label><input type="text" class="input-modern tape-image-input" value="${esc(tape.image || '')}">
+                        <label class="config-label">Estado</label><input type="text" class="input-modern tape-state-input" value="${esc(tape.state || '')}">
+                        <label class="config-label">Banner</label><input type="text" class="input-modern tape-banner-input" value="${esc(tape.banner)}">
+                    `;
                     header.addEventListener('click', (e) => {
                         if(e.target.closest('.drag-handle')) return; const isExpanded = body.classList.contains('expanded');
                         document.querySelectorAll('.tape-body').forEach(b => b.classList.remove('expanded')); 
@@ -971,9 +925,19 @@
             }
             
             async function playStream(url) {
+                // Verificação de Conexão com a Internet
+                if (!navigator.onLine) {
+                    loadingIndicator.style.display = 'block';
+                    loadingIndicator.textContent = 'Verifique sua conexão com a Internet';
+                    setTimeout(() => { loadingIndicator.style.display = 'none'; }, 4000);
+                    alert("Verifique sua conexão com a Internet");
+                    return;
+                }
+
                 if (!url) { alert("Este slot está vazio. Adicione um link válido."); return; }
                 try {
-                    loadingIndicator.style.display = 'block'; if(hlsPlayer) { hlsPlayer.destroy(); hlsPlayer = null; }
+                    loadingIndicator.style.display = 'block'; loadingIndicator.textContent = 'Carregando...';
+                    if(hlsPlayer) { hlsPlayer.destroy(); hlsPlayer = null; }
                     if (url.includes('.m3u8') && Hls.isSupported()) { hlsPlayer = new Hls(); hlsPlayer.loadSource(url); hlsPlayer.attachMedia(audio); await new Promise((resolve) => { hlsPlayer.on(Hls.Events.MANIFEST_PARSED, resolve); }); await audio.play(); } else { audio.src = url; audio.load(); await audio.play(); }
                     if (!window.audioCtx) { window.audioCtx = new (window.AudioContext || window.webkitAudioContext)(); window.source = window.audioCtx.createMediaElementSource(audio); window.analyser = window.audioCtx.createAnalyser(); window.analyser.fftSize = 64; window.source.connect(window.analyser); window.analyser.connect(window.audioCtx.destination); window.dataArray = new Uint8Array(window.analyser.frequencyBinCount); } else if (window.audioCtx.state === 'suspended') { await window.audioCtx.resume(); }
                     isPlaying = true; isPaused = false; loadingIndicator.style.display = 'none'; updateStatusUI('playing');
@@ -991,12 +955,35 @@
                         animationFrame = requestAnimationFrame(renderRealEQ);
                     }
                     if (animationFrame) cancelAnimationFrame(animationFrame); animationFrame = requestAnimationFrame(renderRealEQ);
-                } catch (error) { if (error.name === 'AbortError' || error.message.includes('interrupted')) { return; } loadingIndicator.style.display = 'none'; updateStatusUI('off'); alert("Erro ao conectar à rádio. O link pode estar offline ou inválido."); }
+                } catch (error) { 
+                    if (error.name === 'AbortError' || error.message.includes('interrupted')) { return; } 
+                    loadingIndicator.style.display = 'none'; 
+                    updateStatusUI('off'); 
+                    if (!navigator.onLine) {
+                        alert("Verifique sua conexão com a Internet");
+                    } else {
+                        alert("Erro ao conectar à rádio. O link pode estar offline ou inválido."); 
+                    }
+                }
             }
             
             mainPlayBtn.addEventListener('click', () => { if (!isPlaying) playStream(currentStreamUrl); else if (isPlaying && !isPaused) { audio.pause(); isPaused = true; updateStatusUI('off'); } else if (isPaused) { audio.play().then(() => { isPaused = false; updateStatusUI('playing'); }).catch(() => playStream(currentStreamUrl)); } });
-            prevBtn.addEventListener('click', () => changeStation((selectedTapeIndex - 1 + tapes.length) % tapes.length));
-            nextBtn.addEventListener('click', () => changeStation((selectedTapeIndex + 1) % tapes.length));
+            
+            // Navegação entre rádios ATIVAS apenas
+            prevBtn.addEventListener('click', () => {
+                activeTapes = getActiveTapes();
+                if (activeTapes.length === 0) return;
+                selectedActivePos = (selectedActivePos - 1 + activeTapes.length) % activeTapes.length;
+                changeStation(activeTapes[selectedActivePos].originalIndex);
+            });
+
+            nextBtn.addEventListener('click', () => {
+                activeTapes = getActiveTapes();
+                if (activeTapes.length === 0) return;
+                selectedActivePos = (selectedActivePos + 1) % activeTapes.length;
+                changeStation(activeTapes[selectedActivePos].originalIndex);
+            });
+
             listBtn.addEventListener('click', () => stationModal.style.display = 'flex');
             closeStationModal.addEventListener('click', () => stationModal.style.display = 'none'); backStationBtn.addEventListener('click', () => stationModal.style.display = 'none'); cancelAdminBtn.addEventListener('click', () => adminModal.style.display = 'none'); backAdminBtn.addEventListener('click', () => adminModal.style.display = 'none');
             
@@ -1004,8 +991,24 @@
             cancelPasswordBtn.addEventListener('click', () => passwordModal.style.display = 'none'); adminPassword.addEventListener('keypress', (e) => { if (e.key === 'Enter') enterAdminBtn.click(); });
             
             const memorySaveHandler = () => {
-                const nameInputs = document.querySelectorAll('.tape-name-input'); const urlInputs = document.querySelectorAll('.tape-url-input'); const imageInputs = document.querySelectorAll('.tape-image-input'); const bannerInputs = document.querySelectorAll('.tape-banner-input'); const stateInputs = document.querySelectorAll('.tape-state-input'); const newTapes = [];
-                for (let i = 0; i < nameInputs.length; i++) { newTapes.push({ name: nameInputs[i].value, url: urlInputs[i] ? urlInputs[i].value : '', image: imageInputs[i] ? imageInputs[i].value : '', banner: bannerInputs[i] ? bannerInputs[i].value : '', state: stateInputs[i] ? stateInputs[i].value : '' }); }
+                const nameInputs = document.querySelectorAll('.tape-name-input'); 
+                const urlInputs = document.querySelectorAll('.tape-url-input'); 
+                const imageInputs = document.querySelectorAll('.tape-image-input'); 
+                const bannerInputs = document.querySelectorAll('.tape-banner-input'); 
+                const stateInputs = document.querySelectorAll('.tape-state-input'); 
+                const activeInputs = document.querySelectorAll('.tape-active-input');
+                const newTapes = [];
+
+                for (let i = 0; i < nameInputs.length; i++) { 
+                    newTapes.push({ 
+                        name: nameInputs[i].value, 
+                        url: urlInputs[i] ? urlInputs[i].value : '', 
+                        image: imageInputs[i] ? imageInputs[i].value : '', 
+                        banner: bannerInputs[i] ? bannerInputs[i].value : '', 
+                        state: stateInputs[i] ? stateInputs[i].value : '',
+                        active: activeInputs[i] ? activeInputs[i].checked : true
+                    }); 
+                }
                 
                 const pNames = document.querySelectorAll('.p-name'); const pImages = document.querySelectorAll('.p-image'); const pUrls = document.querySelectorAll('.p-url'); const updatedPartners = [];
                 for(let i = 0; i < pNames.length; i++) { updatedPartners.push({ name: pNames[i].value, image: pImages[i] ? pImages[i].value : 'Sint.jpg', url: pUrls[i] ? pUrls[i].value : '#' }); }
@@ -1021,9 +1024,20 @@
                     waUrl: defaultAppConfig.waUrl
                 };
                 
-                const playingUrl = tapes[selectedTapeIndex].url; tapes = newTapes; localStorage.setItem('gospelTapes', JSON.stringify(tapes)); localStorage.setItem('gospelConfig', JSON.stringify(appConfig));
-                let newIndex = tapes.findIndex(t => t.url === playingUrl && t.url !== ""); if (newIndex !== -1) { selectedTapeIndex = newIndex; }
-                createStationsList(); changeStation(selectedTapeIndex); applyAppConfigUI();
+                const playingUrl = tapes[selectedTapeIndex].url; 
+                tapes = newTapes; 
+                localStorage.setItem('gospelTapes', JSON.stringify(tapes)); 
+                localStorage.setItem('gospelConfig', JSON.stringify(appConfig));
+                
+                activeTapes = getActiveTapes();
+                let newIndex = activeTapes.findIndex(t => t.originalIndex === selectedTapeIndex);
+                if (newIndex === -1 && activeTapes.length > 0) {
+                    selectedTapeIndex = activeTapes[0].originalIndex;
+                    selectedActivePos = 0;
+                }
+                createStationsList(); 
+                changeStation(selectedTapeIndex); 
+                applyAppConfigUI();
             };
 
             saveAdminBtn.addEventListener('click', () => { memorySaveHandler(); adminModal.style.display = 'none'; });
@@ -1064,9 +1078,13 @@
             [stationModal, passwordModal, adminModal, aboutModal, partnersModal].forEach(modal => { modal.addEventListener('click', (e) => { if (e.target === modal) modal.style.display = 'none'; }); });
             audio.addEventListener('waiting', () => { loadingIndicator.style.display = 'block'; loadingIndicator.textContent = 'Carregando...'; }); audio.addEventListener('canplay', () => loadingIndicator.style.display = 'none'); audio.addEventListener('playing', () => loadingIndicator.style.display = 'none');
             
-            setVolume(50); createStationsList();
-            stationName.textContent = tapes[selectedTapeIndex].name; topBadgeImg.src = `Top${selectedTapeIndex + 1}.png`; let initialImage = tapes[selectedTapeIndex].state || 'CE.png'; if (!initialImage.startsWith('estados/')) initialImage = 'estados/' + initialImage; stateBadgeImg.src = initialImage; runningBanner.textContent = tapes[selectedTapeIndex].banner; albumArtImage.src = tapes[selectedTapeIndex].image ? tapes[selectedTapeIndex].image : "Sint.jpg";
-            updateFavoriteUI(selectedTapeIndex); updateStatusUI('off');
+            setVolume(50); 
+            createStationsList();
+            
+            if (activeTapes.length > 0) {
+                changeStation(selectedTapeIndex);
+            }
+            updateStatusUI('off');
         })();
     </script>
 
@@ -1080,5 +1098,5 @@
             });
         }
     </script>
-
-</body></html>
+</body>
+</html>
