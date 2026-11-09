@@ -294,7 +294,7 @@
             </div>
         </div>
 
-        <!-- MENU LATERAL -->
+        <!-- MENU LATERAL (SEM A OPÇÃO ADMIN) -->
         <div class="menu-drawer" id="menuDrawer">
             <div class="menu-drawer-content">
                 <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 4px;">
@@ -325,7 +325,6 @@
                 <button class="menu-item" id="menuEval"><div class="menu-item-left"><span>⭐</span> Avalie!</div></button>
                 <button class="menu-item" id="menuContact"><div class="menu-item-left"><span>✉️</span> Fale Conosco</div></button>
                 <button class="menu-item" id="menuPartners"><div class="menu-item-left"><span>🤝</span> Parceiros</div></button>
-                <button class="menu-item" id="menuAdmin"><div class="menu-item-left"><span>⚙️</span> Adm</div></button>
                 <button class="menu-item" id="menuAbout"><div class="menu-item-left"><span>ℹ️</span> Sobre</div></button>
             </div>
         </div>
@@ -405,7 +404,7 @@
         </div>
     </div>
 
-    <!-- MODAL SOBRE HÍBRIDO -->
+    <!-- MODAL SOBRE HÍBRIDO (COM BOTÃO DE CONFIGURAÇÕES/ADM) -->
     <div class="modal-overlay" id="aboutModal">
         <div class="modal-content" id="aboutContent">
             <button class="back-btn-top" id="closeAboutBtn" title="Voltar"><svg viewBox="0 0 24 24"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"></path></svg></button>
@@ -425,7 +424,12 @@
                     <img src="assets/gerlem.png" alt="Logomarca" class="w-40 h-20 md:w-44 md:h-22 rounded-xl shadow border border-[var(--border-color)] mb-4 md:mb-5 object-contain p-1 md:p-2 bg-[var(--surface)]" onerror="this.src='assets/Sint.png'">
                     <p class="font-bold text-[var(--text-main)] text-[15px] md:text-[16px] mb-1 md:mb-2 text-center">Gerlem Pimentel</p>
                     <a href="mailto:suporte@gerlem.dev.br" tabindex="2" class="flex items-center gap-2 text-sm text-[var(--accent)] hover:text-[#34d399] transition-colors mb-3 md:mb-4 focus:outline-none focus:ring-2 focus:ring-[var(--accent)] rounded-md px-2 py-1"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"></path></svg> suporte@gerlem.dev.br</a>
-                    <p class="text-xs md:text-[11px] text-[var(--text-muted)] text-center font-medium md:leading-relaxed">Jaraguá do Sul <span class="hidden md:inline"><br></span><span class="md:hidden">-</span> Santa Catarina - Brasil</p>
+                    <p class="text-xs md:text-[11px] text-[var(--text-muted)] text-center font-medium md:leading-relaxed mb-4">Jaraguá do Sul <span class="hidden md:inline"><br></span><span class="md:hidden">-</span> Santa Catarina - Brasil</p>
+                    
+                    <!-- Botão de Configurações (Adm) dentro do modal Sobre -->
+                    <button class="btn-modern btn-secondary" id="aboutAdminBtn" style="font-size: 13px; padding: 10px 16px;">
+                        ⚙️ Configurações (Adm)
+                    </button>
                 </div>
             </div>
         </div>
@@ -503,7 +507,7 @@
     <script>
         (function() {
             /*__APP_DATA_VERSION_START__*/
-            const APP_DATA_VERSION = 4;
+            const APP_DATA_VERSION = 5;
             /*__APP_DATA_VERSION_END__*/
             let localVersion = parseInt(localStorage.getItem('gospelVersion') || '0');
             if (isNaN(localVersion)) localVersion = 0;
@@ -555,7 +559,6 @@
             const menuEval = document.getElementById('menuEval');
             const menuContact = document.getElementById('menuContact');
             const menuPartners = document.getElementById('menuPartners');
-            const menuAdmin = document.getElementById('menuAdmin');
             const menuAbout = document.getElementById('menuAbout');
 
             const partnersModal = document.getElementById('partnersModal');
@@ -564,6 +567,7 @@
 
             const aboutModal = document.getElementById('aboutModal');
             const closeAboutBtn = document.getElementById('closeAboutBtn');
+            const aboutAdminBtn = document.getElementById('aboutAdminBtn');
             
             const stationModal = document.getElementById('stationModal');
             const stationsList = document.getElementById('stationsList');
@@ -751,17 +755,18 @@
             });
             backPartnersBtn.addEventListener('click', () => { partnersModal.style.display = 'none'; });
 
-            menuAdmin.addEventListener('click', () => {
-                menuDrawer.style.display = 'none';
-                adminPassword.value = ''; passwordError.style.display = 'none'; passwordModal.style.display = 'flex';
-            });
-
             menuAbout.addEventListener('click', () => {
                 menuDrawer.style.display = 'none';
                 aboutModal.style.display = 'flex';
             });
             
             if(aboutBtnTV) { aboutBtnTV.addEventListener('click', () => { aboutModal.style.display = 'flex'; }); }
+
+            // Acesso à Área Admin através do botão no Modal Sobre
+            aboutAdminBtn.addEventListener('click', () => {
+                aboutModal.style.display = 'none';
+                adminPassword.value = ''; passwordError.style.display = 'none'; passwordModal.style.display = 'flex';
+            });
 
             function renderPartnersModal() {
                 partnersGridContainer.innerHTML = '';
@@ -807,7 +812,6 @@
                 topBadgeImg.src = `top/Top${index + 1}.png`; 
                 topBadgeImg.onerror = () => { topBadgeImg.src = 'top/Top1.png'; };
 
-                // Gestão de Logos com Pastas e Fallback
                 let imgFile = tapes[selectedTapeIndex].image;
                 if (!imgFile) {
                     albumArtImage.src = 'assets/Sint.png';
@@ -819,7 +823,6 @@
                     albumArtImage.onerror = () => { albumArtImage.src = 'assets/Sint.png'; };
                 }
 
-                // Gestão de Estados com Pastas e Fallback
                 let stateFile = tapes[selectedTapeIndex].state;
                 if (!stateFile) {
                     stateBadgeImg.src = 'assets/Sint.png';
